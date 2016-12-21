@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable MathJax -->
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [ ['$', '$'], ["\(", "\)"] ],
+          displayMath: [ ['$$', '$$'], ["\[", "\]"] ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+        //,
+        //displayAlign: "left",
+        //displayIndent: "2em"
+      });
+  </script>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Sequential and Binary Search in Python &middot; Ed Henry
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/">
+          Ed Henry
+        </a>
+      </h1>
+      <p class="lead">A place for me to take notes and share what I know</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Home</a>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/about/">About</a>
+          
+        
+      
+        
+      
+        
+          
+        
+      
+    </nav>
+
+    <p>&copy; 2016. All rights reserved.</p>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="post">
+  <h1 class="post-title">Sequential and Binary Search in Python</h1>
+  <span class="post-date">17 Dec 2016</span>
+  <p>This notebook will include examples of searching and sorting algorithms implemented in python. It is both for my own learning, and for anyone else who would like to use this notebook for anything they’d like.</p>
+
+<h2 id="searching">Searching</h2>
+
+<p>Finding an item in a collection of items is a pretty typical search problem. Depending on the implementation, a search will tend to return a <code class="highlighter-rouge">True</code> or <code class="highlighter-rouge">False</code> boolean answer to the question of “is this item contained within this collection of items?”.</p>
+
+<p>An example of this can be seen below, using Pythons <code class="highlighter-rouge">in</code> operator.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># Finding a single integer in an array of integers using Python's `in` </span>
+<span class="c"># operator</span>
+
+<span class="mi">15</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">11</span><span class="p">]</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>False
+</code></pre>
+</div>
+
+<p>We can see this returns a boolean answer of <code class="highlighter-rouge">False</code>, indicating that the integer isn’t present in the array.</p>
+
+<p>Below is another example where the answer is <code class="highlighter-rouge">True</code>.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># Finding a single integer in an array of integers using Python's `in` </span>
+<span class="c"># operator</span>
+
+<span class="mi">11</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">11</span><span class="p">]</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>True
+</code></pre>
+</div>
+
+<p>Python provides useful abstractions like this for a lot of search and sort functionality, but it’s important to understand what’s going on ‘under the hood’ of these functions.</p>
+
+<h2 id="sequential-search">Sequential Search</h2>
+
+<h3 id="unordered-array">Unordered array</h3>
+
+<p>Datum, in arrays such as the ones used in the examples above, are typically stores in a collection such as a list. These datum within these lists have linear, or sequential relationship. They are each stores in a position within the array, relative to the other datum.</p>
+
+<p>When searching for a specific datum within the array, we are able to seqeuntially evaluate each item in the list, or array, to see if it matches the item we’re looking for.</p>
+
+<p>Using <code class="highlighter-rouge">sequential_search</code>, we simply move from item to item in the list, evaluating whether our search expression is <code class="highlighter-rouge">True</code>, or <code class="highlighter-rouge">False</code>.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># Search sequentially through a list, incrementing the position counter</span>
+<span class="c"># if is_present is not True, otherwise set is_present to True and return</span>
+
+<span class="k">def</span> <span class="nf">sequential_search</span><span class="p">(</span><span class="n">li</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+    <span class="n">position</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">is_present</span> <span class="o">=</span> <span class="bp">False</span>
+    
+    <span class="k">while</span> <span class="n">position</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">li</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_present</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">li</span><span class="p">[</span><span class="n">position</span><span class="p">]</span> <span class="o">==</span> <span class="n">item</span><span class="p">:</span>
+            <span class="n">is_present</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">position</span> <span class="o">=</span> <span class="n">position</span> <span class="o">+</span> <span class="mi">1</span>
+    
+    <span class="k">return</span> <span class="n">is_present</span>
+
+<span class="n">test_array</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">31</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">25</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sequential_search</span><span class="p">(</span><span class="n">test_array</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sequential_search</span><span class="p">(</span><span class="n">test_array</span><span class="p">,</span> <span class="mi">25</span><span class="p">))</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>False
+True
+</code></pre>
+</div>
+
+<p>The example above uses an example of uses an unordered list. Because this list is unordered, we will need to evaluate every item in the list to understand if it is the item that we’re searching for. Because this is the case, the computational complexity of our <code class="highlighter-rouge">sequential_search</code> function is <script type="math/tex">O(n)</script>.</p>
+
+<p>Here is a table summarizing the cases :</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Case</th>
+      <th>Best Case</th>
+      <th>Worst Case</th>
+      <th>Average Case</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>item is present</td>
+      <td>1</td>
+      <td><script type="math/tex">n</script></td>
+      <td><script type="math/tex">\frac{n}{2}</script></td>
+    </tr>
+    <tr>
+      <td>item isn’t present</td>
+      <td><script type="math/tex">n</script></td>
+      <td><script type="math/tex">n</script></td>
+      <td><script type="math/tex">n</script></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>This can be seen as such :</p>
+
+<p>For every <script type="math/tex">n</script> and every input size of <script type="math/tex">n</script>, the following is true:</p>
+
+<ul>
+  <li>The while loop is executed at most <script type="math/tex">n</script> times
+    <ul>
+      <li><code class="highlighter-rouge">position</code> is incremented on each iteration, so <code class="highlighter-rouge">position</code> &gt; <script type="math/tex">n</script> after <script type="math/tex">n</script> iterations.</li>
+    </ul>
+  </li>
+  <li>Each iteration takes <script type="math/tex">c</script> steps for some constant <script type="math/tex">c</script></li>
+  <li><script type="math/tex">d</script> steps are taken outside of the loop, for some constant <script type="math/tex">d</script></li>
+</ul>
+
+<p>Therefore for <em>all</em> inputs of size <script type="math/tex">n</script>, the time needed for the entire search is <strong>at most</strong> <script type="math/tex">(cn+d) = O(n)</script>.</p>
+
+<p>At worst, the item <script type="math/tex">x</script> we’re searching for is the <em>last</em> item in the entire list of items. This can be seen as</p>
+
+<p><script type="math/tex">A[n] = x</script> and <script type="math/tex">A[i] \ne x</script> for all <script type="math/tex">i</script> s.t. <script type="math/tex">1 \le i \lt n</script></p>
+
+<h3 id="ordered-array">Ordered array</h3>
+
+<p>If we assume that the list, or array, that we’re searching over is ordered, say from low to high, the chance of the item we’re looking for being in any one of the <script type="math/tex">n</script> positions is still the same. However, if the item is <em>not</em> present we have a slight advantage in that the item that we’re looking for may never be present past another item of greater value.</p>
+
+<p>For example, if we’re looking for the number 25, and through the process of searching through the array, we happen upon the number 27, we know that no other integers past number 27 will have the value that we’re looking for.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">ordered_sequential_search</span><span class="p">(</span><span class="n">li</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+    <span class="n">position</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">found</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">stop</span> <span class="o">=</span> <span class="bp">False</span>
+    
+    <span class="k">while</span> <span class="n">position</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">li</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">found</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">stop</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">li</span><span class="p">[</span><span class="n">position</span><span class="p">]</span> <span class="o">==</span> <span class="n">item</span><span class="p">:</span>
+            <span class="n">found</span> <span class="o">==</span> <span class="bp">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">li</span><span class="p">[</span><span class="n">position</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">item</span><span class="p">:</span>
+                <span class="n">stop</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="n">position</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">found</span>
+
+<span class="n">test_li</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">27</span><span class="p">,</span><span class="mi">45</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">ordered_sequential_search</span><span class="p">(</span><span class="n">test_li</span><span class="p">,</span> <span class="mi">25</span><span class="p">))</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>False
+</code></pre>
+</div>
+
+<p>We can see that we are able to terminate the execution of the search because we’ve found a number greater than the number we’re searching for with the assumption that the list being passed into the function is ordered, we know we can terminate the computation.</p>
+
+<p>Modifying the table above, we can see that with the item <em>not</em> present in our array, we save some computational cycles in the negative case.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Case</th>
+      <th>Best Case</th>
+      <th>Worst Case</th>
+      <th>Average Case</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>item is present</td>
+      <td>1</td>
+      <td><script type="math/tex">n</script></td>
+      <td><script type="math/tex">\frac{n}{2}</script></td>
+    </tr>
+    <tr>
+      <td>item isn’t present</td>
+      <td><script type="math/tex">n</script></td>
+      <td><script type="math/tex">n</script></td>
+      <td><script type="math/tex">\frac{n}{2}</script></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>This can prove really useful if we can somehow, somewhere else in our data structure definitions, that we can guarantee ordering of our arrays. This example is left for future work as it’s more abstract to just the search examples we’re displaying here.</p>
+
+<h2 id="binary-search">Binary Search</h2>
+
+<p>With sequential search we start by evaluating the first entry of array for whether or not it matches the the item that we’re looking for, and if it does not we proceed through the entire collection, trying to find a match. There are at most, at any time, <script type="math/tex">n-1</script> more items to look at if the item we’re currently evaluating is not the one we’re looking for.</p>
+
+<p>Binary search takes a bit of a different approach to the problem. Instead of searching through the collection, sequentially, starting with the first item in the list or array, the process starts at the middle. If the middle item of the list is <em>not</em> the item that we’re looking for, and is larger than the middle value, we can drop the entire bottom half of the list and save ourselves that much computation time.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># Binary search example</span>
+<span class="k">def</span> <span class="nf">binary_search</span><span class="p">(</span><span class="n">li</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+    <span class="n">first</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">last</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">li</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">found</span> <span class="o">=</span> <span class="bp">False</span>
+    
+    <span class="k">while</span> <span class="n">first</span> <span class="o">&lt;=</span> <span class="n">last</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">found</span><span class="p">:</span>
+        <span class="n">midpoint</span> <span class="o">=</span> <span class="p">((</span><span class="n">first</span> <span class="o">+</span> <span class="n">last</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">li</span><span class="p">[</span><span class="n">midpoint</span><span class="p">]</span> <span class="o">==</span> <span class="n">item</span><span class="p">:</span>
+            <span class="n">found</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">item</span> <span class="o">&lt;</span> <span class="n">li</span><span class="p">[</span><span class="n">midpoint</span><span class="p">]:</span>
+                <span class="n">last</span> <span class="o">=</span> <span class="p">(</span><span class="n">midpoint</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">first</span> <span class="o">=</span> <span class="p">(</span><span class="n">midpoint</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">found</span>
+
+<span class="n">test_li</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">42</span><span class="p">,</span><span class="mi">45</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">binary_search</span><span class="p">(</span><span class="n">test_li</span><span class="p">,</span> <span class="mi">45</span><span class="p">))</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>True
+</code></pre>
+</div>
+
+<p>Using our handy table again, we can analyze the complexity of the binary search algorithm.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Comparisons</th>
+      <th>Approximate Number of Items Left</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td><script type="math/tex">\frac{n}{2}</script></td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td><script type="math/tex">\frac{n}{4}</script></td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td><script type="math/tex">\frac{n}{8}</script></td>
+    </tr>
+    <tr>
+      <td>…</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><script type="math/tex">i</script></td>
+      <td><script type="math/tex">\frac{n}{2^{i}}</script></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The number of comparisons necessary to get to this point is <script type="math/tex">i</script> where <script type="math/tex">\frac{n}{2^{i}} = 1</script>. Solving for <script type="math/tex">i</script> is <script type="math/tex">i = log n</script>. Therefore, binary search has a computational complexity of <script type="math/tex">O(log n)</script>.</p>
+
+<h4 id="references">References</h4>
+
+<p><a href="http://interactivepython.org/courselib/static/pythonds/SortSearch/TheSequentialSearch.html">http://interactivepython.org/courselib/static/pythonds/SortSearch/TheSequentialSearch.html</a></p>
+
+<p><a href="http://www.cs.toronto.edu/~tfowler/csc263/TutorialNotes1.txt">http://www.cs.toronto.edu/~tfowler/csc263/TutorialNotes1.txt</a></p>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2016/12/21/Hashing-in-Python/">
+            Hashing In Python
+            <small>21 Dec 2016</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2016/12/21/First-Class-Functions/">
+            First Class Functions
+            <small>21 Dec 2016</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2016/12/12/NIPS-2016/">
+            NIPS 2016
+            <small>12 Dec 2016</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+    </div>
+
+  </body>
+</html>

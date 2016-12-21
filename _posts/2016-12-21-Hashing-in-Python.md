@@ -1,0 +1,382 @@
+
+## Hashing
+
+Hashing can be useful in speeding up the search process for a specific item that is part of a larger collection of items. Depending on the implementation of the hashing algorithm, this can turn the computational complexity of our search algorithm from $O(n)$ to $O(1)$. We do this by building a specific data structure, which we'll dive into next.
+
+#### Hash Table
+
+A hash table is a collection of items, stored in such a way as to make it easier to find them later. The table consists of **slots** that hold items and are named by a specific integer value, starting with 0.
+
+Example of a hash table (sorry for the poor formatting because markdown : 
+
+|   0  |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |  10  |
+|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|
+| None | None | None | None | None | None | None | None | None | None | None |
+
+
+Each entry in this hash table, is currently set to a value of `None`.
+
+A hash function is used when mapping values into the slots available within a Hash table. The hash function typically takes, as input, an item from a collection, and will return an integer in the range of slot names, between $0$ and $m-1$. There are many different hash functions, but the first we can discuss is the "remainder method" hash function. 
+
+#### Remainder Hash Function
+
+The remainder hash function takes an item from a collection, divides it by the table size, returning the remainder of it's hash value $h(item) = item \% \text{table_size}$. Typically modulo arithmetic is present in some form for all hash functions, as the result must be in the range of the total number of slots within the table.
+
+Assuming we have a set of integer items $\{25,54,34,67,75,21,77,31\}$, we can use our hash function to find slots for our values, accordingly.
+
+
+```python
+items = [25,54,34,67,75,21,77,31]
+
+def hash(item_list, table_size):
+    hash_table = dict([(i,None) for i,x in enumerate(range(table_size))])
+    for item in item_list:
+        i = item % table_size
+        print("The hash for %s is %s" % (item, i))
+        hash_table[i] = item
+    
+    return hash_table
+
+# Execute the hash function
+# Create table with 11 entries to match example above
+hash_table = hash(items, 11)
+
+# Print the resulting hash table
+print(hash_table)
+```
+
+    The hash for 25 is 3
+    The hash for 54 is 10
+    The hash for 34 is 1
+    The hash for 67 is 1
+    The hash for 75 is 9
+    The hash for 21 is 10
+    The hash for 77 is 0
+    The hash for 31 is 9
+    {0: 77, 1: 67, 2: None, 3: 25, 4: None, 5: None, 6: None, 7: None, 8: None, 9: 31, 10: 21}
+
+
+Once the hash values have been computed, we inset each item into the hash table at the designated position(s). We can now see that there are entries with corresponding hash values stored in a python dictionary. This is obviously a very simple implementation of a hash table.
+
+There is something interesting to note here, though, when working through using a simple hashing algorithm like the remainder method. We have items, in our case integers, which hash to the same value. Specifically, we can see that there are 2 items that hash to each of the 1, 9, and 10 slots. These are what are known as **collisions**.
+
+Clearly these collisions can cause problems, as out of the 8 initial items that we'd started with, we only have 5 items actually stored in our hash table. This leads us into the next section we'll discuss, and that is hash functions that can help alleviate this collision problem.
+
+### Hash Functions
+
+Hash functions that map, perfectly, every item into it's own unique slot in a hash table is known as a **perfect hash function**. If we knew the collection of items and that it would never change, it's possible to construct a perfect hash function specific to this collection, but we know that the dynamics of the real world tend to not allow something so simple.
+
+Dynamically growing the hash table size so each possible item in the item range can be accomodated is one way to construct a perfect hash function. This guarantees each item will have it's own slot. But this isn't feasible, as something as simple as tracking social security numbers would require over one billion slots within the hash table. And if we're only tracking a small subset of the full set of social security numbers, this would become horribly inefficient with respect to hardware resources available within the machine our code is running on.
+
+With the goal of constructing a hash function that will minimize the number of collisions, has low computational complexity, and evenly distributes our items within the hash table, we can take a look at some common ways to extend this remainder method.
+
+#### Folding Method
+
+The folding method for hashing an item begins by diving the item into equal size pieces (though the last piece may not be of equal size to the rest). These pieces are then added together to create the resulting hash value. A good example of this is a phone number,such as 456-555-1234. We can break each pair of integers up into groups of 2, add them up, and use that resulting value as an input to our hashing function.
+
+
+```python
+def stringify(item_list):
+    """
+    Method to convert integer values into array of component integers
+    """
+    string_items = []
+    while len(item_list) > 0:
+        for item in item_list:
+            chars = [int(c) for c in str(item)]
+        item_list.remove(item)
+        string_items.append(chars)
+    return string_items
+
+def folding_hash(item_list):
+    '''
+    Quick hack at a folding hash algorithm
+    '''
+    hashes = []
+    while len(item_list) > 0:
+        hash_val = 0
+        for item in item_list:
+            while len(item) > 1:
+                str_1 = str(item[0])
+                str_2 = str(item[1])
+                str_concat = str_1 + str_2
+                bifold = int(str_concat)
+                hash_val += bifold
+                item.pop(0)
+                item.pop(0)
+            else:
+                if len(item) > 0:
+                    hash_val += item[0]
+                else:
+                    pass
+            hashes.append(hash_val)
+        return hashes
+
+# Example phone numbers
+phone_number = [4565551234, 4565557714, 9871542544, 4365554601]
+
+# String/Character-fy the phone numbers
+str_pn = stringify(phone_number)
+
+# Hash the phone numbers
+folded_hash = folding_hash(str_pn)
+
+# Input values into hash table
+folding_hash_table = hash(folded_hash, 11)
+
+# Print the results
+print(folding_hash_table)
+```
+
+    The hash for 210 is 1
+    The hash for 502 is 7
+    The hash for 758 is 10
+    The hash for 969 is 1
+    {0: None, 1: 969, 2: None, 3: None, 4: None, 5: None, 6: None, 7: 502, 8: None, 9: None, 10: 758}
+
+
+#### Ordinal Hash
+
+When dealing with strings, we can use the ordinal values of the constituent characters of a given word, to create a hash.
+
+It's important to notice, however, that anagrams can produce hash collisions, as shown below.
+
+
+```python
+def ord_hash(string, table_size):
+    hash_val = 0
+    for position in range(len(string)):
+        hash_val = hash_val + ord(string[position])
+        
+    return hash_val % table_size
+
+print(ord_hash("cat", 11))
+print(ord_hash("tac", 11))
+```
+
+    4
+    4
+
+
+#### Weighted ordinal hashing
+
+In the case above, just using ordinal values can cause hash collisions. We can actually use the positional structure of the word to as a set of weights for generating a given hash. As seen below.
+
+A simple multiplication by the positional value of each character will cause anagrams to evaluate to different hash values.
+
+
+```python
+def weighted_ord_hash(string, table_size):
+    hash_val = 0
+    for position in range(len(string)):
+        hash_val = hash_val + (ord(string[position]) * position)
+    return hash_val % table_size
+
+# ord_hash
+print(ord_hash("cat", 11))
+
+# weighted_ord_hash
+print(weighted_ord_hash("tac", 11))
+```
+
+    4
+    9
+
+
+## Collision Resolution
+
+When there are hash collisions, like we've seen previously, it's important to understand ways that we can alleviate the collisions.
+
+One simple way to handle the collision, should there already be an entry in our hash table with the same hash value, is to search sequentially through all slots near the original hash, for an empty slot. This may require us to circularly traverse the entire hash table to allow us to cover all possible slots. This process is known as **open addressing** and the technique within this process that we're using is called **linear probing**.
+
+In the following code examples, we'll reuse the simple remainder method hash function that we've defined above. Along with the original set of integers we were hashing, as there were some collisions that occured.
+
+
+```python
+items = [25,54,34,67,75,21,77,31]
+
+# Execute the hash function
+# Create table with 11 entries to match example above
+hash_table = hash(items, 11)
+
+# Print the resulting hash table
+print(hash_table)
+```
+
+    The hash for 25 is 3
+    The hash for 54 is 10
+    The hash for 34 is 1
+    The hash for 67 is 1
+    The hash for 75 is 9
+    The hash for 21 is 10
+    The hash for 77 is 0
+    The hash for 31 is 9
+    {0: 77, 1: 67, 2: None, 3: 25, 4: None, 5: None, 6: None, 7: None, 8: None, 9: 31, 10: 21}
+
+
+We can see there were multiple collisions within this dataset. Specifically hashes of 1, 9, and 10. And we can see in the resulting table that only the last computed hashes are stored in the respective table slots.
+
+Below we'll implement an `lp_hash` function that will perform linear probing over the slots available within the table for any collisions that occur.
+
+
+```python
+items = [25,54,34,67,75,21,77,31]
+
+def rehash(oldhash, table_size):
+    return (oldhash+1) % table_size
+
+def lp_hash(item_list, table_size):
+    
+    lp_hash_table = dict([(i,None) for i,x in enumerate(range(table_size))])
+
+    for item in item_list:
+        i = item % table_size
+        print("%s hashed == %s \n" %(item, i))
+        if lp_hash_table[i] == None:
+            lp_hash_table[i] = item
+        elif lp_hash_table[i] != None:
+            print("Collision, attempting linear probe \n")
+            next_slot = rehash(i, table_size)
+            print("Setting next slot to %s \n" % next_slot)
+            while lp_hash_table[next_slot] != None:
+                next_slot = rehash(next_slot, len(lp_hash_table.keys()))
+                print("Next slot was not empty, trying next slot %s \n" % next_slot)
+            if lp_hash_table[next_slot] == None:
+                lp_hash_table[next_slot] = item
+    return lp_hash_table
+
+print(lp_hash(items, 11))
+```
+
+    25 hashed == 3 
+    
+    54 hashed == 10 
+    
+    34 hashed == 1 
+    
+    67 hashed == 1 
+    
+    Collision, attempting linear probe 
+    
+    Setting next slot to 2 
+    
+    75 hashed == 9 
+    
+    21 hashed == 10 
+    
+    Collision, attempting linear probe 
+    
+    Setting next slot to 0 
+    
+    77 hashed == 0 
+    
+    Collision, attempting linear probe 
+    
+    Setting next slot to 1 
+    
+    Next slot was not empty, trying next slot 2 
+    
+    Next slot was not empty, trying next slot 3 
+    
+    Next slot was not empty, trying next slot 4 
+    
+    31 hashed == 9 
+    
+    Collision, attempting linear probe 
+    
+    Setting next slot to 10 
+    
+    Next slot was not empty, trying next slot 0 
+    
+    Next slot was not empty, trying next slot 1 
+    
+    Next slot was not empty, trying next slot 2 
+    
+    Next slot was not empty, trying next slot 3 
+    
+    Next slot was not empty, trying next slot 4 
+    
+    Next slot was not empty, trying next slot 5 
+    
+    {0: 21, 1: 34, 2: 67, 3: 25, 4: 77, 5: 31, 6: None, 7: None, 8: None, 9: 75, 10: 54}
+
+
+Used a little more interestingly, we can use the weighted ordinal hash function that we've defined above, combined with the lp_hash function that we've just defined, to store string(s) for later lookup.
+
+
+```python
+animal_items = ["cat", "dog", "goat", 
+         "chicken", "pig", "horse",
+        "ostrich", "lion", "puma"]
+
+def rehash(oldhash, table_size):
+    return (oldhash+1) % table_size
+
+def weighted_ord_hash(string, table_size):
+    hash_val = 0
+    for position in range(len(string)):
+        hash_val = hash_val + (ord(string[position]) * position)
+    return hash_val % table_size
+
+
+def lp_hash(item_list, table_size):
+    
+    lp_hash_table = dict([(i,None) for i,x in enumerate(range(table_size))])
+    
+    for item in item_list:
+        i = weighted_ord_hash(item, table_size)
+        print("%s hashed == %s \n" %(item, i))
+        if lp_hash_table[i] == None:
+            lp_hash_table[i] = item
+        elif lp_hash_table[i] != None:
+            print("Collision, attempting linear probe \n")
+            next_slot = rehash(i, table_size)
+            print("Setting next slot to %s \n" % next_slot)
+            while lp_hash_table[next_slot] != None:
+                next_slot = rehash(next_slot, len(lp_hash_table.keys()))
+                print("Next slot was not empty, trying next slot %s \n" % next_slot)
+            if lp_hash_table[next_slot] == None:
+                lp_hash_table[next_slot] = item
+    return lp_hash_table
+
+print(lp_hash(animal_items, 11))
+```
+
+    cat hashed == 10 
+    
+    dog hashed == 9 
+    
+    goat hashed == 4 
+    
+    chicken hashed == 4 
+    
+    Collision, attempting linear probe 
+    
+    Setting next slot to 5 
+    
+    pig hashed == 3 
+    
+    horse hashed == 10 
+    
+    Collision, attempting linear probe 
+    
+    Setting next slot to 0 
+    
+    ostrich hashed == 6 
+    
+    lion hashed == 8 
+    
+    puma hashed == 10 
+    
+    Collision, attempting linear probe 
+    
+    Setting next slot to 0 
+    
+    Next slot was not empty, trying next slot 1 
+    
+    {0: 'horse', 1: 'puma', 2: None, 3: 'pig', 4: 'goat', 5: 'chicken', 6: 'ostrich', 7: None, 8: 'lion', 9: 'dog', 10: 'cat'}
+
+
+### References
+
+* http://interactivepython.org/courselib/static/pythonds/SortSearch/Hashing.html#tbl-hashvalues1

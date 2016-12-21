@@ -1,0 +1,25 @@
+# Dependencies
+markdown:         kramdown
+highlighter:      rouge
+
+#kramdown config
+kramdown:
+  parse_block_html: true
+
+# Permalinks
+permalink:        pretty
+
+# Setup
+title:            Ed Henry
+tagline:          'Random Musings'
+description:      'A place for me to take notes and share what I know'
+url:              http://edhenry.github.io
+baseurl:          /
+
+author:
+  name:           'Ed Henry'
+  url:            https://twitter.com/edhenry
+
+gems: [jekyll-paginate]
+paginate:         5
+paginate_path: "page:num"

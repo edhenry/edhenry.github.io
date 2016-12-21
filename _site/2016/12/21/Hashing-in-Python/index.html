@@ -1,0 +1,412 @@
+
+<h2 id="hashing">Hashing</h2>
+
+<p>Hashing can be useful in speeding up the search process for a specific item that is part of a larger collection of items. Depending on the implementation of the hashing algorithm, this can turn the computational complexity of our search algorithm from $O(n)$ to $O(1)$. We do this by building a specific data structure, which we’ll dive into next.</p>
+
+<h4 id="hash-table">Hash Table</h4>
+
+<p>A hash table is a collection of items, stored in such a way as to make it easier to find them later. The table consists of <strong>slots</strong> that hold items and are named by a specific integer value, starting with 0.</p>
+
+<p>Example of a hash table (sorry for the poor formatting because markdown :</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">0</th>
+      <th style="text-align: center">1</th>
+      <th style="text-align: center">2</th>
+      <th style="text-align: center">3</th>
+      <th style="text-align: center">4</th>
+      <th style="text-align: center">5</th>
+      <th style="text-align: center">6</th>
+      <th style="text-align: center">7</th>
+      <th style="text-align: center">8</th>
+      <th style="text-align: center">9</th>
+      <th style="text-align: center">10</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">None</td>
+      <td style="text-align: center">None</td>
+      <td style="text-align: center">None</td>
+      <td style="text-align: center">None</td>
+      <td style="text-align: center">None</td>
+      <td style="text-align: center">None</td>
+      <td style="text-align: center">None</td>
+      <td style="text-align: center">None</td>
+      <td style="text-align: center">None</td>
+      <td style="text-align: center">None</td>
+      <td style="text-align: center">None</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Each entry in this hash table, is currently set to a value of <code class="highlighter-rouge">None</code>.</p>
+
+<p>A hash function is used when mapping values into the slots available within a Hash table. The hash function typically takes, as input, an item from a collection, and will return an integer in the range of slot names, between $0$ and $m-1$. There are many different hash functions, but the first we can discuss is the “remainder method” hash function.</p>
+
+<h4 id="remainder-hash-function">Remainder Hash Function</h4>
+
+<p>The remainder hash function takes an item from a collection, divides it by the table size, returning the remainder of it’s hash value $h(item) = item \% \text{table_size}$. Typically modulo arithmetic is present in some form for all hash functions, as the result must be in the range of the total number of slots within the table.</p>
+
+<p>Assuming we have a set of integer items ${25,54,34,67,75,21,77,31}$, we can use our hash function to find slots for our values, accordingly.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span><span class="mi">54</span><span class="p">,</span><span class="mi">34</span><span class="p">,</span><span class="mi">67</span><span class="p">,</span><span class="mi">75</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">77</span><span class="p">,</span><span class="mi">31</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">hash</span><span class="p">(</span><span class="n">item_list</span><span class="p">,</span> <span class="n">table_size</span><span class="p">):</span>
+    <span class="n">hash_table</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">i</span><span class="p">,</span><span class="bp">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">table_size</span><span class="p">))])</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">item_list</span><span class="p">:</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">item</span> <span class="o">%</span> <span class="n">table_size</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"The hash for </span><span class="si">%</span><span class="s">s is </span><span class="si">%</span><span class="s">s"</span> <span class="o">%</span> <span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
+        <span class="n">hash_table</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
+    
+    <span class="k">return</span> <span class="n">hash_table</span>
+
+<span class="c"># Execute the hash function</span>
+<span class="c"># Create table with 11 entries to match example above</span>
+<span class="n">hash_table</span> <span class="o">=</span> <span class="nb">hash</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+
+<span class="c"># Print the resulting hash table</span>
+<span class="k">print</span><span class="p">(</span><span class="n">hash_table</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>The hash for 25 is 3
+The hash for 54 is 10
+The hash for 34 is 1
+The hash for 67 is 1
+The hash for 75 is 9
+The hash for 21 is 10
+The hash for 77 is 0
+The hash for 31 is 9
+{0: 77, 1: 67, 2: None, 3: 25, 4: None, 5: None, 6: None, 7: None, 8: None, 9: 31, 10: 21}
+</code></pre>
+</div>
+
+<p>Once the hash values have been computed, we inset each item into the hash table at the designated position(s). We can now see that there are entries with corresponding hash values stored in a python dictionary. This is obviously a very simple implementation of a hash table.</p>
+
+<p>There is something interesting to note here, though, when working through using a simple hashing algorithm like the remainder method. We have items, in our case integers, which hash to the same value. Specifically, we can see that there are 2 items that hash to each of the 1, 9, and 10 slots. These are what are known as <strong>collisions</strong>.</p>
+
+<p>Clearly these collisions can cause problems, as out of the 8 initial items that we’d started with, we only have 5 items actually stored in our hash table. This leads us into the next section we’ll discuss, and that is hash functions that can help alleviate this collision problem.</p>
+
+<h3 id="hash-functions">Hash Functions</h3>
+
+<p>Hash functions that map, perfectly, every item into it’s own unique slot in a hash table is known as a <strong>perfect hash function</strong>. If we knew the collection of items and that it would never change, it’s possible to construct a perfect hash function specific to this collection, but we know that the dynamics of the real world tend to not allow something so simple.</p>
+
+<p>Dynamically growing the hash table size so each possible item in the item range can be accomodated is one way to construct a perfect hash function. This guarantees each item will have it’s own slot. But this isn’t feasible, as something as simple as tracking social security numbers would require over one billion slots within the hash table. And if we’re only tracking a small subset of the full set of social security numbers, this would become horribly inefficient with respect to hardware resources available within the machine our code is running on.</p>
+
+<p>With the goal of constructing a hash function that will minimize the number of collisions, has low computational complexity, and evenly distributes our items within the hash table, we can take a look at some common ways to extend this remainder method.</p>
+
+<h4 id="folding-method">Folding Method</h4>
+
+<p>The folding method for hashing an item begins by diving the item into equal size pieces (though the last piece may not be of equal size to the rest). These pieces are then added together to create the resulting hash value. A good example of this is a phone number,such as 456-555-1234. We can break each pair of integers up into groups of 2, add them up, and use that resulting value as an input to our hashing function.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">stringify</span><span class="p">(</span><span class="n">item_list</span><span class="p">):</span>
+    <span class="s">"""
+    Method to convert integer values into array of component integers
+    """</span>
+    <span class="n">string_items</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">item_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">item_list</span><span class="p">:</span>
+            <span class="n">chars</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">)]</span>
+        <span class="n">item_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="n">string_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chars</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">string_items</span>
+
+<span class="k">def</span> <span class="nf">folding_hash</span><span class="p">(</span><span class="n">item_list</span><span class="p">):</span>
+    <span class="s">'''
+    Quick hack at a folding hash algorithm
+    '''</span>
+    <span class="n">hashes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">item_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">hash_val</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">item_list</span><span class="p">:</span>
+            <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">str_1</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">str_2</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">str_concat</span> <span class="o">=</span> <span class="n">str_1</span> <span class="o">+</span> <span class="n">str_2</span>
+                <span class="n">bifold</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">str_concat</span><span class="p">)</span>
+                <span class="n">hash_val</span> <span class="o">+=</span> <span class="n">bifold</span>
+                <span class="n">item</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="n">item</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">hash_val</span> <span class="o">+=</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">pass</span>
+            <span class="n">hashes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hash_val</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">hashes</span>
+
+<span class="c"># Example phone numbers</span>
+<span class="n">phone_number</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4565551234</span><span class="p">,</span> <span class="mi">4565557714</span><span class="p">,</span> <span class="mi">9871542544</span><span class="p">,</span> <span class="mi">4365554601</span><span class="p">]</span>
+
+<span class="c"># String/Character-fy the phone numbers</span>
+<span class="n">str_pn</span> <span class="o">=</span> <span class="n">stringify</span><span class="p">(</span><span class="n">phone_number</span><span class="p">)</span>
+
+<span class="c"># Hash the phone numbers</span>
+<span class="n">folded_hash</span> <span class="o">=</span> <span class="n">folding_hash</span><span class="p">(</span><span class="n">str_pn</span><span class="p">)</span>
+
+<span class="c"># Input values into hash table</span>
+<span class="n">folding_hash_table</span> <span class="o">=</span> <span class="nb">hash</span><span class="p">(</span><span class="n">folded_hash</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+
+<span class="c"># Print the results</span>
+<span class="k">print</span><span class="p">(</span><span class="n">folding_hash_table</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>The hash for 210 is 1
+The hash for 502 is 7
+The hash for 758 is 10
+The hash for 969 is 1
+{0: None, 1: 969, 2: None, 3: None, 4: None, 5: None, 6: None, 7: 502, 8: None, 9: None, 10: 758}
+</code></pre>
+</div>
+
+<h4 id="ordinal-hash">Ordinal Hash</h4>
+
+<p>When dealing with strings, we can use the ordinal values of the constituent characters of a given word, to create a hash.</p>
+
+<p>It’s important to notice, however, that anagrams can produce hash collisions, as shown below.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">ord_hash</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">table_size</span><span class="p">):</span>
+    <span class="n">hash_val</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">position</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)):</span>
+        <span class="n">hash_val</span> <span class="o">=</span> <span class="n">hash_val</span> <span class="o">+</span> <span class="nb">ord</span><span class="p">(</span><span class="n">string</span><span class="p">[</span><span class="n">position</span><span class="p">])</span>
+        
+    <span class="k">return</span> <span class="n">hash_val</span> <span class="o">%</span> <span class="n">table_size</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">ord_hash</span><span class="p">(</span><span class="s">"cat"</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">ord_hash</span><span class="p">(</span><span class="s">"tac"</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>4
+4
+</code></pre>
+</div>
+
+<h4 id="weighted-ordinal-hashing">Weighted ordinal hashing</h4>
+
+<p>In the case above, just using ordinal values can cause hash collisions. We can actually use the positional structure of the word to as a set of weights for generating a given hash. As seen below.</p>
+
+<p>A simple multiplication by the positional value of each character will cause anagrams to evaluate to different hash values.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">weighted_ord_hash</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">table_size</span><span class="p">):</span>
+    <span class="n">hash_val</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">position</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)):</span>
+        <span class="n">hash_val</span> <span class="o">=</span> <span class="n">hash_val</span> <span class="o">+</span> <span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">string</span><span class="p">[</span><span class="n">position</span><span class="p">])</span> <span class="o">*</span> <span class="n">position</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">hash_val</span> <span class="o">%</span> <span class="n">table_size</span>
+
+<span class="c"># ord_hash</span>
+<span class="k">print</span><span class="p">(</span><span class="n">ord_hash</span><span class="p">(</span><span class="s">"cat"</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+
+<span class="c"># weighted_ord_hash</span>
+<span class="k">print</span><span class="p">(</span><span class="n">weighted_ord_hash</span><span class="p">(</span><span class="s">"tac"</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>4
+9
+</code></pre>
+</div>
+
+<h2 id="collision-resolution">Collision Resolution</h2>
+
+<p>When there are hash collisions, like we’ve seen previously, it’s important to understand ways that we can alleviate the collisions.</p>
+
+<p>One simple way to handle the collision, should there already be an entry in our hash table with the same hash value, is to search sequentially through all slots near the original hash, for an empty slot. This may require us to circularly traverse the entire hash table to allow us to cover all possible slots. This process is known as <strong>open addressing</strong> and the technique within this process that we’re using is called <strong>linear probing</strong>.</p>
+
+<p>In the following code examples, we’ll reuse the simple remainder method hash function that we’ve defined above. Along with the original set of integers we were hashing, as there were some collisions that occured.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span><span class="mi">54</span><span class="p">,</span><span class="mi">34</span><span class="p">,</span><span class="mi">67</span><span class="p">,</span><span class="mi">75</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">77</span><span class="p">,</span><span class="mi">31</span><span class="p">]</span>
+
+<span class="c"># Execute the hash function</span>
+<span class="c"># Create table with 11 entries to match example above</span>
+<span class="n">hash_table</span> <span class="o">=</span> <span class="nb">hash</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+
+<span class="c"># Print the resulting hash table</span>
+<span class="k">print</span><span class="p">(</span><span class="n">hash_table</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>The hash for 25 is 3
+The hash for 54 is 10
+The hash for 34 is 1
+The hash for 67 is 1
+The hash for 75 is 9
+The hash for 21 is 10
+The hash for 77 is 0
+The hash for 31 is 9
+{0: 77, 1: 67, 2: None, 3: 25, 4: None, 5: None, 6: None, 7: None, 8: None, 9: 31, 10: 21}
+</code></pre>
+</div>
+
+<p>We can see there were multiple collisions within this dataset. Specifically hashes of 1, 9, and 10. And we can see in the resulting table that only the last computed hashes are stored in the respective table slots.</p>
+
+<p>Below we’ll implement an <code class="highlighter-rouge">lp_hash</code> function that will perform linear probing over the slots available within the table for any collisions that occur.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span><span class="mi">54</span><span class="p">,</span><span class="mi">34</span><span class="p">,</span><span class="mi">67</span><span class="p">,</span><span class="mi">75</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">77</span><span class="p">,</span><span class="mi">31</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">rehash</span><span class="p">(</span><span class="n">oldhash</span><span class="p">,</span> <span class="n">table_size</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">oldhash</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">table_size</span>
+
+<span class="k">def</span> <span class="nf">lp_hash</span><span class="p">(</span><span class="n">item_list</span><span class="p">,</span> <span class="n">table_size</span><span class="p">):</span>
+    
+    <span class="n">lp_hash_table</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">i</span><span class="p">,</span><span class="bp">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">table_size</span><span class="p">))])</span>
+
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">item_list</span><span class="p">:</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">item</span> <span class="o">%</span> <span class="n">table_size</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="si">%</span><span class="s">s hashed == </span><span class="si">%</span><span class="s">s </span><span class="se">\n</span><span class="s">"</span> <span class="o">%</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">lp_hash_table</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">lp_hash_table</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
+        <span class="k">elif</span> <span class="n">lp_hash_table</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"Collision, attempting linear probe </span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+            <span class="n">next_slot</span> <span class="o">=</span> <span class="n">rehash</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">table_size</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"Setting next slot to </span><span class="si">%</span><span class="s">s </span><span class="se">\n</span><span class="s">"</span> <span class="o">%</span> <span class="n">next_slot</span><span class="p">)</span>
+            <span class="k">while</span> <span class="n">lp_hash_table</span><span class="p">[</span><span class="n">next_slot</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">next_slot</span> <span class="o">=</span> <span class="n">rehash</span><span class="p">(</span><span class="n">next_slot</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">lp_hash_table</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">"Next slot was not empty, trying next slot </span><span class="si">%</span><span class="s">s </span><span class="se">\n</span><span class="s">"</span> <span class="o">%</span> <span class="n">next_slot</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">lp_hash_table</span><span class="p">[</span><span class="n">next_slot</span><span class="p">]</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">lp_hash_table</span><span class="p">[</span><span class="n">next_slot</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
+    <span class="k">return</span> <span class="n">lp_hash_table</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">lp_hash</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>25 hashed == 3 
+
+54 hashed == 10 
+
+34 hashed == 1 
+
+67 hashed == 1 
+
+Collision, attempting linear probe 
+
+Setting next slot to 2 
+
+75 hashed == 9 
+
+21 hashed == 10 
+
+Collision, attempting linear probe 
+
+Setting next slot to 0 
+
+77 hashed == 0 
+
+Collision, attempting linear probe 
+
+Setting next slot to 1 
+
+Next slot was not empty, trying next slot 2 
+
+Next slot was not empty, trying next slot 3 
+
+Next slot was not empty, trying next slot 4 
+
+31 hashed == 9 
+
+Collision, attempting linear probe 
+
+Setting next slot to 10 
+
+Next slot was not empty, trying next slot 0 
+
+Next slot was not empty, trying next slot 1 
+
+Next slot was not empty, trying next slot 2 
+
+Next slot was not empty, trying next slot 3 
+
+Next slot was not empty, trying next slot 4 
+
+Next slot was not empty, trying next slot 5 
+
+{0: 21, 1: 34, 2: 67, 3: 25, 4: 77, 5: 31, 6: None, 7: None, 8: None, 9: 75, 10: 54}
+</code></pre>
+</div>
+
+<p>Used a little more interestingly, we can use the weighted ordinal hash function that we’ve defined above, combined with the lp_hash function that we’ve just defined, to store string(s) for later lookup.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">animal_items</span> <span class="o">=</span> <span class="p">[</span><span class="s">"cat"</span><span class="p">,</span> <span class="s">"dog"</span><span class="p">,</span> <span class="s">"goat"</span><span class="p">,</span> 
+         <span class="s">"chicken"</span><span class="p">,</span> <span class="s">"pig"</span><span class="p">,</span> <span class="s">"horse"</span><span class="p">,</span>
+        <span class="s">"ostrich"</span><span class="p">,</span> <span class="s">"lion"</span><span class="p">,</span> <span class="s">"puma"</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">rehash</span><span class="p">(</span><span class="n">oldhash</span><span class="p">,</span> <span class="n">table_size</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">oldhash</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">table_size</span>
+
+<span class="k">def</span> <span class="nf">weighted_ord_hash</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">table_size</span><span class="p">):</span>
+    <span class="n">hash_val</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">position</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)):</span>
+        <span class="n">hash_val</span> <span class="o">=</span> <span class="n">hash_val</span> <span class="o">+</span> <span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">string</span><span class="p">[</span><span class="n">position</span><span class="p">])</span> <span class="o">*</span> <span class="n">position</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">hash_val</span> <span class="o">%</span> <span class="n">table_size</span>
+
+
+<span class="k">def</span> <span class="nf">lp_hash</span><span class="p">(</span><span class="n">item_list</span><span class="p">,</span> <span class="n">table_size</span><span class="p">):</span>
+    
+    <span class="n">lp_hash_table</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">i</span><span class="p">,</span><span class="bp">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">table_size</span><span class="p">))])</span>
+    
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">item_list</span><span class="p">:</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">weighted_ord_hash</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">table_size</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="si">%</span><span class="s">s hashed == </span><span class="si">%</span><span class="s">s </span><span class="se">\n</span><span class="s">"</span> <span class="o">%</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">lp_hash_table</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">lp_hash_table</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
+        <span class="k">elif</span> <span class="n">lp_hash_table</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"Collision, attempting linear probe </span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+            <span class="n">next_slot</span> <span class="o">=</span> <span class="n">rehash</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">table_size</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"Setting next slot to </span><span class="si">%</span><span class="s">s </span><span class="se">\n</span><span class="s">"</span> <span class="o">%</span> <span class="n">next_slot</span><span class="p">)</span>
+            <span class="k">while</span> <span class="n">lp_hash_table</span><span class="p">[</span><span class="n">next_slot</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">next_slot</span> <span class="o">=</span> <span class="n">rehash</span><span class="p">(</span><span class="n">next_slot</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">lp_hash_table</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">"Next slot was not empty, trying next slot </span><span class="si">%</span><span class="s">s </span><span class="se">\n</span><span class="s">"</span> <span class="o">%</span> <span class="n">next_slot</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">lp_hash_table</span><span class="p">[</span><span class="n">next_slot</span><span class="p">]</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">lp_hash_table</span><span class="p">[</span><span class="n">next_slot</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
+    <span class="k">return</span> <span class="n">lp_hash_table</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">lp_hash</span><span class="p">(</span><span class="n">animal_items</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cat hashed == 10 
+
+dog hashed == 9 
+
+goat hashed == 4 
+
+chicken hashed == 4 
+
+Collision, attempting linear probe 
+
+Setting next slot to 5 
+
+pig hashed == 3 
+
+horse hashed == 10 
+
+Collision, attempting linear probe 
+
+Setting next slot to 0 
+
+ostrich hashed == 6 
+
+lion hashed == 8 
+
+puma hashed == 10 
+
+Collision, attempting linear probe 
+
+Setting next slot to 0 
+
+Next slot was not empty, trying next slot 1 
+
+{0: 'horse', 1: 'puma', 2: None, 3: 'pig', 4: 'goat', 5: 'chicken', 6: 'ostrich', 7: None, 8: 'lion', 9: 'dog', 10: 'cat'}
+</code></pre>
+</div>
+
+<h3 id="references">References</h3>
+
+<ul>
+  <li>http://interactivepython.org/courselib/static/pythonds/SortSearch/Hashing.html#tbl-hashvalues1</li>
+</ul>

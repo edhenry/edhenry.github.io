@@ -1,0 +1,34 @@
+---
+layout:     post
+title:      First Post
+author:     Ed Henry
+subtitle:  	First post of new blog discussing backpropagation
+---
+
+# First post!
+
+I've finally started a new blog! One that abandons the frustrating Wordpress platform, for something that I hope is easier and more amenable to my workflow.
+
+That said - I wanted to dedicate my first post to an algorithm called backpropagation -- or reverse mode automatic differentiation. This is the algorithm that gives a neural network the power that it wields. And I'll show you how in this post. But first, we'll need to baseline on what a neural network is.
+
+Disclaimer : I don't consider myself a mathematician...yet, so if I make any mistakes, please point them out! Thanks!
+
+## What is a neural network?
+
+There is a whole biological inspiration story behind where the idea of a neural network was derived, however I'm going to ignore this explanation of inspiration for now. I'd rather view it from a raw mathematical perspective. I'm no neuroscientist, or mathematician for that matter, but I'll do my best in my explanation.
+
+### Neuron
+
+A neuron, or node, in the network, receives a signal as input. These inputs are depicted as the $x_{0},...,x_{2}$ in the image below. These inputs are multiplied by a set of weights depicted as $w_{0}...w_{2}$ in the image below.
+
+![](/img/nn.png)
+*Neuron[^1]*
+
+These linear transformations of the inputs $x_{i}$ by the weights $w_{i}$ are then summed up and a translated by the vector $b$, in the image. This vector is the _bias_ vector, of which I'll explain shortly. This process of linear transformation followed by a translation, is also called an affine transformation[^2]. These affine transformations are then summed and a pointwise application of an activation function[^3] is applied. Using a sigmoid activation function as an example, we can write the affine transformation within the sigmoid function as follows :
+
+$$1/1+exp(-\sum_{j}w_{j}x_{j}-b)$$
+
+### References
+[^1]: [http://cs231n.github.io/](http://cs231n.github.io/)
+[^2]: [affine transformation](https://www.quora.com/Whats-the-difference-between-affine-and-linear-functions)
+[^3]: [activation function](https://en.wikipedia.org/wiki/Activation_function)
