@@ -177,7 +177,7 @@ True
 </code></pre>
 </div>
 
-<p>The example above uses an example of uses an unordered list. Because this list is unordered, we will need to evaluate every item in the list to understand if it is the item that we’re searching for. Because this is the case, the computational complexity of our <code class="highlighter-rouge">sequential_search</code> function is <script type="math/tex"></script>O(n)<script type="math/tex"></script>.</p>
+<p>The example above uses an example of uses an unordered list. Because this list is unordered, we will need to evaluate every item in the list to understand if it is the item that we’re searching for. Because this is the case, the computational complexity of our <code class="highlighter-rouge">sequential_search</code> function is <script type="math/tex">O(n)</script>.</p>
 
 <p>Here is a table summarizing the cases :</p>
 
@@ -194,41 +194,38 @@ True
     <tr>
       <td>item is present</td>
       <td>1</td>
-      <td><script type="math/tex"></script>n<script type="math/tex"></script></td>
-      <td><script type="math/tex"></script>\frac{n}{2}<script type="math/tex"></script></td>
+      <td><script type="math/tex">n</script></td>
+      <td><script type="math/tex">\frac{n}{2}</script></td>
     </tr>
     <tr>
       <td>item isn’t present</td>
-      <td><script type="math/tex"></script>n<script type="math/tex"></script></td>
-      <td><script type="math/tex"></script>n<script type="math/tex"></script></td>
-      <td><script type="math/tex"></script>n<script type="math/tex"></script></td>
+      <td><script type="math/tex">n</script></td>
+      <td><script type="math/tex">n</script></td>
+      <td><script type="math/tex">n</script></td>
     </tr>
   </tbody>
 </table>
 
 <p>This can be seen as such :</p>
 
-<p>For every <script type="math/tex"></script>n<script type="math/tex"></script> and every input size of <script type="math/tex"></script>n<script type="math/tex"></script>, the following is true:</p>
+<p>For every <script type="math/tex">n</script> and every input size of <script type="math/tex">n</script>, the following is true:</p>
 
 <ul>
-  <li>The while loop is executed at most <script type="math/tex"></script>n<script type="math/tex"></script> times
-    <ul>
-      <li><code class="highlighter-rouge">position</code> is incremented on each iteration, so <code class="highlighter-rouge">position</code> &gt; <script type="math/tex"></script>n<script type="math/tex"></script> after <script type="math/tex"></script>n<script type="math/tex"></script> iterations.</li>
-    </ul>
-  </li>
-  <li>Each iteration takes <script type="math/tex"></script>c<script type="math/tex"></script> steps for some constant <script type="math/tex"></script>c<script type="math/tex"></script></li>
-  <li><script type="math/tex"></script>d<script type="math/tex"></script> steps are taken outside of the loop, for some constant <script type="math/tex"></script>d<script type="math/tex"></script></li>
+  <li>The while loop is executed at most <script type="math/tex">n</script> times</li>
+  <li><code class="highlighter-rouge">position</code> is incremented on each iteration, so <code class="highlighter-rouge">position</code> &gt; <script type="math/tex">n</script> after <script type="math/tex">n</script> iterations.</li>
+  <li>Each iteration takes <script type="math/tex">c</script> steps for some constant <script type="math/tex">c</script></li>
+  <li><script type="math/tex">d</script> steps are taken outside of the loop, for some constant <script type="math/tex">d</script></li>
 </ul>
 
-<p>Therefore for <em>all</em> inputs of size <script type="math/tex"></script>n<script type="math/tex"></script>, the time needed for the entire search is <strong>at most</strong> <script type="math/tex"></script>(cn+d) = O(n)<script type="math/tex"></script>.</p>
+<p>Therefore for <em>all</em> inputs of size <script type="math/tex">n</script>, the time needed for the entire search is <strong>at most</strong> <script type="math/tex">(cn+d) = O(n)</script>.</p>
 
-<p>At worst, the item <script type="math/tex"></script>x<script type="math/tex"></script> we’re searching for is the <em>last</em> item in the entire list of items. This can be seen as</p>
+<p>At worst, the item <script type="math/tex">x</script> we’re searching for is the <em>last</em> item in the entire list of items. This can be seen as</p>
 
-<p><script type="math/tex"></script>A[n] = x<script type="math/tex"></script> and <script type="math/tex"></script>A[i] \ne x<script type="math/tex"></script> for all <script type="math/tex"></script>i<script type="math/tex"></script> s.t. <script type="math/tex"></script>1 \le i \lt n<script type="math/tex"></script></p>
+<p><script type="math/tex">A[n] = x</script> and <script type="math/tex">A[i] \ne x</script> for all <script type="math/tex">i</script> s.t. <script type="math/tex">1 \le i \lt n</script></p>
 
 <h3 id="ordered-array">Ordered array</h3>
 
-<p>If we assume that the list, or array, that we’re searching over is ordered, say from low to high, the chance of the item we’re looking for being in any one of the <script type="math/tex"></script>n<script type="math/tex"></script> positions is still the same. However, if the item is <em>not</em> present we have a slight advantage in that the item that we’re looking for may never be present past another item of greater value.</p>
+<p>If we assume that the list, or array, that we’re searching over is ordered, say from low to high, the chance of the item we’re looking for being in any one of the <script type="math/tex">n</script> positions is still the same. However, if the item is <em>not</em> present we have a slight advantage in that the item that we’re looking for may never be present past another item of greater value.</p>
 
 <p>For example, if we’re looking for the number 25, and through the process of searching through the array, we happen upon the number 27, we know that no other integers past number 27 will have the value that we’re looking for.</p>
 
@@ -274,14 +271,14 @@ True
     <tr>
       <td>item is present</td>
       <td>1</td>
-      <td><script type="math/tex"></script>n<script type="math/tex"></script></td>
-      <td><script type="math/tex"></script>\frac{n}{2}<script type="math/tex"></script></td>
+      <td><script type="math/tex">n</script></td>
+      <td><script type="math/tex">\frac{n}{2}</script></td>
     </tr>
     <tr>
       <td>item isn’t present</td>
-      <td><script type="math/tex"></script>n<script type="math/tex"></script></td>
-      <td><script type="math/tex"></script>n<script type="math/tex"></script></td>
-      <td><script type="math/tex"></script>\frac{n}{2}<script type="math/tex"></script></td>
+      <td><script type="math/tex">n</script></td>
+      <td><script type="math/tex">n</script></td>
+      <td><script type="math/tex">\frac{n}{2}</script></td>
     </tr>
   </tbody>
 </table>
@@ -290,7 +287,7 @@ True
 
 <h2 id="binary-search">Binary Search</h2>
 
-<p>With sequential search we start by evaluating the first entry of array for whether or not it matches the the item that we’re looking for, and if it does not we proceed through the entire collection, trying to find a match. There are at most, at any time, <script type="math/tex"></script>n-1<script type="math/tex"></script> more items to look at if the item we’re currently evaluating is not the one we’re looking for.</p>
+<p>With sequential search we start by evaluating the first entry of array for whether or not it matches the the item that we’re looking for, and if it does not we proceed through the entire collection, trying to find a match. There are at most, at any time, <script type="math/tex">n-1</script> more items to look at if the item we’re currently evaluating is not the one we’re looking for.</p>
 
 <p>Binary search takes a bit of a different approach to the problem. Instead of searching through the collection, sequentially, starting with the first item in the list or array, the process starts at the middle. If the middle item of the list is <em>not</em> the item that we’re looking for, and is larger than the middle value, we can drop the entire bottom half of the list and save ourselves that much computation time.</p>
 
@@ -332,28 +329,28 @@ True
   <tbody>
     <tr>
       <td>1</td>
-      <td><script type="math/tex"></script>\frac{n}{2}<script type="math/tex"></script></td>
+      <td><script type="math/tex">\frac{n}{2}</script></td>
     </tr>
     <tr>
       <td>2</td>
-      <td><script type="math/tex"></script>\frac{n}{4}<script type="math/tex"></script></td>
+      <td><script type="math/tex">\frac{n}{4}</script></td>
     </tr>
     <tr>
       <td>3</td>
-      <td><script type="math/tex"></script>\frac{n}{8}<script type="math/tex"></script></td>
+      <td><script type="math/tex">\frac{n}{8}</script></td>
     </tr>
     <tr>
       <td>…</td>
       <td> </td>
     </tr>
     <tr>
-      <td><script type="math/tex"></script>i<script type="math/tex"></script></td>
-      <td><script type="math/tex"></script>\frac{n}{2^{i}}<script type="math/tex"></script></td>
+      <td><script type="math/tex">i</script></td>
+      <td><script type="math/tex">\frac{n}{2^{i}}</script></td>
     </tr>
   </tbody>
 </table>
 
-<p>The number of comparisons necessary to get to this point is <script type="math/tex"></script>i<script type="math/tex"></script> where <script type="math/tex"></script>\frac{n}{2^{i}} = 1<script type="math/tex"></script>. Solving for <script type="math/tex"></script>i<script type="math/tex"></script> is <script type="math/tex"></script>i = log n<script type="math/tex"></script>. Therefore, binary search has a computational complexity of <script type="math/tex"></script>O(log n)<script type="math/tex"></script>.</p>
+<p>The number of comparisons necessary to get to this point is <script type="math/tex">i</script> where <script type="math/tex">\frac{n}{2^{i}} = 1</script>. Solving for <script type="math/tex">i</script> is <script type="math/tex">i = log n</script>. Therefore, binary search has a computational complexity of <script type="math/tex">O(log n)</script>.</p>
 
 <h4 id="references">References</h4>
 

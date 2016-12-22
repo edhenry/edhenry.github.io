@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://localhost:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2016-12-21T22:57:19-05:00</updated><id>http://localhost:4000//</id><title type="html">Ed Henry’s Blog</title><subtitle>A place for me to keep notes about what I know that hopefully someone else finds useful</subtitle><entry><title type="html">Netflow Flow2vec</title><link href="http://localhost:4000/2016/12/21/Netflow-flow2vec/" rel="alternate" type="text/html" title="Netflow Flow2vec" /><published>2016-12-21T00:00:00-05:00</published><updated>2016-12-21T00:00:00-05:00</updated><id>http://localhost:4000/2016/12/21/Netflow-flow2vec</id><content type="html" xml:base="http://localhost:4000/2016/12/21/Netflow-flow2vec/">&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pandas&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pd&lt;/span&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://localhost:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2016-12-21T23:01:52-05:00</updated><id>http://localhost:4000//</id><title type="html">Ed Henry’s Blog</title><subtitle>A place for me to keep notes about what I know that hopefully someone else finds useful</subtitle><entry><title type="html">Netflow Flow2vec</title><link href="http://localhost:4000/2016/12/21/Netflow-flow2vec/" rel="alternate" type="text/html" title="Netflow Flow2vec" /><published>2016-12-21T00:00:00-05:00</published><updated>2016-12-21T00:00:00-05:00</updated><id>http://localhost:4000/2016/12/21/Netflow-flow2vec</id><content type="html" xml:base="http://localhost:4000/2016/12/21/Netflow-flow2vec/">&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pandas&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pd&lt;/span&gt;
 &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;numpy&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;np&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;#import pyhash&lt;/span&gt;
 &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;gensim&lt;/span&gt;
@@ -1482,7 +1482,7 @@ True
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;The example above uses an example of uses an unordered list. Because this list is unordered, we will need to evaluate every item in the list to understand if it is the item that we’re searching for. Because this is the case, the computational complexity of our &lt;code class=&quot;highlighter-rouge&quot;&gt;sequential_search&lt;/code&gt; function is &lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;O(n)&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;.&lt;/p&gt;
+&lt;p&gt;The example above uses an example of uses an unordered list. Because this list is unordered, we will need to evaluate every item in the list to understand if it is the item that we’re searching for. Because this is the case, the computational complexity of our &lt;code class=&quot;highlighter-rouge&quot;&gt;sequential_search&lt;/code&gt; function is &lt;script type=&quot;math/tex&quot;&gt;O(n)&lt;/script&gt;.&lt;/p&gt;
 
 &lt;p&gt;Here is a table summarizing the cases :&lt;/p&gt;
 
@@ -1499,41 +1499,38 @@ True
     &lt;tr&gt;
       &lt;td&gt;item is present&lt;/td&gt;
       &lt;td&gt;1&lt;/td&gt;
-      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;n&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;&lt;/td&gt;
-      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;\frac{n}{2}&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;\frac{n}{2}&lt;/script&gt;&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;td&gt;item isn’t present&lt;/td&gt;
-      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;n&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;&lt;/td&gt;
-      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;n&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;&lt;/td&gt;
-      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;n&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt;&lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
 
 &lt;p&gt;This can be seen as such :&lt;/p&gt;
 
-&lt;p&gt;For every &lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;n&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt; and every input size of &lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;n&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;, the following is true:&lt;/p&gt;
+&lt;p&gt;For every &lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt; and every input size of &lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt;, the following is true:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;The while loop is executed at most &lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;n&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt; times
-    &lt;ul&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;position&lt;/code&gt; is incremented on each iteration, so &lt;code class=&quot;highlighter-rouge&quot;&gt;position&lt;/code&gt; &amp;gt; &lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;n&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt; after &lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;n&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt; iterations.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Each iteration takes &lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;c&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt; steps for some constant &lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;c&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;d&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt; steps are taken outside of the loop, for some constant &lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;d&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;&lt;/li&gt;
+  &lt;li&gt;The while loop is executed at most &lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt; times&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;position&lt;/code&gt; is incremented on each iteration, so &lt;code class=&quot;highlighter-rouge&quot;&gt;position&lt;/code&gt; &amp;gt; &lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt; after &lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt; iterations.&lt;/li&gt;
+  &lt;li&gt;Each iteration takes &lt;script type=&quot;math/tex&quot;&gt;c&lt;/script&gt; steps for some constant &lt;script type=&quot;math/tex&quot;&gt;c&lt;/script&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;d&lt;/script&gt; steps are taken outside of the loop, for some constant &lt;script type=&quot;math/tex&quot;&gt;d&lt;/script&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Therefore for &lt;em&gt;all&lt;/em&gt; inputs of size &lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;n&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;, the time needed for the entire search is &lt;strong&gt;at most&lt;/strong&gt; &lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;(cn+d) = O(n)&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;.&lt;/p&gt;
+&lt;p&gt;Therefore for &lt;em&gt;all&lt;/em&gt; inputs of size &lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt;, the time needed for the entire search is &lt;strong&gt;at most&lt;/strong&gt; &lt;script type=&quot;math/tex&quot;&gt;(cn+d) = O(n)&lt;/script&gt;.&lt;/p&gt;
 
-&lt;p&gt;At worst, the item &lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;x&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt; we’re searching for is the &lt;em&gt;last&lt;/em&gt; item in the entire list of items. This can be seen as&lt;/p&gt;
+&lt;p&gt;At worst, the item &lt;script type=&quot;math/tex&quot;&gt;x&lt;/script&gt; we’re searching for is the &lt;em&gt;last&lt;/em&gt; item in the entire list of items. This can be seen as&lt;/p&gt;
 
-&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;A[n] = x&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;A[i] \ne x&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt; for all &lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;i&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt; s.t. &lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;1 \le i \lt n&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;A[n] = x&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;A[i] \ne x&lt;/script&gt; for all &lt;script type=&quot;math/tex&quot;&gt;i&lt;/script&gt; s.t. &lt;script type=&quot;math/tex&quot;&gt;1 \le i \lt n&lt;/script&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;ordered-array&quot;&gt;Ordered array&lt;/h3&gt;
 
-&lt;p&gt;If we assume that the list, or array, that we’re searching over is ordered, say from low to high, the chance of the item we’re looking for being in any one of the &lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;n&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt; positions is still the same. However, if the item is &lt;em&gt;not&lt;/em&gt; present we have a slight advantage in that the item that we’re looking for may never be present past another item of greater value.&lt;/p&gt;
+&lt;p&gt;If we assume that the list, or array, that we’re searching over is ordered, say from low to high, the chance of the item we’re looking for being in any one of the &lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt; positions is still the same. However, if the item is &lt;em&gt;not&lt;/em&gt; present we have a slight advantage in that the item that we’re looking for may never be present past another item of greater value.&lt;/p&gt;
 
 &lt;p&gt;For example, if we’re looking for the number 25, and through the process of searching through the array, we happen upon the number 27, we know that no other integers past number 27 will have the value that we’re looking for.&lt;/p&gt;
 
@@ -1579,14 +1576,14 @@ True
     &lt;tr&gt;
       &lt;td&gt;item is present&lt;/td&gt;
       &lt;td&gt;1&lt;/td&gt;
-      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;n&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;&lt;/td&gt;
-      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;\frac{n}{2}&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;\frac{n}{2}&lt;/script&gt;&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;td&gt;item isn’t present&lt;/td&gt;
-      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;n&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;&lt;/td&gt;
-      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;n&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;&lt;/td&gt;
-      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;\frac{n}{2}&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;\frac{n}{2}&lt;/script&gt;&lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
@@ -1595,7 +1592,7 @@ True
 
 &lt;h2 id=&quot;binary-search&quot;&gt;Binary Search&lt;/h2&gt;
 
-&lt;p&gt;With sequential search we start by evaluating the first entry of array for whether or not it matches the the item that we’re looking for, and if it does not we proceed through the entire collection, trying to find a match. There are at most, at any time, &lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;n-1&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt; more items to look at if the item we’re currently evaluating is not the one we’re looking for.&lt;/p&gt;
+&lt;p&gt;With sequential search we start by evaluating the first entry of array for whether or not it matches the the item that we’re looking for, and if it does not we proceed through the entire collection, trying to find a match. There are at most, at any time, &lt;script type=&quot;math/tex&quot;&gt;n-1&lt;/script&gt; more items to look at if the item we’re currently evaluating is not the one we’re looking for.&lt;/p&gt;
 
 &lt;p&gt;Binary search takes a bit of a different approach to the problem. Instead of searching through the collection, sequentially, starting with the first item in the list or array, the process starts at the middle. If the middle item of the list is &lt;em&gt;not&lt;/em&gt; the item that we’re looking for, and is larger than the middle value, we can drop the entire bottom half of the list and save ourselves that much computation time.&lt;/p&gt;
 
@@ -1637,28 +1634,28 @@ True
   &lt;tbody&gt;
     &lt;tr&gt;
       &lt;td&gt;1&lt;/td&gt;
-      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;\frac{n}{2}&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;\frac{n}{2}&lt;/script&gt;&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;td&gt;2&lt;/td&gt;
-      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;\frac{n}{4}&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;\frac{n}{4}&lt;/script&gt;&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;td&gt;3&lt;/td&gt;
-      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;\frac{n}{8}&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;\frac{n}{8}&lt;/script&gt;&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;td&gt;…&lt;/td&gt;
       &lt;td&gt; &lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;i&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;&lt;/td&gt;
-      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;\frac{n}{2^{i}}&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;i&lt;/script&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;script type=&quot;math/tex&quot;&gt;\frac{n}{2^{i}}&lt;/script&gt;&lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;The number of comparisons necessary to get to this point is &lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;i&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt; where &lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;\frac{n}{2^{i}} = 1&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;. Solving for &lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;i&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt; is &lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;i = log n&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;. Therefore, binary search has a computational complexity of &lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;O(log n)&lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;.&lt;/p&gt;
+&lt;p&gt;The number of comparisons necessary to get to this point is &lt;script type=&quot;math/tex&quot;&gt;i&lt;/script&gt; where &lt;script type=&quot;math/tex&quot;&gt;\frac{n}{2^{i}} = 1&lt;/script&gt;. Solving for &lt;script type=&quot;math/tex&quot;&gt;i&lt;/script&gt; is &lt;script type=&quot;math/tex&quot;&gt;i = log n&lt;/script&gt;. Therefore, binary search has a computational complexity of &lt;script type=&quot;math/tex&quot;&gt;O(log n)&lt;/script&gt;.&lt;/p&gt;
 
 &lt;h4 id=&quot;references&quot;&gt;References&lt;/h4&gt;
 
