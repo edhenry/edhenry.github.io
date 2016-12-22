@@ -101,32 +101,32 @@ subsample_cats_1 = flowdata.loc[:,['Proto', 'SrcAddr', 'DstAddr', 'Dport', 'Labe
 
 ## Flow2vec - co-occurence idea for flow data
 
-Attempting to find some co-occurence patterns in the flow data according to how an algorithm like word2vec, in its skip-gram implementation specifically for this work, works. The idea is that flows, $$V_{f}$$ for vector representation, that occur within a window $W_{f}$, which can be modeled as "time" using timestamps from the capture. A visual representation of a single flow and window of flows can be seen below :
+Attempting to find some co-occurence patterns in the flow data according to how an algorithm like word2vec, in its skip-gram implementation specifically for this work, works. The idea is that flows, $$V_{f}$$ for vector representation, that occur within a window $$W_{f}$$, which can be modeled as "time" using timestamps from the capture. A visual representation of a single flow and window of flows can be seen below :
 
 ![](/img/flow_window_5.jpg)
 *Windows of flows*
 
-When we consider the conditional probabilities $P(w\|f)$ with a given set of flow captures **Captures** the goal is to set the parameters $\theta$ of $P(w\|f;\theta)$ so as to maximize the capture probability :
+When we consider the conditional probabilities $$P(w\|f)$$ with a given set of flow captures **Captures** the goal is to set the parameters $$\theta$$ of $$P(w\|f;\theta)$$ so as to maximize the capture probability :
 
 $$ \underset{\theta}{\operatorname{argmax}} \underset{f \in Captures}{\operatorname{\prod}} \left[\underset{w \in W_{f}}{\operatorname{\prod}} P(w \vert f;\theta)\right] $$
 
-in this equation $W_{f}$ is a set of surrounding flows of flow $f$. Alternatively :
+in this equation $$W_{f}$$ is a set of surrounding flows of flow $$f$$. Alternatively :
 
 $$ \underset{\theta}{\operatorname{argmax}} \underset{(f, w) \in D}{\operatorname{\prod}} P(w \vert f;\theta) $$
 
-Here $D$ is the set of all flow and window pairs we extract from the text.
+Here $$D$$ is the set of all flow and window pairs we extract from the text.
 
 The word2vec algorithm seems to capture an underlying phenomenon of written language that clusters words together according to their linguistic similarity, this can be seen in something like simple synonym analysis. The goal is to exploit this underlying "similarity" phenomenon with respect to co-occurence of flows in a given flow capture.
 
 Each "time step", right now just being a subset of a given flow data set, is as a 'sentence' in the word2vec model. We should then be able to find flow "similarities" that exist within the context of flows. The idea is this "symilarity" will really just yield an occurence pattern over the flow data, much like word2vec does for written text.
 
-Another part of the idea is much like in written text there are word / context, $(w,c)$, patterns that are discovered and exploited when running the algorithm over a given set of written language. There are common occurences and patterns that can be yielded from flow data, much like the occurences and patterns that are yielded from written text.
+Another part of the idea is much like in written text there are word / context, $$(w,c)$$, patterns that are discovered and exploited when running the algorithm over a given set of written language. There are common occurences and patterns that can be yielded from flow data, much like the occurences and patterns that are yielded from written text.
 
 At the end of the embedding exercise we can use k-means to attempt to cluster flows, according to the embedding vectors that are produced through the word2vec algorithm. This should yield some sort of clustering of commonly occuring flows that have the same occurence measure in a given set of netflow captures. We can then use this data to measure against other, unseen, flows for future classification of "anamoly". I use that word loosely as this is strictly expirimental.
 
 ### Assumptions :
 
-#### Maximizing the objective will result in good embeddings $v_{f}  \forall w \in V$
+#### Maximizing the objective will result in good embeddings $$v_{f}  \forall w \in V$$
 
 ##### It is important to note with the above statment, with respect to time, is the assumption that the data I am operating from has already been ordered according to the tooling I used to acquire it_
 
@@ -134,27 +134,27 @@ At the end of the embedding exercise we can use k-means to attempt to cluster fl
 
 One of the other portions of the word2vec algorithm that I will be testing in this experiment will be negative sampling.
 
-The objective of Skipgram with Negative Sampling is to maximize the the probability that $(f,w)$ came from the data $D$. This can be modeled as a distribution such that $P(D=1\|f,w)$ be the probability that $(f,w)$ came from the data and $P(D=0\|f,w) = 1 - P(D=1\|f,w)$ the probability that $(f,w)$ did not. 
+The objective of Skipgram with Negative Sampling is to maximize the the probability that $$(f,w)$$ came from the data $$D$$. This can be modeled as a distribution such that $$P(D=1\|f,w)$$ be the probability that $$(f,w)$$ came from the data and $$P(D=0\|f,w) = 1 - P(D=1\|f,w)$$ the probability that $$(f,w)$$ did not. 
 
 The distribution is modeled as :
 
 $$P(D=1|f,w) = \sigma(\vec{f} \cdot \vec{w}) = \frac{1}{1+e^{-\vec{f} \cdot \vec{w}}}$$
 
-where $\vec{f}$ and $\vec{w}$, each a $d$-dimensional vector, are the model parameters to be learned.
+where $$\vec{f}$$ and $$\vec{w}$$, each a $$d$$-dimensional vector, are the model parameters to be learned.
 
-The negative sampling tries to maximize $P(D=1\|f,w)$ for observed $(f,w)$ pairs while maximizing $P(D=0\|f,w)$ for stochastically sampled "negative" examples, under the assumption that selecting a context for a given word is likely to result in an unobserved $(f,w)$ pair.
+The negative sampling tries to maximize $$P(D=1\|f,w)$$ for observed $$(f,w)$$ pairs while maximizing $$P(D=0\|f,w)$$ for stochastically sampled "negative" examples, under the assumption that selecting a context for a given word is likely to result in an unobserved $$(f,w)$$ pair.
 
-SGNS's objective for a single $(f,w)$ output observation is then:
+SGNS's objective for a single $$(f,w)$$ output observation is then:
 
 $$ E = \log \sigma(\vec{f} \cdot \vec{w}) + k \cdot \mathbb{E}_{w_{N} \sim P_{D}} [\log \sigma(\vec{-f} \cdot \vec{w}_N)] $$
 
-where $k$ is the number of "negative" samples and $w_{N}$ is the sampled window, drawn according to the empirical unigram distribution $P_{D}(w) = \frac{\text{#}w}{\|D\|}$
+where $$k$$ is the number of "negative" samples and $$w_{N}$$ is the sampled window, drawn according to the empirical unigram distribution $$P_{D}(w) = \frac{\text{#}w}{\|D\|}$$
 
 Let's disassemble this objective function into its respective terms and put it back together again :
 
-The term $\log \sigma(\vec{f} \cdot \vec{w})$, from above, is used to model the 
+The term $$\log \sigma(\vec{f} \cdot \vec{w})$$, from above, is used to model the 
 
-This object is then trained in an online fashion using stochastic gradient updated over the observed pairs in the corpus $D$. The goal objective then sums over the observed $(f,w)$ pairs in the corpus :
+This object is then trained in an online fashion using stochastic gradient updated over the observed pairs in the corpus $$D$$. The goal objective then sums over the observed $$(f,w)$$ pairs in the corpus :
 
 $$ \ell = \Sigma_{f \in V_{f}} \Sigma_{w \in V_{w}} \#(f,w)(\log \sigma(\vec{f} \cdot \vec{w}) + k \cdot \mathbb{E}_{w_{N} \sim P_{D}} [\log \sigma(\vec{-f} \cdot \vec{w}_N)]$$
 
@@ -164,7 +164,7 @@ Optimizing this objective groups flows that have similar embeddings, while scatt
 
 * Running true tuples of SRCIP, DSTIP, DSTPORT, and PROTO 
 * Label included for now, need to figure out how to persist through pipeline without skewing results - need to figure out how to match up labeling to flow after word2vec has been run
-* Implement timestamp window oriented 'sentence' creation, current implementation created same length flow 'sentences' for every $f$ flow
+* Implement timestamp window oriented 'sentence' creation, current implementation created same length flow 'sentences' for every $$f$$ flow
 
 
 ```python
@@ -240,7 +240,7 @@ flow_model_sgns = gensim.models.Word2Vec(str_corpora, workers=23,
 
 ## Preliminary results - very rough, no real hyperparameter tunings / exploration, etc.
 
-We can see below the results may prove to be useful with respect to certain labels present in the dataset, but not others. This may have to do with the raw occurence rates of certain flow and window #$(f,w)$ combinations vs. others. I use labels lightly as well as this will ultimately become an exercise of semi-supervised learning as it can sometimes be impossible for humans to interpret the results of an unsupervised learning task without any type of contextual insight, as labels can provide. In the case of written language, the "insight" that is provided is the fact that we know what the meanings of words are within the language and if they're clustering correctly, re: synonyms and antonyms, etc.
+We can see below the results may prove to be useful with respect to certain labels present in the dataset, but not others. This may have to do with the raw occurence rates of certain flow and window #$$(f,w)$$ combinations vs. others. I use labels lightly as well as this will ultimately become an exercise of semi-supervised learning as it can sometimes be impossible for humans to interpret the results of an unsupervised learning task without any type of contextual insight, as labels can provide. In the case of written language, the "insight" that is provided is the fact that we know what the meanings of words are within the language and if they're clustering correctly, re: synonyms and antonyms, etc.
 
 We can tune for this using subsampling above in the SGNS model. Which will we do next.
 
@@ -702,11 +702,11 @@ The current flow data that this notebook is based around are aggregated flows fo
 
 Now that we have some vector representations of occurences of flows within the captures that we have, we can run a clustering algorithm over them to see if we can humanly identify some of the groupings that have taken place. For this, we'll use kmeans within the scikit-learn package.
 
-Kmeans has an objective function that intends to partition $n$ objects into $k$ clusters in which each object, $n$, belongs to the cluster with the nearest mean. This can be seen as :
+Kmeans has an objective function that intends to partition $$n$$ objects into $$k$$ clusters in which each object, $$n$$, belongs to the cluster with the nearest mean. This can be seen as :
 
 $$ J = \sum_{j=1}^{k}\sum_{i=1}^{n} \| x_{i}^{(j)} - c_{j}\|^2 $$
 
-Where $\| x_{i}^{(j)} - c_{j}\|^2$ is a chosen distance measure between a datapoint $x^{j}_{i}$ and the cluster center $c{j}$, is an indicator of the distance of the $n$ datapoints from their respective cluster $k$ centers. In this case, $k$ is a hyperparameter that can be used within the model to define how many cluster centroids should be trained over.
+Where $$\| x_{i}^{(j)} - c_{j}\|^2$$ is a chosen distance measure between a datapoint $$x^{j}_{i}$$ and the cluster center $$c{j}$$, is an indicator of the distance of the $$n$$ datapoints from their respective cluster $$k$$ centers. In this case, $$k$$ is a hyperparameter that can be used within the model to define how many cluster centroids should be trained over.
 
 #### TODO :
 
@@ -807,7 +807,7 @@ cluster_members[0:10]
 
 ## Cluster visualization
 
-Raw flow vectors $V_{f}$, created by word2vec, are embedded in dimensionality equivalent to the input layer of the shallow neural network that is used within the model. In our example we're using 
+Raw flow vectors $$V_{f}$$, created by word2vec, are embedded in dimensionality equivalent to the input layer of the shallow neural network that is used within the model. In our example we're using 
 
 ### t-SNE Visualization
 
