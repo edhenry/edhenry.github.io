@@ -4,13 +4,968 @@
  <title>Ed Henry</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <link href="http://localhost:4000/"/>
- <updated>2016-12-21T17:53:40-05:00</updated>
+ <updated>2016-12-21T20:36:59-05:00</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>Ed Henry</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Netflow Flow2vec</title>
+   <link href="http://localhost:4000/2016/12/21/Netflow-flow2vec/"/>
+   <updated>2016-12-21T00:00:00-05:00</updated>
+   <id>http://localhost:4000/2016/12/21/Netflow-flow2vec</id>
+   <content type="html">
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pandas&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pd&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;numpy&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;np&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#import pyhash&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;gensim&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;multiprocessing&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;mp&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;joblib&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Parallel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;delayed&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;concurrent.futures&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pprint&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pprint&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;random&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;mpld3&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;re&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;plt&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sklearn&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cluster&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sklearn&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;manifold&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sklearn.decomposition&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PCA&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TruncatedSVD&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;matplotlib&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inline&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Enable mpld3 for notebook&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;mpld3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;enable_notebook&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Instantiate hasher object&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#hasher = pyhash.city_64()&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Method to strip white test&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;strip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;strip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Method to set dataframe entries to integers&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;make_int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;strip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;    
+
+&lt;span class=&quot;c&quot;&gt;# Method to match IP against flow srcIP&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;sort_ip_flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# List to house flows when matches&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;flows_list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# Iterate over tcp_flows list&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tcp_flows&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;   
+        &lt;span class=&quot;c&quot;&gt;# Comparison logic - flow[1][3] corresponds to SrcIP in flow tuple&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ip&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]:&lt;/span&gt;        
+            &lt;span class=&quot;c&quot;&gt;# Append match to flows_list&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;flows_list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# Return dictionary of IPs and flows&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flows_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;process_flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;    
+    &lt;span class=&quot;c&quot;&gt;# Create hash of protocol&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;proto_hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hasher&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;        
+    &lt;span class=&quot;c&quot;&gt;# Create hash of SrcIP&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;srcip_hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hasher&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;        
+    &lt;span class=&quot;c&quot;&gt;# Create hash of Sport&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;srcprt_hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hasher&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; 
+    &lt;span class=&quot;c&quot;&gt;# Create hash of DstIP&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;dstip_hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hasher&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;    
+    &lt;span class=&quot;c&quot;&gt;# Create hash of Dport&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;dstprt_hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hasher&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; 
+    &lt;span class=&quot;c&quot;&gt;# Cast flow entry as list for manipulation&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;flow_list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;       
+    &lt;span class=&quot;c&quot;&gt;# Insert hashes as entry in tuple for each flow&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;flow_list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;insert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;proto_hash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;srcip_hash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;srcprt_hash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; 
+                         &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dstip_hash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dstprt_hash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;    
+    &lt;span class=&quot;c&quot;&gt;# Re-cast flow entry as tuple w/ added hash tuple&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;tuple&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;single_hash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;flow_hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hasher&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;flow_list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;flow_list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;insert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow_hash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;tuple&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Import netflow capture file(s)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;flowdata&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;cap_files&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;capture20110810.binetflow&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;capture20110811.binetflow&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cap_files&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;frame&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read_csv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sep&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;','&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;flowdata&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flowdata&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ignore_index&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Strip whitespace&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;flowdata&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rename&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;columns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lambda&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;strip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inplace&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;subsample_cats&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flowdata&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;loc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:,[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Proto'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'SrcAddr'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'DstAddr'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'Dport'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;subsample_labels&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flowdata&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;loc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:,[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Label'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;subsample_cats_1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flowdata&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;loc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:,[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Proto'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'SrcAddr'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'DstAddr'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'Dport'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'Label'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;word2vec-co-occurence-idea-for-flow-data&quot;&gt;Word2vec (co-occurence idea for flow data)&lt;/h2&gt;
+
+&lt;p&gt;Attempting to find some co-occurence patterns in the flow data according to how an algorithm like word2vec, in its skip-gram implementation specifically for this work, works. The idea is that flows, $V_{f}$ for vector representation, that occur within a window $W_{f}$, which can be modeled as “time” using timestamps from the capture. A visual representation of a single flow and window of flows can be seen below :&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/flow_window_5.jpg&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The image doesn’t display the timestamp, but the windowing will be done according to a selected time window.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Considering the conditional probabilities $P(w&lt;/td&gt;
+      &lt;td&gt;f)$, with a given set of flow captures &lt;em&gt;Captures&lt;/em&gt;, the goal is to set the parameters $\theta$ of $P(w&lt;/td&gt;
+      &lt;td&gt;f;\theta)$ so as to maximize the capture probability :&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\underset{\theta}{\operatorname{argmax}} \underset{f \in Captures}{\operatorname{\prod}} \left[\underset{w \in W_{f}}{\operatorname{\prod}} P(w \vert f;\theta)\right]&lt;/script&gt;
+
+&lt;p&gt;in this equation $W_{f}$ is a set of surrounding flows of flow $f$. Alternatively :&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\underset{\theta}{\operatorname{argmax}} \underset{(f, w) \in D}{\operatorname{\prod}} P(w \vert f;\theta)&lt;/script&gt;
+
+&lt;p&gt;Here $D$ is the set of all flow and window pairs we extract from the text.&lt;/p&gt;
+
+&lt;p&gt;The word2vec algorithm seems to capture an underlying phenomenon of written language that clusters words together according to their linguistic similarity, this can be seen in something like simple synonym analysis. The goal is to exploit this underlying “similarity” phenomenon with respect to co-occurence of flows in a given flow capture.&lt;/p&gt;
+
+&lt;p&gt;Each “time step”, right now just being a subset of a given flow data set, is as a ‘sentence’ in the word2vec model. We should then be able to find flow “similarities” that exist within the context of flows. The idea is this “symilarity” will really just yield an occurence pattern over the flow data, much like word2vec does for written text.&lt;/p&gt;
+
+&lt;p&gt;Another part of the idea is much like in written text there are word / context, $(w,c)$, patterns that are discovered and exploited when running the algorithm over a given set of written language. There are common occurences and patterns that can be yielded from flow data, much like the occurences and patterns that are yielded from written text.&lt;/p&gt;
+
+&lt;p&gt;At the end of the embedding exercise we can use k-means to attempt to cluster flows, according to the embedding vectors that are produced through the word2vec algorithm. This should yield some sort of clustering of commonly occuring flows that have the same occurence measure in a given set of netflow captures. We can then use this data to measure against other, unseen, flows for future classification of “anamoly”. I use that word loosely as this is strictly expirimental.&lt;/p&gt;
+
+&lt;h3 id=&quot;assumptions-&quot;&gt;Assumptions :&lt;/h3&gt;
+
+&lt;h4 id=&quot;maximizing-the-objective-will-result-in-good-embeddings-v_f--forall-w-in-v&quot;&gt;Maximizing the objective will result in good embeddings $v_{f}  \forall w \in V$&lt;/h4&gt;
+
+&lt;p&gt;#####&lt;em&gt;It is important to note with the above statment, with respect to time, is the assumption that the data I am operating from has already been ordered according to the tooling I used to acquire it&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;skip-gram-negative-sampling&quot;&gt;Skip-gram Negative Sampling&lt;/h2&gt;
+
+&lt;p&gt;One of the other portions of the word2vec algorithm that I will be testing in this experiment will be negative sampling.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;The objective of Skipgram with Negative Sampling is to maximize the the probability that $(f,w)$ came from the data $D$. This can be modeled as a distribution such that $P(D=1&lt;/td&gt;
+      &lt;td&gt;f,w)$ be the probability that $(f,w)$ came from the data and $P(D=0&lt;/td&gt;
+      &lt;td&gt;f,w) = 1 - P(D=1&lt;/td&gt;
+      &lt;td&gt;f,w)$ the probability that $(f,w)$ did not.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;The distribution is modeled as :&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;P(D=1|f,w) = \sigma(\vec{f} \cdot \vec{w}) = \frac{1}{1+e^{-\vec{f} \cdot \vec{w}}}&lt;/script&gt;
+
+&lt;p&gt;where $\vec{f}$ and $\vec{w}$ (each a d-dimensional vector) are the model parameters to be learned.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;The negative sampling tries to maximize $P(D=1&lt;/td&gt;
+      &lt;td&gt;f,w)$ for observed $(f,w)$ pairs while maximizing $P(D=0&lt;/td&gt;
+      &lt;td&gt;f,w)$ for stochastically sampled “negative” examples, under the assumption that selecting a context for a given word is likely to result in an unobserved $(f,w)$ pair.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;SGNS’s objective for a single $(f,w)$ output observation is then:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;E = \log \sigma(\vec{f} \cdot \vec{w}) + k \cdot \mathbb{E}_{w_{N} \sim P_{D}} [\log \sigma(\vec{-f} \cdot \vec{w}_N)]&lt;/script&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;where $k$ is the number of “negative” samples and $w_{N}$ is the sampled window, drawn according to the empirical unigram distribution $P_{D}(w) = \frac{#w}{&lt;/td&gt;
+      &lt;td&gt;D&lt;/td&gt;
+      &lt;td&gt;}$&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Let’s disassemble this objective function into its respective terms and put it back together again :&lt;/p&gt;
+
+&lt;p&gt;The term $\log \sigma(\vec{f} \cdot \vec{w})$, from above, is used to model the&lt;/p&gt;
+
+&lt;p&gt;This object is then trained in an online fashion using stochastic gradient updated over the observed pairs in the corpus $D$. The goal objective then sums over the observed $(f,w)$ pairs in the corpus :&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\ell = \Sigma_{f \in V_{f}} \Sigma_{w \in V_{w}} \#(f,w)(\log \sigma(\vec{f} \cdot \vec{w}) + k \cdot \mathbb{E}_{w_{N} \sim P_{D}} [\log \sigma(\vec{-f} \cdot \vec{w}_N)]&lt;/script&gt;
+
+&lt;p&gt;Optimizing this objective groups flows that have similar embeddings, while scattering unobserved pairs.&lt;/p&gt;
+
+&lt;p&gt;####TODO (further exploration) :&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Running true tuples of SRCIP, DSTIP, DSTPORT, and PROTO (label included for now, need to figure out how to persist through pipeline without skewing results - need to figure out how to match up labeling to flow after word2vec has been run)&lt;/li&gt;
+  &lt;li&gt;Implement timestamp window oriented ‘sentence’ creation, current implementation created same length flow ‘sentences’ for every $f$ flow&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Method to slide window over dataframe of &lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# flowdata and create &quot;sentences&quot;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;create_corpora&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dataframe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;corpus_count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;corpus&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;corpora&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;begin&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;corpus_count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;corpus&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dataframe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;begin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)])&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;begin&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;begin&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;window&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;window&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;corpora&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;corpus&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;corpora&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;corpora&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;create_corpora&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;subsample_cats&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;153333&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;labels&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;create_corpora&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;subsample_labels&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;153333&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;corpora_1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;create_corpora&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;subsample_cats_1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;153333&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Convert all tuples created by previous create_corpora function&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# to strings for use with tokenization which is then used in the&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# word2vec algorithm below &lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;str_corpora&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;corpus&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;corpora&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;str_corpus&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sentence&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;corpus&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;values&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tolist&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;str_corpus&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sentence&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;encode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'utf-8'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;str_corpora&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;str_corpus&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&quot;['94.44.127.113', '147.32.84.59', '6881', 'tcp']&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Here we train a model without using the negative sampling hyperparameter &lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# We will be using this for testing of accuracy of model vs. using the &lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# negative sampling function&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;flow_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gensim&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Word2Vec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;str_corpora&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;workers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;23&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;min_count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Here we train a model using the negative sampling which we will then compare&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# to the model above for the impact that the negative sampling has on the &lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# clustering of flows&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;flow_model_sgns&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gensim&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Word2Vec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;str_corpora&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;workers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;23&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;negative&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sample&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;preliminary-results-very-rough-no-real-hyperparameter-tunings--exploration-etc&quot;&gt;Preliminary results (very rough, no real hyperparameter tunings / exploration, etc.)&lt;/h2&gt;
+
+&lt;p&gt;We can see below the results may prove to be useful with respect to certain labels present in the dataset, but not others. This may have to do with the raw occurence rates of certain flow and window #$(f,w)$ combinations vs. others. I use labels lightly as well as this will ultimately become an exercise of semi-supervised learning as it can sometimes be impossible for humans to interpret the results of an unsupervised learning task without any type of contextual insight, as labels can provide. In the case of written language, the “insight” that is provided is the fact that we know what the meanings of words are within the language and if they’re clustering correctly, re: synonyms and antonyms, etc.&lt;/p&gt;
+
+&lt;p&gt;We can tune for this using subsampling above in the SGNS model. Which will we do next.&lt;/p&gt;
+
+&lt;p&gt;####TODO:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;GridSearch for hyperparameters&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Here we see that there is indeed a clustering that has happened with respect to the “From-Botnet-V42-UDP-DNS”&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Test for flow similarity, preferrably a flow that has the botnet label&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;flow_model_1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;most_similar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;['147.32.84.165', '192.33.4.12', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;topn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[(&quot;['147.32.84.165', '192.5.5.241', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9761667847633362),
+ (&quot;['147.32.84.165', '202.12.27.33', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9741541743278503),
+ (&quot;['147.32.84.165', '128.8.10.90', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.973616898059845),
+ (&quot;['147.32.84.165', '78.47.76.4', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9714504480361938),
+ (&quot;['147.32.84.165', '193.0.14.129', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9692395925521851),
+ (&quot;['147.32.84.165', '199.7.83.42', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9687032699584961),
+ (&quot;['147.32.84.165', '192.228.79.201', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9674479961395264),
+ (&quot;['147.32.84.165', '192.58.128.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9664252400398254),
+ (&quot;['147.32.84.165', '92.53.98.100', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9656703472137451),
+ (&quot;['147.32.84.165', '192.112.36.4', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9654155969619751),
+ (&quot;['147.32.84.165', '198.41.0.4', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9644977450370789),
+ (&quot;['147.32.84.165', '192.203.230.10', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9633801579475403),
+ (&quot;['147.32.84.165', '192.36.148.17', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9618400931358337),
+ (&quot;['147.32.84.165', '128.63.2.53', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.958657443523407),
+ (&quot;['147.32.84.165', '89.108.64.2', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9581812024116516),
+ (&quot;['147.32.84.165', '82.103.128.82', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9558319449424744),
+ (&quot;['147.32.84.165', '192.42.93.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9557339549064636),
+ (&quot;['147.32.84.165', '192.26.92.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9556182026863098),
+ (&quot;['147.32.84.165', '194.226.96.8', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9543852210044861),
+ (&quot;['147.32.84.165', '194.85.61.20', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.953228771686554),
+ (&quot;['147.32.84.165', '88.212.196.130', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9526883959770203),
+ (&quot;['147.32.84.165', '195.128.49.14', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9500119090080261),
+ (&quot;['147.32.84.165', '217.16.20.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9483109712600708),
+ (&quot;['147.32.84.165', '85.10.210.157', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9481122493743896),
+ (&quot;['147.32.84.165', '92.53.116.200', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9478355050086975),
+ (&quot;['147.32.84.165', '88.212.221.11', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9470769166946411),
+ (&quot;['147.32.84.165', '82.146.55.155', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9461535811424255),
+ (&quot;['147.32.84.165', '192.41.162.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9459192156791687),
+ (&quot;['147.32.84.165', '77.222.40.2', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9456772804260254),
+ (&quot;['147.32.84.165', '199.19.57.1', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.945094645023346),
+ (&quot;['147.32.84.165', '89.253.192.21', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9428556561470032),
+ (&quot;['147.32.84.165', '199.249.120.1', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9426734447479248),
+ (&quot;['147.32.84.165', '192.54.112.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9423930048942566),
+ (&quot;['147.32.84.165', '195.2.83.38', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9414822459220886),
+ (&quot;['147.32.84.165', '89.108.104.3', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9414548873901367),
+ (&quot;['147.32.84.165', '78.108.89.252', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9414442181587219),
+ (&quot;['147.32.84.165', '80.93.50.53', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9408544898033142),
+ (&quot;['147.32.84.165', '192.31.80.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9401237368583679),
+ (&quot;['147.32.84.165', '195.161.112.91', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.939973771572113),
+ (&quot;['147.32.84.165', '193.169.178.59', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9395020008087158),
+ (&quot;['147.32.84.165', '192.48.79.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9393561482429504),
+ (&quot;['147.32.84.165', '192.33.14.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9386749267578125),
+ (&quot;['147.32.84.165', '85.10.210.144', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9382632970809937),
+ (&quot;['147.32.84.165', '192.12.94.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9372074007987976),
+ (&quot;['147.32.84.165', '192.35.51.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9371063113212585),
+ (&quot;['147.32.84.165', '213.177.97.1', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9366581439971924),
+ (&quot;['147.32.84.165', '95.163.69.51', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9363342523574829),
+ (&quot;['147.32.84.165', '79.174.72.215', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.936087965965271),
+ (&quot;['147.32.84.165', '195.248.235.219', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9358514547348022),
+ (&quot;['147.32.84.165', '217.16.16.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9352473020553589),
+ (&quot;['147.32.84.165', '78.108.81.247', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9348022937774658),
+ (&quot;['147.32.84.165', '192.5.6.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.934520423412323),
+ (&quot;['147.32.84.165', '199.19.56.1', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.934291422367096),
+ (&quot;['147.32.84.165', '217.16.22.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9341065883636475),
+ (&quot;['147.32.84.165', '192.36.144.107', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9333975315093994),
+ (&quot;['147.32.84.165', '81.177.24.54', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9332102537155151),
+ (&quot;['147.32.84.165', '192.52.178.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9328247308731079),
+ (&quot;['147.32.84.165', '83.222.0.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9324507117271423),
+ (&quot;['147.32.84.165', '95.168.160.245', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9320420026779175),
+ (&quot;['147.32.84.165', '95.168.174.25', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9319052696228027),
+ (&quot;['147.32.84.165', '80.93.56.2', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9313104748725891),
+ (&quot;['147.32.84.165', '193.227.240.37', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9309282302856445),
+ (&quot;['147.32.84.165', '208.100.5.254', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9303311705589294),
+ (&quot;['147.32.84.165', '77.221.130.250', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9299085140228271),
+ (&quot;['147.32.84.165', '192.55.83.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9297108054161072),
+ (&quot;['147.32.84.165', '84.252.138.21', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9296650886535645),
+ (&quot;['147.32.84.165', '192.43.172.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.928945779800415),
+ (&quot;['147.32.84.165', '89.111.177.253', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9288318753242493),
+ (&quot;['147.32.84.165', '195.2.64.38', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9286403059959412),
+ (&quot;['147.32.84.165', '195.128.50.221', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9278726577758789),
+ (&quot;['147.32.84.165', '178.218.208.130', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9271195530891418),
+ (&quot;['147.32.84.165', '192.36.125.2', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9268661141395569),
+ (&quot;['147.32.84.165', '199.19.54.1', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9267032146453857),
+ (&quot;['147.32.84.165', '79.137.226.102', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9260225296020508),
+ (&quot;['147.32.84.165', '193.232.130.14', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9259271621704102),
+ (&quot;['147.32.84.165', '193.232.142.17', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9246711730957031),
+ (&quot;['147.32.84.165', '78.47.139.101', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.924452006816864),
+ (&quot;['147.32.84.165', '217.174.106.66', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9236003756523132),
+ (&quot;['147.32.84.165', '77.222.41.3', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9235631823539734),
+ (&quot;['147.32.84.165', '83.222.1.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9203209280967712),
+ (&quot;['147.32.84.165', '91.217.21.170', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9194321632385254),
+ (&quot;['147.32.84.165', '89.108.122.149', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.919041633605957),
+ (&quot;['147.32.84.165', '91.217.20.170', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9166457056999207),
+ (&quot;['147.32.84.165', '193.227.240.38', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9165226221084595),
+ (&quot;['147.32.84.165', '78.108.80.90', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9164752960205078),
+ (&quot;['147.32.84.165', '78.110.50.60', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.915980875492096),
+ (&quot;['147.32.84.165', '178.162.177.145', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9158682227134705),
+ (&quot;['147.32.84.165', '194.85.252.62', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.915434718132019),
+ (&quot;['147.32.84.165', '77.221.159.237', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9152796864509583),
+ (&quot;['147.32.84.165', '193.232.146.170', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9140732884407043),
+ (&quot;['147.32.84.165', '199.249.112.1', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9137414693832397),
+ (&quot;['147.32.84.165', '87.224.128.4', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9121522307395935),
+ (&quot;['147.32.84.165', '93.170.25.253', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9113649725914001),
+ (&quot;['147.32.84.165', '195.209.63.181', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9110352993011475),
+ (&quot;['147.32.84.165', '195.243.137.26', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9104222059249878),
+ (&quot;['147.32.84.165', '194.0.0.53', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9094029068946838),
+ (&quot;['147.32.84.165', '91.218.228.18', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9092046022415161),
+ (&quot;['147.32.84.165', '194.85.105.17', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9091553092002869),
+ (&quot;['147.32.84.165', '193.232.156.17', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9083877801895142),
+ (&quot;['147.32.84.165', '212.176.27.2', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  0.9074791669845581)]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;flow_model_1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;most_similar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;['147.32.84.165', '60.190.223.75', '888', 'tcp', 'flow=From-Botnet-V42-TCP-CC6-Plain-HTTP-Encrypted-Data']&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[(&quot;['217.66.146.105', '147.32.84.229', '443', 'tcp', 'flow=Background-TCP-Established']&quot;,
+  0.970333993434906),
+ (&quot;['188.26.176.163', '147.32.84.229', '13363', 'udp', 'flow=Background-UDP-Established']&quot;,
+  0.963600218296051),
+ (&quot;['114.75.11.242', '147.32.84.229', '80', 'tcp', 'flow=Background-TCP-Established']&quot;,
+  0.9627201557159424),
+ (&quot;['147.32.86.96', '147.32.87.29', '0xb612', 'icmp', 'flow=Background']&quot;,
+  0.9622609615325928),
+ (&quot;['195.234.241.9', '147.32.84.229', '13363', 'udp', 'flow=Background-UDP-Established']&quot;,
+  0.9621870517730713),
+ (&quot;['41.130.66.62', '147.32.84.229', '13363', 'udp', 'flow=Background-UDP-Established']&quot;,
+  0.9606925249099731),
+ (&quot;['131.104.149.212', '147.32.84.229', '13363', 'udp', 'flow=Background-UDP-Established']&quot;,
+  0.9604771733283997),
+ (&quot;['147.32.84.59', '90.146.27.130', '46356', 'udp', 'flow=Background-Attempt-cmpgw-CVUT']&quot;,
+  0.9597481489181519),
+ (&quot;['147.32.84.229', '78.141.179.11', '34046', 'udp', 'flow=Background-UDP-Established']&quot;,
+  0.9597265720367432),
+ (&quot;['147.32.84.59', '114.40.199.143', '21323', 'udp', 'flow=Background-Established-cmpgw-CVUT']&quot;,
+  0.9592392444610596)]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;without-label-contained-in-the-dataset&quot;&gt;Without label contained in the dataset&lt;/h3&gt;
+
+&lt;p&gt;Here we run the same hyperparameters for the word2vec algorith, this time ignoring the label and not adding it to the “word” representations.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;flow_model_2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gensim&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Word2Vec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;str_corpora&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;workers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;23&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;negative&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sample&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;flow_model_2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;most_similar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;['147.32.84.165', '192.33.4.12', '53', 'udp']&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[(&quot;['147.32.84.165', '192.112.36.4', '53', 'udp']&quot;, 0.9759483337402344),
+ (&quot;['147.32.84.165', '193.0.14.129', '53', 'udp']&quot;, 0.9724588394165039),
+ (&quot;['147.32.84.165', '192.5.5.241', '53', 'udp']&quot;, 0.9721120595932007),
+ (&quot;['147.32.84.165', '128.8.10.90', '53', 'udp']&quot;, 0.9712154865264893),
+ (&quot;['147.32.84.165', '192.58.128.30', '53', 'udp']&quot;, 0.9697802662849426),
+ (&quot;['147.32.84.165', '192.36.148.17', '53', 'udp']&quot;, 0.9674890041351318),
+ (&quot;['147.32.84.165', '198.41.0.4', '53', 'udp']&quot;, 0.9672064185142517),
+ (&quot;['147.32.84.165', '199.7.83.42', '53', 'udp']&quot;, 0.9657577872276306),
+ (&quot;['147.32.84.165', '202.12.27.33', '53', 'udp']&quot;, 0.9610617160797119),
+ (&quot;['147.32.84.165', '192.203.230.10', '53', 'udp']&quot;, 0.9608649015426636)]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;flowdata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flowdata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'DstAddr'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;contains&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;192.112.36.4&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;na&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+  &lt;table border=&quot;1&quot; class=&quot;dataframe&quot;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&quot;text-align: right;&quot;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;StartTime&lt;/th&gt;
+      &lt;th&gt;Dur&lt;/th&gt;
+      &lt;th&gt;Proto&lt;/th&gt;
+      &lt;th&gt;SrcAddr&lt;/th&gt;
+      &lt;th&gt;Sport&lt;/th&gt;
+      &lt;th&gt;Dir&lt;/th&gt;
+      &lt;th&gt;DstAddr&lt;/th&gt;
+      &lt;th&gt;Dport&lt;/th&gt;
+      &lt;th&gt;State&lt;/th&gt;
+      &lt;th&gt;sTos&lt;/th&gt;
+      &lt;th&gt;dTos&lt;/th&gt;
+      &lt;th&gt;TotPkts&lt;/th&gt;
+      &lt;th&gt;TotBytes&lt;/th&gt;
+      &lt;th&gt;SrcBytes&lt;/th&gt;
+      &lt;th&gt;Label&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1264477&lt;/th&gt;
+      &lt;td&gt;2011/08/10 12:29:05.687373&lt;/td&gt;
+      &lt;td&gt;0.258197&lt;/td&gt;
+      &lt;td&gt;udp&lt;/td&gt;
+      &lt;td&gt;147.32.84.165&lt;/td&gt;
+      &lt;td&gt;2077&lt;/td&gt;
+      &lt;td&gt;&amp;lt;-&amp;gt;&lt;/td&gt;
+      &lt;td&gt;192.112.36.4&lt;/td&gt;
+      &lt;td&gt;53&lt;/td&gt;
+      &lt;td&gt;CON&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;528&lt;/td&gt;
+      &lt;td&gt;68&lt;/td&gt;
+      &lt;td&gt;flow=From-Botnet-V42-UDP-DNS&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1264673&lt;/th&gt;
+      &lt;td&gt;2011/08/10 12:29:06.093217&lt;/td&gt;
+      &lt;td&gt;0.258987&lt;/td&gt;
+      &lt;td&gt;udp&lt;/td&gt;
+      &lt;td&gt;147.32.84.165&lt;/td&gt;
+      &lt;td&gt;2077&lt;/td&gt;
+      &lt;td&gt;&amp;lt;-&amp;gt;&lt;/td&gt;
+      &lt;td&gt;192.112.36.4&lt;/td&gt;
+      &lt;td&gt;53&lt;/td&gt;
+      &lt;td&gt;CON&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;611&lt;/td&gt;
+      &lt;td&gt;77&lt;/td&gt;
+      &lt;td&gt;flow=From-Botnet-V42-UDP-DNS&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;vocab_flow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flow_model_2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vocab&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;re&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;r&quot;192.112.36.4&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]):&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;vocab_flow&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;vocab_flow&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[(&quot;['147.32.84.165', '192.112.36.4', '53', 'udp']&quot;,
+  &amp;lt;gensim.models.word2vec.Vocab at 0x7f808752a350&amp;gt;)]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;flowdata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flowdata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'DstAddr'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;contains&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;192.5.5.241&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;na&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+  &lt;table border=&quot;1&quot; class=&quot;dataframe&quot;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&quot;text-align: right;&quot;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;StartTime&lt;/th&gt;
+      &lt;th&gt;Dur&lt;/th&gt;
+      &lt;th&gt;Proto&lt;/th&gt;
+      &lt;th&gt;SrcAddr&lt;/th&gt;
+      &lt;th&gt;Sport&lt;/th&gt;
+      &lt;th&gt;Dir&lt;/th&gt;
+      &lt;th&gt;DstAddr&lt;/th&gt;
+      &lt;th&gt;Dport&lt;/th&gt;
+      &lt;th&gt;State&lt;/th&gt;
+      &lt;th&gt;sTos&lt;/th&gt;
+      &lt;th&gt;dTos&lt;/th&gt;
+      &lt;th&gt;TotPkts&lt;/th&gt;
+      &lt;th&gt;TotBytes&lt;/th&gt;
+      &lt;th&gt;SrcBytes&lt;/th&gt;
+      &lt;th&gt;Label&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;401163&lt;/th&gt;
+      &lt;td&gt;2011/08/10 10:24:11.577652&lt;/td&gt;
+      &lt;td&gt;0.004420&lt;/td&gt;
+      &lt;td&gt;udp&lt;/td&gt;
+      &lt;td&gt;147.32.87.49&lt;/td&gt;
+      &lt;td&gt;65174&lt;/td&gt;
+      &lt;td&gt;&amp;lt;-&amp;gt;&lt;/td&gt;
+      &lt;td&gt;192.5.5.241&lt;/td&gt;
+      &lt;td&gt;53&lt;/td&gt;
+      &lt;td&gt;CON&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;636&lt;/td&gt;
+      &lt;td&gt;132&lt;/td&gt;
+      &lt;td&gt;flow=Background-UDP-Established&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1265468&lt;/th&gt;
+      &lt;td&gt;2011/08/10 12:29:12.214663&lt;/td&gt;
+      &lt;td&gt;0.002282&lt;/td&gt;
+      &lt;td&gt;udp&lt;/td&gt;
+      &lt;td&gt;147.32.84.165&lt;/td&gt;
+      &lt;td&gt;2077&lt;/td&gt;
+      &lt;td&gt;&amp;lt;-&amp;gt;&lt;/td&gt;
+      &lt;td&gt;192.5.5.241&lt;/td&gt;
+      &lt;td&gt;53&lt;/td&gt;
+      &lt;td&gt;CON&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;417&lt;/td&gt;
+      &lt;td&gt;70&lt;/td&gt;
+      &lt;td&gt;flow=From-Botnet-V42-UDP-DNS&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;aggregated-flows-equivalent-to-phrases&quot;&gt;Aggregated flows, equivalent to “phrases”&lt;/h3&gt;
+
+&lt;p&gt;The word2vec algorithm can also learn embeddings for phrases as well as single words for written language. The ideas I have surrounding “phrases” would be learning the embeddings for given windows of flows, if they were to present themselves in certain capacities within the captures flow data.&lt;/p&gt;
+
+&lt;p&gt;The current flow data that this notebook is based around are aggregated flows for bi-directional communication between endpoints. Exploiting something like capturing the ‘phrase’ of a flow, or thought another way, the bi-directional communication patterns that are contained within flow data might prove useful for application profiling, etc. through the use of application meta-data tracked through some sort of semi-supervised learning pipeline.&lt;/p&gt;
+
+&lt;h1 id=&quot;clustering&quot;&gt;Clustering&lt;/h1&gt;
+
+&lt;p&gt;Now that we have some vector representations of occurences of flows within the captures that we have, we can run a clustering algorithm over them to see if we can humanly identify some of the groupings that have taken place. For this, we’ll use kmeans within the scikit-learn package.&lt;/p&gt;
+
+&lt;p&gt;Kmeans has an objective function that intends to partition $n$ objects into $k$ clusters in which each object, $n$, belongs to the cluster with the nearest mean. This can be seen as :&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;J = \sum_{j=1}^{k}\sum_{i=1}^{n} \| x_{i}^{(j)} - c_{j}\|^2&lt;/script&gt;
+
+&lt;p&gt;Where $| x_{i}^{(j)} - c_{j}|^2$ is a chosen distance measure between a datapoint $x^{j}_{i}$ and the cluster center $c{j}$, is an indicator of the distance of the $n$ datapoints from their respective cluster $k$ centers. In this case, $k$ is a hyperparameter that can be used within the model to define how many cluster centroids should be trained over.&lt;/p&gt;
+
+&lt;p&gt;####TODO :&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Limitation for arrays larger than 16GB due to an underlying dependency that numpy has, need to investigate - this is why I’m only running kmeans on a subset of the overall model learned above&lt;/li&gt;
+  &lt;li&gt;Dimensionality reduction of some kind over the data - 300 dimensional data isn’t crazy high but might have some improved performance here as well.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Set k (number of clusters) to be 1/5 of the &quot;vocabulary&quot; size&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# or an average of flows per cluster, this is a hyperparameter&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# in kmeans that we can tweak later on&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;flow_vectors&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flow_model_1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;syn0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;20000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;num_clusters&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flow_vectors&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Initialize k-means object and use it to extract centroids&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;kmeans_clustering&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cluster&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;KMeans&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n_clusters&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num_clusters&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;k-means++&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n_jobs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;idx&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kmeans_clustering&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit_predict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow_vectors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Create a flow / Index dictionary, mapping &quot;vocabulary words&quot; to&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# a cluster number&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;flow_centroid_map&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;zip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow_model_1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index2word&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;idx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#Find some botnet labels to use for exploration of data&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;operator&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;sorted_clusters&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sorted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow_centroid_map&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;operator&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;itemgetter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;botnets&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sorted_clusters&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;re&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;r&quot;Botnet&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]):&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;botnets&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        
+&lt;span class=&quot;n&quot;&gt;botnets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[(&quot;['147.32.84.165', '209.86.93.226', '25', 'tcp', 'flow=From-Botnet-V43-TCP-Attempt-SPAM']&quot;,
+  3),
+ (&quot;['147.32.84.165', '192.33.4.12', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  14),
+ (&quot;['147.32.84.165', '85.214.220.206', '25', 'tcp', 'flow=From-Botnet-V42-TCP-Attempt-SPAM']&quot;,
+  40),
+ (&quot;['147.32.84.165', '77.88.210.88', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  48),
+ (&quot;['147.32.84.165', '75.180.132.243', '25', 'tcp', 'flow=From-Botnet-V42-TCP-Attempt-SPAM']&quot;,
+  49),
+ (&quot;['147.32.84.165', '67.23.231.68', '53', 'udp', 'flow=From-Botnet-V42-UDP-Attempt-DNS']&quot;,
+  73),
+ (&quot;['147.32.84.165', '60.190.223.75', '888', 'tcp', 'flow=From-Botnet-V42-TCP-CC6-Plain-HTTP-Encrypted-Data']&quot;,
+  74),
+ (&quot;['147.32.84.165', '80.93.50.53', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']&quot;,
+  89),
+ (&quot;['147.32.84.165', '94.100.176.20', '25', 'tcp', 'flow=From-Botnet-V43-TCP-Attempt-SPAM']&quot;,
+  91),
+ (&quot;['147.32.84.165', '74.125.159.27', '25', 'tcp', 'flow=From-Botnet-V42-TCP-Attempt-SPAM']&quot;,
+  99)]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Look at members of clusters according to botnet memberships discovered above&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;cluster_members&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sorted_clusters&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;73&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;cluster_members&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    
+&lt;span class=&quot;n&quot;&gt;cluster_members&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[(&quot;['147.32.84.59', '72.21.210.129', '80', 'tcp', 'flow=Background-Established-cmpgw-CVUT']&quot;,
+  73),
+ (&quot;['62.162.92.225', '147.32.84.229', '13363', 'udp', 'flow=Background-UDP-Established']&quot;,
+  73),
+ (&quot;['147.32.84.59', '208.88.186.10', '34021', 'udp', 'flow=Background-Established-cmpgw-CVUT']&quot;,
+  73),
+ (&quot;['147.32.84.165', '67.23.231.68', '53', 'udp', 'flow=From-Botnet-V42-UDP-Attempt-DNS']&quot;,
+  73),
+ (&quot;['200.148.213.27', '147.32.84.229', '13363', 'udp', 'flow=Background-UDP-Established']&quot;,
+  73),
+ (&quot;['187.75.138.219', '147.32.84.229', '13363', 'udp', 'flow=Background-UDP-Established']&quot;,
+  73)]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;cluster-visualization&quot;&gt;Cluster visualization&lt;/h2&gt;
+
+&lt;p&gt;Raw flow vectors $V_{f}$, created by word2vec, are embedded in dimensionality equivalent to the input layer of the shallow neural network that is used within the model. In our example we’re using&lt;/p&gt;
+
+&lt;h3 id=&quot;t-sne-visualization&quot;&gt;t-SNE Visualization&lt;/h3&gt;
+
+&lt;p&gt;Use t-SNE and matplotlib to visualize the clusters created using Word2Vec.&lt;/p&gt;
+
+&lt;p&gt;####TODO :&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Brief explanation of the tSNE algorithm and how it handles compressing higher dimensional data into 2 or 3 dimension for visualization&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;perform_tsne&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;word_vector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;tsne&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;manifold&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TSNE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n_components&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;random_state&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;42&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tsne&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit_transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;word_vector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#flow_model_reduced = TruncatedSVD(n_components=100, random_state=42).fit_transform(flow_model_1.syn0)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;test_tsne&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;manifold&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TSNE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n_components&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;learning_rate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit_transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow_model_1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;syn0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;fig&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ax&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;subplots&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;subplot_kw&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;axisbg&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'#EEEEEE'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;figsize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test_tsne&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test_tsne&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;mpld3_scatter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ax&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;scatter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cmap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Blues'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;ax&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;grid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'white'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;linestyle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'solid'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;labels&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;enumerate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow_model_1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vocab&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:])]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;tooltip&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mpld3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;plugins&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PointLabelTooltip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mpld3_scatter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;labels&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;labels&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;mpld3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;plugins&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fig&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tooltip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;fig&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ax&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;subplots&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;subplot_kw&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;axisbg&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'#EEEEEE'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;figsize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;mpld3_scatter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ax&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;scatter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tsne_objs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][:,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tsne_objs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][:,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;ax&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;grid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'white'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;linestyle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'solid'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;#ax.set_title(&quot;Scatter Plot (with tooltips!)&quot;, size=20)&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;#labels = [v[0][0] for k,v in enumerate(sample)]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;tooltip&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mpld3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;plugins&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PointLabelTooltip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mpld3_scatter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;mpld3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;plugins&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fig&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tooltip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;fig&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;figure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;figsize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;70&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;70&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;ax&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;axes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;frameon&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xticks&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;yticks&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;subplots_adjust&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bottom&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;top&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;wspace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hspace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;scatter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow_model_embedded_1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flow_model_embedded_1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;marker&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;x&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;#for k,v in enumerate(flow_model.vocab.items()):&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#    plt.annotate(v[0], flow_model_embedded_1[k])&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;savefig&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'test2.eps'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'eps'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dpi&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;600&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;things-left-to-research--validate--test&quot;&gt;Things left to research / validate / test&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Tune hyperparameters of models for all algorithms (word2vec, kmeans, tSNE)&lt;/li&gt;
+  &lt;li&gt;Find fixes for limitations of larger datasets for tooling that has dependencies on numpy (kmeans, tSNE)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;--everything-below-this-line-for-future-use--&quot;&gt;—- EVERYTHING BELOW THIS LINE FOR FUTURE USE —-&lt;/h2&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Generate hash for all flows within the dataset&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;flowdata_dict&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Parallelize the hashing of flows&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;concurrent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;futures&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ProcessPoolExecutor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;executor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;executor&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;process_flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flowdata_sample&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iterrows&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()):&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;flowdata_dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;## ONLY USE THIS BLOCK IF YOU WANT PER TO SORT FLOWS PER IP&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Lists for tcp and udp flows&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;tcp_flows&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;udp_flows&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Iterate over dataframe&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;d&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flowdata_sample&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iterrows&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'tcp'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        
+        &lt;span class=&quot;c&quot;&gt;#Append flow&lt;/span&gt;
+        
+        &lt;span class=&quot;n&quot;&gt;tcp_flows&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        
+    &lt;span class=&quot;k&quot;&gt;elif&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'udp'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;udp_flows&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Set for identifying unique IPs from flows&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;unique_per_proto&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tcp_flows&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    
+    &lt;span class=&quot;c&quot;&gt;# Add unique SrcAddr to set for TCP flows&lt;/span&gt;
+    
+    &lt;span class=&quot;n&quot;&gt;unique_per_proto&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;udp_flows&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    
+    &lt;span class=&quot;c&quot;&gt;# Add unique SrcAddr to set for UDP flows&lt;/span&gt;
+    
+    &lt;span class=&quot;n&quot;&gt;unique_per_proto&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;## ONLY USE THIS BLOCK IF YOU WANT PER TO SORT FLOWS PER IP&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Set for unique IPs for overall flowset &lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Maintaining ordering of existing data&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Use this if we wanted a corpus per srcIP&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;unique_per_flow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;d&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flowdata_sample&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iterrows&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;unique_per_flow&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Sort flows according to srcIP&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ip_dicts&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Parallelization framework&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;concurrent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;futures&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ProcessPoolExecutor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;executor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    
+    &lt;span class=&quot;c&quot;&gt;# pass in unique set to executor&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# Return dict from each process&lt;/span&gt;
+    
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;d&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;executor&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sort_ip_flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;unique_per_proto&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    
+        &lt;span class=&quot;c&quot;&gt;# Roll all dicts up into list&lt;/span&gt;
+        
+        &lt;span class=&quot;n&quot;&gt;ip_dicts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Hashing In Python</title>
