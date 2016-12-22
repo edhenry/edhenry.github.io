@@ -1,1 +1,0 @@
-Repo for maintaining my personal blog @ [http://edhenry.github.io](http://edhenry.github.io)

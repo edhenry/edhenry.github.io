@@ -1,1999 +1,245 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="en">
 
-  <head>
-  <link href="http://gmpg.org/xfn/11" rel="profile">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<head>
 
-  <!-- Enable MathJax -->
-  <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        jax: ["input/TeX", "output/HTML-CSS"],
-        tex2jax: {
-          inlineMath: [ ['$', '$'], ["\(", "\)"] ],
-          displayMath: [ ['$$', '$$'], ["\[", "\]"] ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-        //,
-        //displayAlign: "left",
-        //displayIndent: "2em"
-      });
-  </script>
-  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A place for me to keep notes about what I know that hopefully someone else finds useful">
 
-  <!-- Enable responsiveness on mobile devices-->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title>Ed Henry's Blog</title>
 
-  <title>
-    
-      Ed Henry &middot; Random Musings
-    
-  </title>
+    <link rel="canonical" href="http://localhost:4000/">
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="/public/css/poole.css">
-  <link rel="stylesheet" href="/public/css/syntax.css">
-  <link rel="stylesheet" href="/public/css/hyde.css">
-  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
 
-  <!-- Icons -->
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
-                                 <link rel="shortcut icon" href="/public/favicon.ico">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/clean-blog.css">
 
-  <!-- RSS -->
-  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Ed Henry's Blog" />
+
 </head>
 
 
-  <body>
+<body>
 
-    <div class="sidebar">
-  <div class="container sidebar-sticky">
-    <div class="sidebar-about">
-      <h1>
-        <a href="/">
-          Ed Henry
-        </a>
-      </h1>
-      <p class="lead">A place for me to take notes and share what I know</p>
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ed Henry's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                
+				
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+				
+                
+				
+                <li>
+                    <a href="/contact/">Contact</a>
+                </li>
+				
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
     </div>
-
-    <nav class="sidebar-nav">
-      <a class="sidebar-nav-item active" href="/">Home</a>
-
-      
-
-      
-      
-        
-          
-        
-      
-        
-          
-            <a class="sidebar-nav-item" href="/about/">About</a>
-          
-        
-      
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-    </nav>
-
-    <p>&copy; 2016. All rights reserved.</p>
-  </div>
-</div>
-
-
-    <div class="content container">
-      <div class="posts">
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2016/12/21/Netflow-flow2vec/">
-        Netflow Flow2vec
-      </a>
-    </h1>
-
-    <span class="post-date">21 Dec 2016</span>
-
-    
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="c">#import pyhash</span>
-<span class="kn">import</span> <span class="nn">gensim</span>
-<span class="kn">import</span> <span class="nn">multiprocessing</span> <span class="kn">as</span> <span class="nn">mp</span>
-<span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
-<span class="kn">import</span> <span class="nn">concurrent.futures</span>
-<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
-<span class="kn">import</span> <span class="nn">random</span>
-<span class="kn">import</span> <span class="nn">mpld3</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">cluster</span>
-<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">manifold</span>
-<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span><span class="p">,</span> <span class="n">TruncatedSVD</span>
-
-<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
-
-<span class="c"># Enable mpld3 for notebook</span>
-<span class="n">mpld3</span><span class="o">.</span><span class="n">enable_notebook</span><span class="p">()</span>
-
-<span class="c"># Instantiate hasher object</span>
-<span class="c">#hasher = pyhash.city_64()</span>
-
-<span class="c"># Method to strip white test</span>
-<span class="k">def</span> <span class="nf">strip</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-
-<span class="c"># Method to set dataframe entries to integers</span>
-<span class="k">def</span> <span class="nf">make_int</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">''</span><span class="p">))</span>    
-
-<span class="c"># Method to match IP against flow srcIP</span>
-<span class="k">def</span> <span class="nf">sort_ip_flow</span><span class="p">(</span><span class="n">ip</span><span class="p">):</span>
-    <span class="c"># List to house flows when matches</span>
-    <span class="n">flows_list</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="c"># Iterate over tcp_flows list</span>
-    <span class="k">for</span> <span class="n">flow</span> <span class="ow">in</span> <span class="n">tcp_flows</span><span class="p">:</span>   
-        <span class="c"># Comparison logic - flow[1][3] corresponds to SrcIP in flow tuple</span>
-        <span class="k">if</span> <span class="n">ip</span> <span class="o">==</span> <span class="n">flow</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">3</span><span class="p">]:</span>        
-            <span class="c"># Append match to flows_list</span>
-            <span class="n">flows_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">flow</span><span class="p">)</span>
-    <span class="c"># Return dictionary of IPs and flows</span>
-    <span class="k">return</span> <span class="p">{</span><span class="n">ip</span><span class="p">:</span> <span class="n">flows_list</span><span class="p">}</span>
-
-<span class="k">def</span> <span class="nf">process_flow</span><span class="p">(</span><span class="n">flow</span><span class="p">):</span>    
-    <span class="c"># Create hash of protocol</span>
-    <span class="n">proto_hash</span> <span class="o">=</span> <span class="n">hasher</span><span class="p">(</span><span class="n">flow</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>        
-    <span class="c"># Create hash of SrcIP</span>
-    <span class="n">srcip_hash</span> <span class="o">=</span> <span class="n">hasher</span><span class="p">(</span><span class="n">flow</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">3</span><span class="p">])</span>        
-    <span class="c"># Create hash of Sport</span>
-    <span class="n">srcprt_hash</span> <span class="o">=</span> <span class="n">hasher</span><span class="p">(</span><span class="n">flow</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">4</span><span class="p">])</span> 
-    <span class="c"># Create hash of DstIP</span>
-    <span class="n">dstip_hash</span> <span class="o">=</span> <span class="n">hasher</span><span class="p">(</span><span class="n">flow</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">6</span><span class="p">])</span>    
-    <span class="c"># Create hash of Dport</span>
-    <span class="n">dstprt_hash</span> <span class="o">=</span> <span class="n">hasher</span><span class="p">(</span><span class="n">flow</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">7</span><span class="p">])</span> 
-    <span class="c"># Cast flow entry as list for manipulation</span>
-    <span class="n">flow_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">flow</span><span class="p">)</span>       
-    <span class="c"># Insert hashes as entry in tuple for each flow</span>
-    <span class="n">flow_list</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">proto_hash</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">srcip_hash</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">srcprt_hash</span><span class="p">),</span> 
-                         <span class="nb">str</span><span class="p">(</span><span class="n">dstip_hash</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">dstprt_hash</span><span class="p">)))</span>    
-    <span class="c"># Re-cast flow entry as tuple w/ added hash tuple</span>
-    <span class="n">flow</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">flow_list</span><span class="p">)</span>
-    <span class="k">return</span><span class="p">(</span><span class="n">flow</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">single_hash</span><span class="p">(</span><span class="n">flow</span><span class="p">):</span>
-    <span class="n">flow_hash</span> <span class="o">=</span> <span class="n">hasher</span><span class="p">(</span><span class="n">flow</span><span class="p">)</span>
-    <span class="n">flow_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">flow</span><span class="p">)</span>
-    <span class="n">flow_list</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">flow_hash</span><span class="p">))</span>
-    <span class="n">flow</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">flow_list</span><span class="p">)</span> 
-    <span class="k">return</span><span class="p">(</span><span class="n">flow</span><span class="p">)</span>
-    
-</code></pre>
-</div>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># Import netflow capture file(s)</span>
-
-<span class="n">flowdata</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
-
-<span class="n">cap_files</span> <span class="o">=</span> <span class="p">[</span><span class="s">"capture20110810.binetflow"</span><span class="p">,</span><span class="s">"capture20110811.binetflow"</span><span class="p">]</span>
-
-<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">cap_files</span><span class="p">:</span>
-    <span class="n">frame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">','</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">flowdata</span> <span class="o">=</span> <span class="n">flowdata</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-
-<span class="c"># Strip whitespace</span>
-<span class="n">flowdata</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">inplace</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">subsample_cats</span> <span class="o">=</span> <span class="n">flowdata</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,[</span><span class="s">'Proto'</span><span class="p">,</span> <span class="s">'SrcAddr'</span><span class="p">,</span> <span class="s">'DstAddr'</span><span class="p">,</span> <span class="s">'Dport'</span><span class="p">]]</span>
-<span class="n">subsample_labels</span> <span class="o">=</span> <span class="n">flowdata</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,[</span><span class="s">'Label'</span><span class="p">]]</span>
-
-<span class="n">subsample_cats_1</span> <span class="o">=</span> <span class="n">flowdata</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,[</span><span class="s">'Proto'</span><span class="p">,</span> <span class="s">'SrcAddr'</span><span class="p">,</span> <span class="s">'DstAddr'</span><span class="p">,</span> <span class="s">'Dport'</span><span class="p">,</span> <span class="s">'Label'</span><span class="p">]]</span>
-</code></pre>
-</div>
-
-<h2 id="ford2vec---co-occurence-idea-for-flow-data">Ford2vec - co-occurence idea for flow data</h2>
-
-<p>Attempting to find some co-occurence patterns in the flow data according to how an algorithm like word2vec, in its skip-gram implementation specifically for this work, works. The idea is that flows, $V_{f}$ for vector representation, that occur within a window $W_{f}$, which can be modeled as “time” using timestamps from the capture. A visual representation of a single flow and window of flows can be seen below :</p>
-
-<p><img src="/img/flow_window_5.jpg" alt="" />
-<em>Windows of flows</em></p>
-
-<p>When we consider the conditional probabilities $P(w|f)$ with a given set of flow captures <strong>Captures</strong> the goal is to set the parameters $\theta$ of $P(w|f;\theta)$ so as to maximize the capture probability :</p>
-
-<script type="math/tex; mode=display">\underset{\theta}{\operatorname{argmax}} \underset{f \in Captures}{\operatorname{\prod}} \left[\underset{w \in W_{f}}{\operatorname{\prod}} P(w \vert f;\theta)\right]</script>
-
-<p>in this equation $W_{f}$ is a set of surrounding flows of flow $f$. Alternatively :</p>
-
-<script type="math/tex; mode=display">\underset{\theta}{\operatorname{argmax}} \underset{(f, w) \in D}{\operatorname{\prod}} P(w \vert f;\theta)</script>
-
-<p>Here $D$ is the set of all flow and window pairs we extract from the text.</p>
-
-<p>The word2vec algorithm seems to capture an underlying phenomenon of written language that clusters words together according to their linguistic similarity, this can be seen in something like simple synonym analysis. The goal is to exploit this underlying “similarity” phenomenon with respect to co-occurence of flows in a given flow capture.</p>
-
-<p>Each “time step”, right now just being a subset of a given flow data set, is as a ‘sentence’ in the word2vec model. We should then be able to find flow “similarities” that exist within the context of flows. The idea is this “symilarity” will really just yield an occurence pattern over the flow data, much like word2vec does for written text.</p>
-
-<p>Another part of the idea is much like in written text there are word / context, $(w,c)$, patterns that are discovered and exploited when running the algorithm over a given set of written language. There are common occurences and patterns that can be yielded from flow data, much like the occurences and patterns that are yielded from written text.</p>
-
-<p>At the end of the embedding exercise we can use k-means to attempt to cluster flows, according to the embedding vectors that are produced through the word2vec algorithm. This should yield some sort of clustering of commonly occuring flows that have the same occurence measure in a given set of netflow captures. We can then use this data to measure against other, unseen, flows for future classification of “anamoly”. I use that word loosely as this is strictly expirimental.</p>
-
-<h3 id="assumptions-">Assumptions :</h3>
-
-<h4 id="maximizing-the-objective-will-result-in-good-embeddings-v_f--forall-w-in-v">Maximizing the objective will result in good embeddings $v_{f}  \forall w \in V$</h4>
-
-<h5 id="it-is-important-to-note-with-the-above-statment-with-respect-to-time-is-the-assumption-that-the-data-i-am-operating-from-has-already-been-ordered-according-to-the-tooling-i-used-to-acquire-it_">It is important to note with the above statment, with respect to time, is the assumption that the data I am operating from has already been ordered according to the tooling I used to acquire it_</h5>
-
-<h2 id="skip-gram-negative-sampling">Skip-gram Negative Sampling</h2>
-
-<p>One of the other portions of the word2vec algorithm that I will be testing in this experiment will be negative sampling.</p>
-
-<p>The objective of Skipgram with Negative Sampling is to maximize the the probability that $(f,w)$ came from the data $D$. This can be modeled as a distribution such that $P(D=1|f,w)$ be the probability that $(f,w)$ came from the data and $P(D=0|f,w) = 1 - P(D=1|f,w)$ the probability that $(f,w)$ did not.</p>
-
-<p>The distribution is modeled as :</p>
-
-<script type="math/tex; mode=display">P(D=1|f,w) = \sigma(\vec{f} \cdot \vec{w}) = \frac{1}{1+e^{-\vec{f} \cdot \vec{w}}}</script>
-
-<p>where $\vec{f}$ and $\vec{w}$, each a $d$-dimensional vector, are the model parameters to be learned.</p>
-
-<p>The negative sampling tries to maximize $P(D=1|f,w)$ for observed $(f,w)$ pairs while maximizing $P(D=0|f,w)$ for stochastically sampled “negative” examples, under the assumption that selecting a context for a given word is likely to result in an unobserved $(f,w)$ pair.</p>
-
-<p>SGNS’s objective for a single $(f,w)$ output observation is then:</p>
-
-<script type="math/tex; mode=display">E = \log \sigma(\vec{f} \cdot \vec{w}) + k \cdot \mathbb{E}_{w_{N} \sim P_{D}} [\log \sigma(\vec{-f} \cdot \vec{w}_N)]</script>
-
-<p>where $k$ is the number of “negative” samples and $w_{N}$ is the sampled window, drawn according to the empirical unigram distribution $P_{D}(w) = \frac{\text{#}w}{|D|}$</p>
-
-<p>Let’s disassemble this objective function into its respective terms and put it back together again :</p>
-
-<p>The term $\log \sigma(\vec{f} \cdot \vec{w})$, from above, is used to model the</p>
-
-<p>This object is then trained in an online fashion using stochastic gradient updated over the observed pairs in the corpus $D$. The goal objective then sums over the observed $(f,w)$ pairs in the corpus :</p>
-
-<script type="math/tex; mode=display">\ell = \Sigma_{f \in V_{f}} \Sigma_{w \in V_{w}} \#(f,w)(\log \sigma(\vec{f} \cdot \vec{w}) + k \cdot \mathbb{E}_{w_{N} \sim P_{D}} [\log \sigma(\vec{-f} \cdot \vec{w}_N)]</script>
-
-<p>Optimizing this objective groups flows that have similar embeddings, while scattering unobserved pairs.</p>
-
-<h5 id="todo---further-exploration-">TODO - further exploration :</h5>
-
-<ul>
-  <li>Running true tuples of SRCIP, DSTIP, DSTPORT, and PROTO</li>
-  <li>Label included for now, need to figure out how to persist through pipeline without skewing results - need to figure out how to match up labeling to flow after word2vec has been run</li>
-  <li>Implement timestamp window oriented ‘sentence’ creation, current implementation created same length flow ‘sentences’ for every $f$ flow</li>
-</ul>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># Method to slide window over dataframe of </span>
-<span class="c"># flowdata and create "sentences"</span>
-
-<span class="k">def</span> <span class="nf">create_corpora</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">corpus_count</span><span class="p">):</span>
-    <span class="n">corpus</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">corpora</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">begin</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">end</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">corpus_count</span><span class="p">):</span>
-        <span class="k">while</span> <span class="n">end</span> <span class="o">&lt;=</span> <span class="n">window</span><span class="p">:</span>
-            <span class="n">end</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">corpus</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="n">begin</span><span class="p">:(</span><span class="n">end</span><span class="o">-</span><span class="mi">1</span><span class="p">)])</span>
-        <span class="n">begin</span> <span class="o">=</span> <span class="n">begin</span> <span class="o">+</span> <span class="n">window</span>
-        <span class="n">end</span> <span class="o">=</span> <span class="n">end</span> <span class="o">+</span> <span class="n">window</span>
-    <span class="n">corpora</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
-    <span class="k">return</span><span class="p">(</span><span class="n">corpora</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">corpora</span> <span class="o">=</span> <span class="n">create_corpora</span><span class="p">(</span><span class="n">subsample_cats</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">153333</span><span class="p">)</span>
-<span class="n">labels</span> <span class="o">=</span> <span class="n">create_corpora</span><span class="p">(</span><span class="n">subsample_labels</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">153333</span><span class="p">)</span>
-<span class="n">corpora_1</span> <span class="o">=</span> <span class="n">create_corpora</span><span class="p">(</span><span class="n">subsample_cats_1</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">153333</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># Convert all tuples created by previous create_corpora function</span>
-<span class="c"># to strings for use with tokenization which is then used in the</span>
-<span class="c"># word2vec algorithm below </span>
-
-<span class="n">str_corpora</span> <span class="o">=</span> <span class="p">[]</span>
-
-<span class="k">for</span> <span class="n">corpus</span> <span class="ow">in</span> <span class="n">corpora</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-    <span class="n">str_corpus</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">sentence</span> <span class="ow">in</span> <span class="n">corpus</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">():</span>
-        <span class="n">str_corpus</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">sentence</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">))</span>
-    <span class="n">str_corpora</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">str_corpus</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>"['94.44.127.113', '147.32.84.59', '6881', 'tcp']"
-</code></pre>
-</div>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># Here we train a model without using the negative sampling </span>
-<span class="c"># hyperparameter. We will be using this for testing of </span>
-<span class="c"># accuracy of model vs. using the negative sampling function</span>
-
-<span class="n">flow_model</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Word2Vec</span><span class="p">(</span><span class="n">str_corpora</span><span class="p">,</span> <span class="n">workers</span><span class="o">=</span><span class="mi">23</span><span class="p">,</span> 
-                                    <span class="n">size</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> 
-                                    <span class="n">min_count</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># Here we train a model using the negative sampling which </span>
-<span class="c"># we will then compare to the model above for the impact </span>
-<span class="c"># that the negative sampling has on the clustering of flows</span>
-
-<span class="n">flow_model_sgns</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Word2Vec</span><span class="p">(</span><span class="n">str_corpora</span><span class="p">,</span> <span class="n">workers</span><span class="o">=</span><span class="mi">23</span><span class="p">,</span> 
-                                         <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> 
-                                         <span class="n">negative</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">sample</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<h2 id="preliminary-results---very-rough-no-real-hyperparameter-tunings--exploration-etc">Preliminary results - very rough, no real hyperparameter tunings / exploration, etc.</h2>
-
-<p>We can see below the results may prove to be useful with respect to certain labels present in the dataset, but not others. This may have to do with the raw occurence rates of certain flow and window #$(f,w)$ combinations vs. others. I use labels lightly as well as this will ultimately become an exercise of semi-supervised learning as it can sometimes be impossible for humans to interpret the results of an unsupervised learning task without any type of contextual insight, as labels can provide. In the case of written language, the “insight” that is provided is the fact that we know what the meanings of words are within the language and if they’re clustering correctly, re: synonyms and antonyms, etc.</p>
-
-<p>We can tune for this using subsampling above in the SGNS model. Which will we do next.</p>
-
-<h4 id="todo">TODO:</h4>
-<ul>
-  <li>GridSearch for hyperparameters</li>
-</ul>
-
-<p>Here we see that there is indeed a clustering that has happened with respect to the “From-Botnet-V42-UDP-DNS”</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># Test for flow similarity, preferrably a flow that has the botnet label</span>
-
-<span class="n">flow_model_1</span><span class="o">.</span><span class="n">most_similar</span><span class="p">(</span><span class="s">"['147.32.84.165', '192.33.4.12', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']"</span><span class="p">,</span> <span class="n">topn</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>[("['147.32.84.165', '192.5.5.241', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9761667847633362),
- ("['147.32.84.165', '202.12.27.33', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9741541743278503),
- ("['147.32.84.165', '128.8.10.90', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.973616898059845),
- ("['147.32.84.165', '78.47.76.4', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9714504480361938),
- ("['147.32.84.165', '193.0.14.129', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9692395925521851),
- ("['147.32.84.165', '199.7.83.42', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9687032699584961),
- ("['147.32.84.165', '192.228.79.201', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9674479961395264),
- ("['147.32.84.165', '192.58.128.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9664252400398254),
- ("['147.32.84.165', '92.53.98.100', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9656703472137451),
- ("['147.32.84.165', '192.112.36.4', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9654155969619751),
- ("['147.32.84.165', '198.41.0.4', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9644977450370789),
- ("['147.32.84.165', '192.203.230.10', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9633801579475403),
- ("['147.32.84.165', '192.36.148.17', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9618400931358337),
- ("['147.32.84.165', '128.63.2.53', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.958657443523407),
- ("['147.32.84.165', '89.108.64.2', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9581812024116516),
- ("['147.32.84.165', '82.103.128.82', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9558319449424744),
- ("['147.32.84.165', '192.42.93.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9557339549064636),
- ("['147.32.84.165', '192.26.92.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9556182026863098),
- ("['147.32.84.165', '194.226.96.8', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9543852210044861),
- ("['147.32.84.165', '194.85.61.20', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.953228771686554),
- ("['147.32.84.165', '88.212.196.130', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9526883959770203),
- ("['147.32.84.165', '195.128.49.14', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9500119090080261),
- ("['147.32.84.165', '217.16.20.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9483109712600708),
- ("['147.32.84.165', '85.10.210.157', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9481122493743896),
- ("['147.32.84.165', '92.53.116.200', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9478355050086975),
- ("['147.32.84.165', '88.212.221.11', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9470769166946411),
- ("['147.32.84.165', '82.146.55.155', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9461535811424255),
- ("['147.32.84.165', '192.41.162.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9459192156791687),
- ("['147.32.84.165', '77.222.40.2', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9456772804260254),
- ("['147.32.84.165', '199.19.57.1', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.945094645023346),
- ("['147.32.84.165', '89.253.192.21', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9428556561470032),
- ("['147.32.84.165', '199.249.120.1', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9426734447479248),
- ("['147.32.84.165', '192.54.112.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9423930048942566),
- ("['147.32.84.165', '195.2.83.38', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9414822459220886),
- ("['147.32.84.165', '89.108.104.3', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9414548873901367),
- ("['147.32.84.165', '78.108.89.252', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9414442181587219),
- ("['147.32.84.165', '80.93.50.53', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9408544898033142),
- ("['147.32.84.165', '192.31.80.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9401237368583679),
- ("['147.32.84.165', '195.161.112.91', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.939973771572113),
- ("['147.32.84.165', '193.169.178.59', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9395020008087158),
- ("['147.32.84.165', '192.48.79.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9393561482429504),
- ("['147.32.84.165', '192.33.14.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9386749267578125),
- ("['147.32.84.165', '85.10.210.144', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9382632970809937),
- ("['147.32.84.165', '192.12.94.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9372074007987976),
- ("['147.32.84.165', '192.35.51.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9371063113212585),
- ("['147.32.84.165', '213.177.97.1', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9366581439971924),
- ("['147.32.84.165', '95.163.69.51', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9363342523574829),
- ("['147.32.84.165', '79.174.72.215', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.936087965965271),
- ("['147.32.84.165', '195.248.235.219', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9358514547348022),
- ("['147.32.84.165', '217.16.16.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9352473020553589),
- ("['147.32.84.165', '78.108.81.247', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9348022937774658),
- ("['147.32.84.165', '192.5.6.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.934520423412323),
- ("['147.32.84.165', '199.19.56.1', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.934291422367096),
- ("['147.32.84.165', '217.16.22.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9341065883636475),
- ("['147.32.84.165', '192.36.144.107', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9333975315093994),
- ("['147.32.84.165', '81.177.24.54', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9332102537155151),
- ("['147.32.84.165', '192.52.178.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9328247308731079),
- ("['147.32.84.165', '83.222.0.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9324507117271423),
- ("['147.32.84.165', '95.168.160.245', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9320420026779175),
- ("['147.32.84.165', '95.168.174.25', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9319052696228027),
- ("['147.32.84.165', '80.93.56.2', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9313104748725891),
- ("['147.32.84.165', '193.227.240.37', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9309282302856445),
- ("['147.32.84.165', '208.100.5.254', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9303311705589294),
- ("['147.32.84.165', '77.221.130.250', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9299085140228271),
- ("['147.32.84.165', '192.55.83.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9297108054161072),
- ("['147.32.84.165', '84.252.138.21', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9296650886535645),
- ("['147.32.84.165', '192.43.172.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.928945779800415),
- ("['147.32.84.165', '89.111.177.253', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9288318753242493),
- ("['147.32.84.165', '195.2.64.38', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9286403059959412),
- ("['147.32.84.165', '195.128.50.221', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9278726577758789),
- ("['147.32.84.165', '178.218.208.130', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9271195530891418),
- ("['147.32.84.165', '192.36.125.2', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9268661141395569),
- ("['147.32.84.165', '199.19.54.1', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9267032146453857),
- ("['147.32.84.165', '79.137.226.102', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9260225296020508),
- ("['147.32.84.165', '193.232.130.14', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9259271621704102),
- ("['147.32.84.165', '193.232.142.17', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9246711730957031),
- ("['147.32.84.165', '78.47.139.101', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.924452006816864),
- ("['147.32.84.165', '217.174.106.66', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9236003756523132),
- ("['147.32.84.165', '77.222.41.3', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9235631823539734),
- ("['147.32.84.165', '83.222.1.30', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9203209280967712),
- ("['147.32.84.165', '91.217.21.170', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9194321632385254),
- ("['147.32.84.165', '89.108.122.149', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.919041633605957),
- ("['147.32.84.165', '91.217.20.170', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9166457056999207),
- ("['147.32.84.165', '193.227.240.38', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9165226221084595),
- ("['147.32.84.165', '78.108.80.90', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9164752960205078),
- ("['147.32.84.165', '78.110.50.60', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.915980875492096),
- ("['147.32.84.165', '178.162.177.145', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9158682227134705),
- ("['147.32.84.165', '194.85.252.62', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.915434718132019),
- ("['147.32.84.165', '77.221.159.237', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9152796864509583),
- ("['147.32.84.165', '193.232.146.170', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9140732884407043),
- ("['147.32.84.165', '199.249.112.1', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9137414693832397),
- ("['147.32.84.165', '87.224.128.4', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9121522307395935),
- ("['147.32.84.165', '93.170.25.253', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9113649725914001),
- ("['147.32.84.165', '195.209.63.181', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9110352993011475),
- ("['147.32.84.165', '195.243.137.26', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9104222059249878),
- ("['147.32.84.165', '194.0.0.53', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9094029068946838),
- ("['147.32.84.165', '91.218.228.18', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9092046022415161),
- ("['147.32.84.165', '194.85.105.17', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9091553092002869),
- ("['147.32.84.165', '193.232.156.17', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9083877801895142),
- ("['147.32.84.165', '212.176.27.2', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  0.9074791669845581)]
-</code></pre>
-</div>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">flow_model_1</span><span class="o">.</span><span class="n">most_similar</span><span class="p">(</span><span class="s">"['147.32.84.165', '60.190.223.75', '888', 'tcp', 'flow=From-Botnet-V42-TCP-CC6-Plain-HTTP-Encrypted-Data']"</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>[("['217.66.146.105', '147.32.84.229', '443', 'tcp', 'flow=Background-TCP-Established']",
-  0.970333993434906),
- ("['188.26.176.163', '147.32.84.229', '13363', 'udp', 'flow=Background-UDP-Established']",
-  0.963600218296051),
- ("['114.75.11.242', '147.32.84.229', '80', 'tcp', 'flow=Background-TCP-Established']",
-  0.9627201557159424),
- ("['147.32.86.96', '147.32.87.29', '0xb612', 'icmp', 'flow=Background']",
-  0.9622609615325928),
- ("['195.234.241.9', '147.32.84.229', '13363', 'udp', 'flow=Background-UDP-Established']",
-  0.9621870517730713),
- ("['41.130.66.62', '147.32.84.229', '13363', 'udp', 'flow=Background-UDP-Established']",
-  0.9606925249099731),
- ("['131.104.149.212', '147.32.84.229', '13363', 'udp', 'flow=Background-UDP-Established']",
-  0.9604771733283997),
- ("['147.32.84.59', '90.146.27.130', '46356', 'udp', 'flow=Background-Attempt-cmpgw-CVUT']",
-  0.9597481489181519),
- ("['147.32.84.229', '78.141.179.11', '34046', 'udp', 'flow=Background-UDP-Established']",
-  0.9597265720367432),
- ("['147.32.84.59', '114.40.199.143', '21323', 'udp', 'flow=Background-Established-cmpgw-CVUT']",
-  0.9592392444610596)]
-</code></pre>
-</div>
-
-<h3 id="without-label-contained-in-the-dataset">Without label contained in the dataset</h3>
-
-<p>Here we run the same hyperparameters for the word2vec algorith, this time ignoring the label and not adding it to the “word” representations.</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">flow_model_2</span> <span class="o">=</span> <span class="n">gensim</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Word2Vec</span><span class="p">(</span><span class="n">str_corpora</span><span class="p">,</span> <span class="n">workers</span><span class="o">=</span><span class="mi">23</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">negative</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">sample</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">flow_model_2</span><span class="o">.</span><span class="n">most_similar</span><span class="p">(</span><span class="s">"['147.32.84.165', '192.33.4.12', '53', 'udp']"</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>[("['147.32.84.165', '192.112.36.4', '53', 'udp']", 0.9759483337402344),
- ("['147.32.84.165', '193.0.14.129', '53', 'udp']", 0.9724588394165039),
- ("['147.32.84.165', '192.5.5.241', '53', 'udp']", 0.9721120595932007),
- ("['147.32.84.165', '128.8.10.90', '53', 'udp']", 0.9712154865264893),
- ("['147.32.84.165', '192.58.128.30', '53', 'udp']", 0.9697802662849426),
- ("['147.32.84.165', '192.36.148.17', '53', 'udp']", 0.9674890041351318),
- ("['147.32.84.165', '198.41.0.4', '53', 'udp']", 0.9672064185142517),
- ("['147.32.84.165', '199.7.83.42', '53', 'udp']", 0.9657577872276306),
- ("['147.32.84.165', '202.12.27.33', '53', 'udp']", 0.9610617160797119),
- ("['147.32.84.165', '192.203.230.10', '53', 'udp']", 0.9608649015426636)]
-</code></pre>
-</div>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">flowdata</span><span class="p">[</span><span class="n">flowdata</span><span class="p">[</span><span class="s">'DstAddr'</span><span class="p">]</span><span class="o">.</span><span class="nb">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s">"192.112.36.4"</span><span class="p">,</span> <span class="n">na</span><span class="o">=</span><span class="bp">False</span><span class="p">)]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<div>
-  <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>StartTime</th>
-      <th>Dur</th>
-      <th>Proto</th>
-      <th>SrcAddr</th>
-      <th>Sport</th>
-      <th>Dir</th>
-      <th>DstAddr</th>
-      <th>Dport</th>
-      <th>State</th>
-      <th>sTos</th>
-      <th>dTos</th>
-      <th>TotPkts</th>
-      <th>TotBytes</th>
-      <th>SrcBytes</th>
-      <th>Label</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>1264477</th>
-      <td>2011/08/10 12:29:05.687373</td>
-      <td>0.258197</td>
-      <td>udp</td>
-      <td>147.32.84.165</td>
-      <td>2077</td>
-      <td>&lt;-&gt;</td>
-      <td>192.112.36.4</td>
-      <td>53</td>
-      <td>CON</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2</td>
-      <td>528</td>
-      <td>68</td>
-      <td>flow=From-Botnet-V42-UDP-DNS</td>
-    </tr>
-    <tr>
-      <th>1264673</th>
-      <td>2011/08/10 12:29:06.093217</td>
-      <td>0.258987</td>
-      <td>udp</td>
-      <td>147.32.84.165</td>
-      <td>2077</td>
-      <td>&lt;-&gt;</td>
-      <td>192.112.36.4</td>
-      <td>53</td>
-      <td>CON</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2</td>
-      <td>611</td>
-      <td>77</td>
-      <td>flow=From-Botnet-V42-UDP-DNS</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">vocab_flow</span> <span class="o">=</span> <span class="p">[]</span>
-
-<span class="k">for</span> <span class="n">flow</span> <span class="ow">in</span> <span class="n">flow_model_2</span><span class="o">.</span><span class="n">vocab</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r"192.112.36.4"</span><span class="p">,</span> <span class="n">flow</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-        <span class="n">vocab_flow</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">flow</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">vocab_flow</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>[("['147.32.84.165', '192.112.36.4', '53', 'udp']",
-  &lt;gensim.models.word2vec.Vocab at 0x7f808752a350&gt;)]
-</code></pre>
-</div>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">flowdata</span><span class="p">[</span><span class="n">flowdata</span><span class="p">[</span><span class="s">'DstAddr'</span><span class="p">]</span><span class="o">.</span><span class="nb">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s">"192.5.5.241"</span><span class="p">,</span> <span class="n">na</span><span class="o">=</span><span class="bp">False</span><span class="p">)]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<div>
-  <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>StartTime</th>
-      <th>Dur</th>
-      <th>Proto</th>
-      <th>SrcAddr</th>
-      <th>Sport</th>
-      <th>Dir</th>
-      <th>DstAddr</th>
-      <th>Dport</th>
-      <th>State</th>
-      <th>sTos</th>
-      <th>dTos</th>
-      <th>TotPkts</th>
-      <th>TotBytes</th>
-      <th>SrcBytes</th>
-      <th>Label</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>401163</th>
-      <td>2011/08/10 10:24:11.577652</td>
-      <td>0.004420</td>
-      <td>udp</td>
-      <td>147.32.87.49</td>
-      <td>65174</td>
-      <td>&lt;-&gt;</td>
-      <td>192.5.5.241</td>
-      <td>53</td>
-      <td>CON</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2</td>
-      <td>636</td>
-      <td>132</td>
-      <td>flow=Background-UDP-Established</td>
-    </tr>
-    <tr>
-      <th>1265468</th>
-      <td>2011/08/10 12:29:12.214663</td>
-      <td>0.002282</td>
-      <td>udp</td>
-      <td>147.32.84.165</td>
-      <td>2077</td>
-      <td>&lt;-&gt;</td>
-      <td>192.5.5.241</td>
-      <td>53</td>
-      <td>CON</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2</td>
-      <td>417</td>
-      <td>70</td>
-      <td>flow=From-Botnet-V42-UDP-DNS</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-<h3 id="aggregated-flows-equivalent-to-phrases">Aggregated flows, equivalent to “phrases”</h3>
-
-<p>The word2vec algorithm can also learn embeddings for phrases as well as single words for written language. The ideas I have surrounding “phrases” would be learning the embeddings for given windows of flows, if they were to present themselves in certain capacities within the captures flow data.</p>
-
-<p>The current flow data that this notebook is based around are aggregated flows for bi-directional communication between endpoints. Exploiting something like capturing the ‘phrase’ of a flow, or thought another way, the bi-directional communication patterns that are contained within flow data might prove useful for application profiling, etc. through the use of application meta-data tracked through some sort of semi-supervised learning pipeline.</p>
-
-<h1 id="clustering">Clustering</h1>
-
-<p>Now that we have some vector representations of occurences of flows within the captures that we have, we can run a clustering algorithm over them to see if we can humanly identify some of the groupings that have taken place. For this, we’ll use kmeans within the scikit-learn package.</p>
-
-<p>Kmeans has an objective function that intends to partition $n$ objects into $k$ clusters in which each object, $n$, belongs to the cluster with the nearest mean. This can be seen as :</p>
-
-<script type="math/tex; mode=display">J = \sum_{j=1}^{k}\sum_{i=1}^{n} \| x_{i}^{(j)} - c_{j}\|^2</script>
-
-<p>Where $| x_{i}^{(j)} - c_{j}|^2$ is a chosen distance measure between a datapoint $x^{j}_{i}$ and the cluster center $c{j}$, is an indicator of the distance of the $n$ datapoints from their respective cluster $k$ centers. In this case, $k$ is a hyperparameter that can be used within the model to define how many cluster centroids should be trained over.</p>
-
-<h4 id="todo-">TODO :</h4>
-
-<ul>
-  <li>Limitation for arrays larger than 16GB due to an underlying dependency that numpy has, need to investigate - this is why I’m only running kmeans on a subset of the overall model learned above</li>
-  <li>Dimensionality reduction of some kind over the data - 300 dimensional data isn’t crazy high but might have some improved performance here as well.</li>
-</ul>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># Set k (number of clusters) to be 1/5 of the "vocabulary" size</span>
-<span class="c"># or an average of flows per cluster, this is a hyperparameter</span>
-<span class="c"># in kmeans that we can tweak later on</span>
-
-<span class="n">flow_vectors</span> <span class="o">=</span> <span class="n">flow_model_1</span><span class="o">.</span><span class="n">syn0</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">20000</span><span class="p">]</span>
-<span class="n">num_clusters</span> <span class="o">=</span> <span class="n">flow_vectors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">5</span>
-
-<span class="c"># Initialize k-means object and use it to extract centroids</span>
-
-<span class="n">kmeans_clustering</span> <span class="o">=</span> <span class="n">cluster</span><span class="o">.</span><span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span> <span class="o">=</span> <span class="n">num_clusters</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s">"k-means++"</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">idx</span> <span class="o">=</span> <span class="n">kmeans_clustering</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">flow_vectors</span><span class="p">)</span>
-
-<span class="c"># Create a flow / Index dictionary, mapping "vocabulary words" to</span>
-<span class="c"># a cluster number</span>
-
-<span class="n">flow_centroid_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">flow_model_1</span><span class="o">.</span><span class="n">index2word</span><span class="p">,</span> <span class="n">idx</span><span class="p">))</span>
-</code></pre>
-</div>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c">#Find some botnet labels to use for exploration of data</span>
-
-<span class="kn">import</span> <span class="nn">operator</span>
-<span class="n">sorted_clusters</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">flow_centroid_map</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-
-<span class="n">botnets</span> <span class="o">=</span> <span class="p">[]</span>
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sorted_clusters</span><span class="p">:</span>
-    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r"Botnet"</span><span class="p">,</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-        <span class="n">botnets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-        
-<span class="n">botnets</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>[("['147.32.84.165', '209.86.93.226', '25', 'tcp', 'flow=From-Botnet-V43-TCP-Attempt-SPAM']",
-  3),
- ("['147.32.84.165', '192.33.4.12', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  14),
- ("['147.32.84.165', '85.214.220.206', '25', 'tcp', 'flow=From-Botnet-V42-TCP-Attempt-SPAM']",
-  40),
- ("['147.32.84.165', '77.88.210.88', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  48),
- ("['147.32.84.165', '75.180.132.243', '25', 'tcp', 'flow=From-Botnet-V42-TCP-Attempt-SPAM']",
-  49),
- ("['147.32.84.165', '67.23.231.68', '53', 'udp', 'flow=From-Botnet-V42-UDP-Attempt-DNS']",
-  73),
- ("['147.32.84.165', '60.190.223.75', '888', 'tcp', 'flow=From-Botnet-V42-TCP-CC6-Plain-HTTP-Encrypted-Data']",
-  74),
- ("['147.32.84.165', '80.93.50.53', '53', 'udp', 'flow=From-Botnet-V42-UDP-DNS']",
-  89),
- ("['147.32.84.165', '94.100.176.20', '25', 'tcp', 'flow=From-Botnet-V43-TCP-Attempt-SPAM']",
-  91),
- ("['147.32.84.165', '74.125.159.27', '25', 'tcp', 'flow=From-Botnet-V42-TCP-Attempt-SPAM']",
-  99)]
-</code></pre>
-</div>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># Look at members of clusters according to botnet memberships discovered above</span>
-
-<span class="n">cluster_members</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sorted_clusters</span><span class="p">:</span>
-    <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">73</span><span class="p">:</span>
-        <span class="n">cluster_members</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-    
-<span class="n">cluster_members</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>[("['147.32.84.59', '72.21.210.129', '80', 'tcp', 'flow=Background-Established-cmpgw-CVUT']",
-  73),
- ("['62.162.92.225', '147.32.84.229', '13363', 'udp', 'flow=Background-UDP-Established']",
-  73),
- ("['147.32.84.59', '208.88.186.10', '34021', 'udp', 'flow=Background-Established-cmpgw-CVUT']",
-  73),
- ("['147.32.84.165', '67.23.231.68', '53', 'udp', 'flow=From-Botnet-V42-UDP-Attempt-DNS']",
-  73),
- ("['200.148.213.27', '147.32.84.229', '13363', 'udp', 'flow=Background-UDP-Established']",
-  73),
- ("['187.75.138.219', '147.32.84.229', '13363', 'udp', 'flow=Background-UDP-Established']",
-  73)]
-</code></pre>
-</div>
-
-<h2 id="cluster-visualization">Cluster visualization</h2>
-
-<p>Raw flow vectors $V_{f}$, created by word2vec, are embedded in dimensionality equivalent to the input layer of the shallow neural network that is used within the model. In our example we’re using</p>
-
-<h3 id="t-sne-visualization">t-SNE Visualization</h3>
-
-<p>Use t-SNE and matplotlib to visualize the clusters created using Word2Vec.</p>
-
-<h4 id="todo--1">TODO :</h4>
-
-<ul>
-  <li>Brief explanation of the tSNE algorithm and how it handles compressing higher dimensional data into 2 or 3 dimension for visualization</li>
-</ul>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">perform_tsne</span><span class="p">(</span><span class="n">word_vector</span><span class="p">):</span>
-    <span class="n">tsne</span> <span class="o">=</span> <span class="n">manifold</span><span class="o">.</span><span class="n">TSNE</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">tsne</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">word_vector</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c">#flow_model_reduced = TruncatedSVD(n_components=100, random_state=42).fit_transform(flow_model_1.syn0)</span>
-<span class="n">test_tsne</span> <span class="o">=</span> <span class="n">manifold</span><span class="o">.</span><span class="n">TSNE</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">flow_model_1</span><span class="o">.</span><span class="n">syn0</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4000</span><span class="p">])</span>
-</code></pre>
-</div>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">subplot_kw</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">axisbg</span><span class="o">=</span><span class="s">'#EEEEEE'</span><span class="p">),</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
-
-<span class="n">x</span> <span class="o">=</span> <span class="n">test_tsne</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">test_tsne</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
-
-<span class="n">mpld3_scatter</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'Blues'</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">y</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s">'white'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s">'solid'</span><span class="p">)</span>
-
-<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">flow_model_1</span><span class="o">.</span><span class="n">vocab</span><span class="o">.</span><span class="n">items</span><span class="p">()[</span><span class="mi">0</span><span class="o">-</span><span class="mi">4000</span><span class="p">:])]</span>
-<span class="n">tooltip</span> <span class="o">=</span> <span class="n">mpld3</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">PointLabelTooltip</span><span class="p">(</span><span class="n">mpld3_scatter</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
-<span class="n">mpld3</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">tooltip</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">subplot_kw</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">axisbg</span><span class="o">=</span><span class="s">'#EEEEEE'</span><span class="p">),</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
-
-
-<span class="n">mpld3_scatter</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tsne_objs</span><span class="p">[</span><span class="mi">0</span><span class="p">][:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">tsne_objs</span><span class="p">[</span><span class="mi">0</span><span class="p">][:,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s">'white'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s">'solid'</span><span class="p">)</span>
-
-<span class="c">#ax.set_title("Scatter Plot (with tooltips!)", size=20)</span>
-
-<span class="c">#labels = [v[0][0] for k,v in enumerate(sample)]</span>
-<span class="n">tooltip</span> <span class="o">=</span> <span class="n">mpld3</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">PointLabelTooltip</span><span class="p">(</span><span class="n">mpld3_scatter</span><span class="p">)</span>
-<span class="n">mpld3</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">tooltip</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">70</span><span class="p">,</span> <span class="mi">70</span><span class="p">))</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">xticks</span><span class="o">=</span><span class="p">(),</span> <span class="n">yticks</span><span class="o">=</span><span class="p">())</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
-                <span class="n">wspace</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">flow_model_embedded_1</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">flow_model_embedded_1</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s">"x"</span><span class="p">)</span>
-
-<span class="c">#for k,v in enumerate(flow_model.vocab.items()):</span>
-<span class="c">#    plt.annotate(v[0], flow_model_embedded_1[k])</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">'test2.eps'</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">'eps'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<h2 id="things-left-to-research--validate--test">Things left to research / validate / test</h2>
-
-<ul>
-  <li>Tune hyperparameters of models for all algorithms – word2vec, kmeans, tSNE</li>
-  <li>Find fixes for limitations of larger datasets for tooling that has dependencies on numpy – kmeans, tSNE</li>
-</ul>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2016/12/21/Hashing-in-Python/">
-        Hashing In Python
-      </a>
-    </h1>
-
-    <span class="post-date">21 Dec 2016</span>
-
-    
-<h2 id="hashing">Hashing</h2>
-
-<p>Hashing can be useful in speeding up the search process for a specific item that is part of a larger collection of items. Depending on the implementation of the hashing algorithm, this can turn the computational complexity of our search algorithm from $O(n)$ to $O(1)$. We do this by building a specific data structure, which we’ll dive into next.</p>
-
-<h4 id="hash-table">Hash Table</h4>
-
-<p>A hash table is a collection of items, stored in such a way as to make it easier to find them later. The table consists of <strong>slots</strong> that hold items and are named by a specific integer value, starting with 0.</p>
-
-<p>Example of a hash table (sorry for the poor formatting because markdown :</p>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: center">0</th>
-      <th style="text-align: center">1</th>
-      <th style="text-align: center">2</th>
-      <th style="text-align: center">3</th>
-      <th style="text-align: center">4</th>
-      <th style="text-align: center">5</th>
-      <th style="text-align: center">6</th>
-      <th style="text-align: center">7</th>
-      <th style="text-align: center">8</th>
-      <th style="text-align: center">9</th>
-      <th style="text-align: center">10</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: center">None</td>
-      <td style="text-align: center">None</td>
-      <td style="text-align: center">None</td>
-      <td style="text-align: center">None</td>
-      <td style="text-align: center">None</td>
-      <td style="text-align: center">None</td>
-      <td style="text-align: center">None</td>
-      <td style="text-align: center">None</td>
-      <td style="text-align: center">None</td>
-      <td style="text-align: center">None</td>
-      <td style="text-align: center">None</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Each entry in this hash table, is currently set to a value of <code class="highlighter-rouge">None</code>.</p>
-
-<p>A hash function is used when mapping values into the slots available within a Hash table. The hash function typically takes, as input, an item from a collection, and will return an integer in the range of slot names, between $0$ and $m-1$. There are many different hash functions, but the first we can discuss is the “remainder method” hash function.</p>
-
-<h4 id="remainder-hash-function">Remainder Hash Function</h4>
-
-<p>The remainder hash function takes an item from a collection, divides it by the table size, returning the remainder of it’s hash value $h(item) = item \% \text{table_size}$. Typically modulo arithmetic is present in some form for all hash functions, as the result must be in the range of the total number of slots within the table.</p>
-
-<p>Assuming we have a set of integer items ${25,54,34,67,75,21,77,31}$, we can use our hash function to find slots for our values, accordingly.</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span><span class="mi">54</span><span class="p">,</span><span class="mi">34</span><span class="p">,</span><span class="mi">67</span><span class="p">,</span><span class="mi">75</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">77</span><span class="p">,</span><span class="mi">31</span><span class="p">]</span>
-
-<span class="k">def</span> <span class="nf">hash</span><span class="p">(</span><span class="n">item_list</span><span class="p">,</span> <span class="n">table_size</span><span class="p">):</span>
-    <span class="n">hash_table</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">i</span><span class="p">,</span><span class="bp">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">table_size</span><span class="p">))])</span>
-    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">item_list</span><span class="p">:</span>
-        <span class="n">i</span> <span class="o">=</span> <span class="n">item</span> <span class="o">%</span> <span class="n">table_size</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">"The hash for </span><span class="si">%</span><span class="s">s is </span><span class="si">%</span><span class="s">s"</span> <span class="o">%</span> <span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
-        <span class="n">hash_table</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
-    
-    <span class="k">return</span> <span class="n">hash_table</span>
-
-<span class="c"># Execute the hash function</span>
-<span class="c"># Create table with 11 entries to match example above</span>
-<span class="n">hash_table</span> <span class="o">=</span> <span class="nb">hash</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
-
-<span class="c"># Print the resulting hash table</span>
-<span class="k">print</span><span class="p">(</span><span class="n">hash_table</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>The hash for 25 is 3
-The hash for 54 is 10
-The hash for 34 is 1
-The hash for 67 is 1
-The hash for 75 is 9
-The hash for 21 is 10
-The hash for 77 is 0
-The hash for 31 is 9
-{0: 77, 1: 67, 2: None, 3: 25, 4: None, 5: None, 6: None, 7: None, 8: None, 9: 31, 10: 21}
-</code></pre>
-</div>
-
-<p>Once the hash values have been computed, we inset each item into the hash table at the designated position(s). We can now see that there are entries with corresponding hash values stored in a python dictionary. This is obviously a very simple implementation of a hash table.</p>
-
-<p>There is something interesting to note here, though, when working through using a simple hashing algorithm like the remainder method. We have items, in our case integers, which hash to the same value. Specifically, we can see that there are 2 items that hash to each of the 1, 9, and 10 slots. These are what are known as <strong>collisions</strong>.</p>
-
-<p>Clearly these collisions can cause problems, as out of the 8 initial items that we’d started with, we only have 5 items actually stored in our hash table. This leads us into the next section we’ll discuss, and that is hash functions that can help alleviate this collision problem.</p>
-
-<h3 id="hash-functions">Hash Functions</h3>
-
-<p>Hash functions that map, perfectly, every item into it’s own unique slot in a hash table is known as a <strong>perfect hash function</strong>. If we knew the collection of items and that it would never change, it’s possible to construct a perfect hash function specific to this collection, but we know that the dynamics of the real world tend to not allow something so simple.</p>
-
-<p>Dynamically growing the hash table size so each possible item in the item range can be accomodated is one way to construct a perfect hash function. This guarantees each item will have it’s own slot. But this isn’t feasible, as something as simple as tracking social security numbers would require over one billion slots within the hash table. And if we’re only tracking a small subset of the full set of social security numbers, this would become horribly inefficient with respect to hardware resources available within the machine our code is running on.</p>
-
-<p>With the goal of constructing a hash function that will minimize the number of collisions, has low computational complexity, and evenly distributes our items within the hash table, we can take a look at some common ways to extend this remainder method.</p>
-
-<h4 id="folding-method">Folding Method</h4>
-
-<p>The folding method for hashing an item begins by diving the item into equal size pieces (though the last piece may not be of equal size to the rest). These pieces are then added together to create the resulting hash value. A good example of this is a phone number,such as 456-555-1234. We can break each pair of integers up into groups of 2, add them up, and use that resulting value as an input to our hashing function.</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">stringify</span><span class="p">(</span><span class="n">item_list</span><span class="p">):</span>
-    <span class="s">"""
-    Method to convert integer values into array of component integers
-    """</span>
-    <span class="n">string_items</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">item_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">item_list</span><span class="p">:</span>
-            <span class="n">chars</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">)]</span>
-        <span class="n">item_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-        <span class="n">string_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chars</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">string_items</span>
-
-<span class="k">def</span> <span class="nf">folding_hash</span><span class="p">(</span><span class="n">item_list</span><span class="p">):</span>
-    <span class="s">'''
-    Quick hack at a folding hash algorithm
-    '''</span>
-    <span class="n">hashes</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">item_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">hash_val</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">item_list</span><span class="p">:</span>
-            <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">str_1</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-                <span class="n">str_2</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-                <span class="n">str_concat</span> <span class="o">=</span> <span class="n">str_1</span> <span class="o">+</span> <span class="n">str_2</span>
-                <span class="n">bifold</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">str_concat</span><span class="p">)</span>
-                <span class="n">hash_val</span> <span class="o">+=</span> <span class="n">bifold</span>
-                <span class="n">item</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-                <span class="n">item</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">hash_val</span> <span class="o">+=</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="k">pass</span>
-            <span class="n">hashes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hash_val</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">hashes</span>
-
-<span class="c"># Example phone numbers</span>
-<span class="n">phone_number</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4565551234</span><span class="p">,</span> <span class="mi">4565557714</span><span class="p">,</span> <span class="mi">9871542544</span><span class="p">,</span> <span class="mi">4365554601</span><span class="p">]</span>
-
-<span class="c"># String/Character-fy the phone numbers</span>
-<span class="n">str_pn</span> <span class="o">=</span> <span class="n">stringify</span><span class="p">(</span><span class="n">phone_number</span><span class="p">)</span>
-
-<span class="c"># Hash the phone numbers</span>
-<span class="n">folded_hash</span> <span class="o">=</span> <span class="n">folding_hash</span><span class="p">(</span><span class="n">str_pn</span><span class="p">)</span>
-
-<span class="c"># Input values into hash table</span>
-<span class="n">folding_hash_table</span> <span class="o">=</span> <span class="nb">hash</span><span class="p">(</span><span class="n">folded_hash</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
-
-<span class="c"># Print the results</span>
-<span class="k">print</span><span class="p">(</span><span class="n">folding_hash_table</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>The hash for 210 is 1
-The hash for 502 is 7
-The hash for 758 is 10
-The hash for 969 is 1
-{0: None, 1: 969, 2: None, 3: None, 4: None, 5: None, 6: None, 7: 502, 8: None, 9: None, 10: 758}
-</code></pre>
-</div>
-
-<h4 id="ordinal-hash">Ordinal Hash</h4>
-
-<p>When dealing with strings, we can use the ordinal values of the constituent characters of a given word, to create a hash.</p>
-
-<p>It’s important to notice, however, that anagrams can produce hash collisions, as shown below.</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">ord_hash</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">table_size</span><span class="p">):</span>
-    <span class="n">hash_val</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">position</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)):</span>
-        <span class="n">hash_val</span> <span class="o">=</span> <span class="n">hash_val</span> <span class="o">+</span> <span class="nb">ord</span><span class="p">(</span><span class="n">string</span><span class="p">[</span><span class="n">position</span><span class="p">])</span>
-        
-    <span class="k">return</span> <span class="n">hash_val</span> <span class="o">%</span> <span class="n">table_size</span>
-
-<span class="k">print</span><span class="p">(</span><span class="n">ord_hash</span><span class="p">(</span><span class="s">"cat"</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
-<span class="k">print</span><span class="p">(</span><span class="n">ord_hash</span><span class="p">(</span><span class="s">"tac"</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>4
-4
-</code></pre>
-</div>
-
-<h4 id="weighted-ordinal-hashing">Weighted ordinal hashing</h4>
-
-<p>In the case above, just using ordinal values can cause hash collisions. We can actually use the positional structure of the word to as a set of weights for generating a given hash. As seen below.</p>
-
-<p>A simple multiplication by the positional value of each character will cause anagrams to evaluate to different hash values.</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">weighted_ord_hash</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">table_size</span><span class="p">):</span>
-    <span class="n">hash_val</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">position</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)):</span>
-        <span class="n">hash_val</span> <span class="o">=</span> <span class="n">hash_val</span> <span class="o">+</span> <span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">string</span><span class="p">[</span><span class="n">position</span><span class="p">])</span> <span class="o">*</span> <span class="n">position</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">hash_val</span> <span class="o">%</span> <span class="n">table_size</span>
-
-<span class="c"># ord_hash</span>
-<span class="k">print</span><span class="p">(</span><span class="n">ord_hash</span><span class="p">(</span><span class="s">"cat"</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
-
-<span class="c"># weighted_ord_hash</span>
-<span class="k">print</span><span class="p">(</span><span class="n">weighted_ord_hash</span><span class="p">(</span><span class="s">"tac"</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>4
-9
-</code></pre>
-</div>
-
-<h2 id="collision-resolution">Collision Resolution</h2>
-
-<p>When there are hash collisions, like we’ve seen previously, it’s important to understand ways that we can alleviate the collisions.</p>
-
-<p>One simple way to handle the collision, should there already be an entry in our hash table with the same hash value, is to search sequentially through all slots near the original hash, for an empty slot. This may require us to circularly traverse the entire hash table to allow us to cover all possible slots. This process is known as <strong>open addressing</strong> and the technique within this process that we’re using is called <strong>linear probing</strong>.</p>
-
-<p>In the following code examples, we’ll reuse the simple remainder method hash function that we’ve defined above. Along with the original set of integers we were hashing, as there were some collisions that occured.</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span><span class="mi">54</span><span class="p">,</span><span class="mi">34</span><span class="p">,</span><span class="mi">67</span><span class="p">,</span><span class="mi">75</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">77</span><span class="p">,</span><span class="mi">31</span><span class="p">]</span>
-
-<span class="c"># Execute the hash function</span>
-<span class="c"># Create table with 11 entries to match example above</span>
-<span class="n">hash_table</span> <span class="o">=</span> <span class="nb">hash</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
-
-<span class="c"># Print the resulting hash table</span>
-<span class="k">print</span><span class="p">(</span><span class="n">hash_table</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>The hash for 25 is 3
-The hash for 54 is 10
-The hash for 34 is 1
-The hash for 67 is 1
-The hash for 75 is 9
-The hash for 21 is 10
-The hash for 77 is 0
-The hash for 31 is 9
-{0: 77, 1: 67, 2: None, 3: 25, 4: None, 5: None, 6: None, 7: None, 8: None, 9: 31, 10: 21}
-</code></pre>
-</div>
-
-<p>We can see there were multiple collisions within this dataset. Specifically hashes of 1, 9, and 10. And we can see in the resulting table that only the last computed hashes are stored in the respective table slots.</p>
-
-<p>Below we’ll implement an <code class="highlighter-rouge">lp_hash</code> function that will perform linear probing over the slots available within the table for any collisions that occur.</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span><span class="mi">54</span><span class="p">,</span><span class="mi">34</span><span class="p">,</span><span class="mi">67</span><span class="p">,</span><span class="mi">75</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">77</span><span class="p">,</span><span class="mi">31</span><span class="p">]</span>
-
-<span class="k">def</span> <span class="nf">rehash</span><span class="p">(</span><span class="n">oldhash</span><span class="p">,</span> <span class="n">table_size</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">oldhash</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">table_size</span>
-
-<span class="k">def</span> <span class="nf">lp_hash</span><span class="p">(</span><span class="n">item_list</span><span class="p">,</span> <span class="n">table_size</span><span class="p">):</span>
-    
-    <span class="n">lp_hash_table</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">i</span><span class="p">,</span><span class="bp">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">table_size</span><span class="p">))])</span>
-
-    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">item_list</span><span class="p">:</span>
-        <span class="n">i</span> <span class="o">=</span> <span class="n">item</span> <span class="o">%</span> <span class="n">table_size</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="si">%</span><span class="s">s hashed == </span><span class="si">%</span><span class="s">s </span><span class="se">\n</span><span class="s">"</span> <span class="o">%</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">lp_hash_table</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">lp_hash_table</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
-        <span class="k">elif</span> <span class="n">lp_hash_table</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s">"Collision, attempting linear probe </span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
-            <span class="n">next_slot</span> <span class="o">=</span> <span class="n">rehash</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">table_size</span><span class="p">)</span>
-            <span class="k">print</span><span class="p">(</span><span class="s">"Setting next slot to </span><span class="si">%</span><span class="s">s </span><span class="se">\n</span><span class="s">"</span> <span class="o">%</span> <span class="n">next_slot</span><span class="p">)</span>
-            <span class="k">while</span> <span class="n">lp_hash_table</span><span class="p">[</span><span class="n">next_slot</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="n">next_slot</span> <span class="o">=</span> <span class="n">rehash</span><span class="p">(</span><span class="n">next_slot</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">lp_hash_table</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
-                <span class="k">print</span><span class="p">(</span><span class="s">"Next slot was not empty, trying next slot </span><span class="si">%</span><span class="s">s </span><span class="se">\n</span><span class="s">"</span> <span class="o">%</span> <span class="n">next_slot</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">lp_hash_table</span><span class="p">[</span><span class="n">next_slot</span><span class="p">]</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="n">lp_hash_table</span><span class="p">[</span><span class="n">next_slot</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
-    <span class="k">return</span> <span class="n">lp_hash_table</span>
-
-<span class="k">print</span><span class="p">(</span><span class="n">lp_hash</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>25 hashed == 3 
-
-54 hashed == 10 
-
-34 hashed == 1 
-
-67 hashed == 1 
-
-Collision, attempting linear probe 
-
-Setting next slot to 2 
-
-75 hashed == 9 
-
-21 hashed == 10 
-
-Collision, attempting linear probe 
-
-Setting next slot to 0 
-
-77 hashed == 0 
-
-Collision, attempting linear probe 
-
-Setting next slot to 1 
-
-Next slot was not empty, trying next slot 2 
-
-Next slot was not empty, trying next slot 3 
-
-Next slot was not empty, trying next slot 4 
-
-31 hashed == 9 
-
-Collision, attempting linear probe 
-
-Setting next slot to 10 
-
-Next slot was not empty, trying next slot 0 
-
-Next slot was not empty, trying next slot 1 
-
-Next slot was not empty, trying next slot 2 
-
-Next slot was not empty, trying next slot 3 
-
-Next slot was not empty, trying next slot 4 
-
-Next slot was not empty, trying next slot 5 
-
-{0: 21, 1: 34, 2: 67, 3: 25, 4: 77, 5: 31, 6: None, 7: None, 8: None, 9: 75, 10: 54}
-</code></pre>
-</div>
-
-<p>Used a little more interestingly, we can use the weighted ordinal hash function that we’ve defined above, combined with the lp_hash function that we’ve just defined, to store string(s) for later lookup.</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">animal_items</span> <span class="o">=</span> <span class="p">[</span><span class="s">"cat"</span><span class="p">,</span> <span class="s">"dog"</span><span class="p">,</span> <span class="s">"goat"</span><span class="p">,</span> 
-         <span class="s">"chicken"</span><span class="p">,</span> <span class="s">"pig"</span><span class="p">,</span> <span class="s">"horse"</span><span class="p">,</span>
-        <span class="s">"ostrich"</span><span class="p">,</span> <span class="s">"lion"</span><span class="p">,</span> <span class="s">"puma"</span><span class="p">]</span>
-
-<span class="k">def</span> <span class="nf">rehash</span><span class="p">(</span><span class="n">oldhash</span><span class="p">,</span> <span class="n">table_size</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">oldhash</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">table_size</span>
-
-<span class="k">def</span> <span class="nf">weighted_ord_hash</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">table_size</span><span class="p">):</span>
-    <span class="n">hash_val</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">position</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)):</span>
-        <span class="n">hash_val</span> <span class="o">=</span> <span class="n">hash_val</span> <span class="o">+</span> <span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">string</span><span class="p">[</span><span class="n">position</span><span class="p">])</span> <span class="o">*</span> <span class="n">position</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">hash_val</span> <span class="o">%</span> <span class="n">table_size</span>
-
-
-<span class="k">def</span> <span class="nf">lp_hash</span><span class="p">(</span><span class="n">item_list</span><span class="p">,</span> <span class="n">table_size</span><span class="p">):</span>
-    
-    <span class="n">lp_hash_table</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">i</span><span class="p">,</span><span class="bp">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">table_size</span><span class="p">))])</span>
-    
-    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">item_list</span><span class="p">:</span>
-        <span class="n">i</span> <span class="o">=</span> <span class="n">weighted_ord_hash</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">table_size</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="si">%</span><span class="s">s hashed == </span><span class="si">%</span><span class="s">s </span><span class="se">\n</span><span class="s">"</span> <span class="o">%</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">lp_hash_table</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">lp_hash_table</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
-        <span class="k">elif</span> <span class="n">lp_hash_table</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s">"Collision, attempting linear probe </span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
-            <span class="n">next_slot</span> <span class="o">=</span> <span class="n">rehash</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">table_size</span><span class="p">)</span>
-            <span class="k">print</span><span class="p">(</span><span class="s">"Setting next slot to </span><span class="si">%</span><span class="s">s </span><span class="se">\n</span><span class="s">"</span> <span class="o">%</span> <span class="n">next_slot</span><span class="p">)</span>
-            <span class="k">while</span> <span class="n">lp_hash_table</span><span class="p">[</span><span class="n">next_slot</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="n">next_slot</span> <span class="o">=</span> <span class="n">rehash</span><span class="p">(</span><span class="n">next_slot</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">lp_hash_table</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
-                <span class="k">print</span><span class="p">(</span><span class="s">"Next slot was not empty, trying next slot </span><span class="si">%</span><span class="s">s </span><span class="se">\n</span><span class="s">"</span> <span class="o">%</span> <span class="n">next_slot</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">lp_hash_table</span><span class="p">[</span><span class="n">next_slot</span><span class="p">]</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="n">lp_hash_table</span><span class="p">[</span><span class="n">next_slot</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
-    <span class="k">return</span> <span class="n">lp_hash_table</span>
-
-<span class="k">print</span><span class="p">(</span><span class="n">lp_hash</span><span class="p">(</span><span class="n">animal_items</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>cat hashed == 10 
-
-dog hashed == 9 
-
-goat hashed == 4 
-
-chicken hashed == 4 
-
-Collision, attempting linear probe 
-
-Setting next slot to 5 
-
-pig hashed == 3 
-
-horse hashed == 10 
-
-Collision, attempting linear probe 
-
-Setting next slot to 0 
-
-ostrich hashed == 6 
-
-lion hashed == 8 
-
-puma hashed == 10 
-
-Collision, attempting linear probe 
-
-Setting next slot to 0 
-
-Next slot was not empty, trying next slot 1 
-
-{0: 'horse', 1: 'puma', 2: None, 3: 'pig', 4: 'goat', 5: 'chicken', 6: 'ostrich', 7: None, 8: 'lion', 9: 'dog', 10: 'cat'}
-</code></pre>
-</div>
-
-<h3 id="references">References</h3>
-
-<ul>
-  <li>http://interactivepython.org/courselib/static/pythonds/SortSearch/Hashing.html#tbl-hashvalues1</li>
-</ul>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2016/12/21/First-Class-Functions/">
-        First Class Functions
-      </a>
-    </h1>
-
-    <span class="post-date">21 Dec 2016</span>
-
-    
-<h2 id="first-class-functions">First Class Functions</h2>
-
-<p>Typically first class functions are defined as a programming entity that can be :</p>
-
-<ul>
-  <li>Created at runtime</li>
-  <li>Assigned to a variable or element in a data structure</li>
-  <li>Passed as an argument</li>
-  <li>Returned as the result of a function</li>
-</ul>
-
-<p>By this definition, looking at how Python treats all functions, all functions are first class within Python.</p>
-
-<p>Below we’ll see examples of exactly how this looks.</p>
-
-<h4 id="treating-a-function-like-an-object">Treating a function like an object</h4>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">factorial</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    <span class="s">"""
-    Returns n! or n(factorial)
-    
-    e.g 5! = 5 * 4 * 3 * 2
-    """</span>
-    <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="k">else</span> <span class="n">n</span> <span class="o">*</span> <span class="n">factorial</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="n">factorial</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>120
-</code></pre>
-</div>
-
-<h4 id="first-class-analysis">First class analysis</h4>
-
-<p>We can show the first class nature of this function object using a few examples.</p>
-
-<p>We can assign the function to a variable, which will invoke the function when calling that variable.</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">fact</span> <span class="o">=</span> <span class="n">factorial</span>
-<span class="n">fact</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>120
-</code></pre>
-</div>
-
-<p>We can also use the map function, and pass our function as the first argument, allowing that function to be evaluated against the second argument, which is an iterable. Allowing this function to be applied in a successive fashion to all elements of this iterable.</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="nb">map</span><span class="p">(</span><span class="n">factorial</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>[1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880]
-</code></pre>
-</div>
-
-<h4 id="higher-order-functions">Higher-Order Functions</h4>
-
-<p>A higher order function is a bit….meta. It can take, as an argument, a function and then returns a function as a result.</p>
-
-<p>The <code class="highlighter-rouge">map()</code> example used above is a great example of this.</p>
-
-<p>The built-in <code class="highlighter-rouge">sorted()</code> function is another great example of this, within Python. We can pass it an iterable, along with a <code class="highlighter-rouge">key</code> that can then be applied in succession to the items in the list.</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">food</span> <span class="o">=</span> <span class="p">[</span><span class="s">'eggplant'</span><span class="p">,</span> <span class="s">'carrots'</span><span class="p">,</span> <span class="s">'celery'</span><span class="p">,</span> 
-        <span class="s">'potatoes'</span><span class="p">,</span> <span class="s">'tomatoes'</span><span class="p">,</span> <span class="s">'rhubarb'</span><span class="p">,</span>
-        <span class="s">'strawberry'</span><span class="p">,</span> <span class="s">'blueberry'</span><span class="p">,</span> <span class="s">'raspberry'</span><span class="p">,</span>
-        <span class="s">'banana'</span><span class="p">,</span> <span class="s">'cherry'</span><span class="p">]</span>
-
-<span class="k">print</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">food</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">))</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>['celery', 'banana', 'cherry', 'carrots', 'rhubarb', 'eggplant', 'potatoes', 'tomatoes', 'blueberry', 'raspberry', 'strawberry']
-</code></pre>
-</div>
-
-<p>Any single argument function can be used in the key argument of the <code class="highlighter-rouge">sorted()</code> method.</p>
-
-<p>as a trivial example, we may want to use the reversed order of the characters to sort of words, as this will cause certain clustering of character strings together, such as -berry, and -toes.</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">reverse</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
-    <span class="s">'''
-    Reverse the order of the letters in a given string
-    '''</span>
-    <span class="k">return</span> <span class="n">word</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-
-<span class="k">print</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">food</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">reverse</span><span class="p">))</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>['banana', 'rhubarb', 'tomatoes', 'potatoes', 'carrots', 'eggplant', 'celery', 'blueberry', 'raspberry', 'strawberry', 'cherry']
-</code></pre>
-</div>
-
-<h4 id="replacements-for-map-and-filter">Replacements for map and filter</h4>
-
-<p>Map, filter, and reduce are typically offered in functional languages as higher order functions. However, the introduction of list comprehensions and generator expressions have downplayed the value of the map and filter functions, as listcomp’s and genexp’s combine the job of <code class="highlighter-rouge">map</code> and <code class="highlighter-rouge">filter</code>.</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># Build a list of factorials from 0! to 5!</span>
-<span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">fact</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)))</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>[1, 1, 2, 6, 24, 120]
-</code></pre>
-</div>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># Build a list of factorials from 0! to 5!</span>
-<span class="c"># but using list comprehension</span>
-<span class="p">[</span><span class="n">fact</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>[1, 1, 2, 6, 24, 120]
-</code></pre>
-</div>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># Build a list of factorials of odd numbers up to 5!, using `map` and `filter`</span>
-<span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">factorial</span><span class="p">,</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">))))</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>[1, 6, 120]
-</code></pre>
-</div>
-
-<p>We can see above that with the <code class="highlighter-rouge">map</code> and <code class="highlighter-rouge">filter</code> functions, we needed to use a <code class="highlighter-rouge">lambda</code> function.</p>
-
-<p>Using a list comprehension can remove this requirement, and concatenate the operations.</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># Build a list of factorials of odd numbers up to 5!, using list comprehension</span>
-<span class="p">[</span><span class="n">factorial</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span><span class="p">]</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>[1, 6, 120]
-</code></pre>
-</div>
-
-<h4 id="anonymous-functions">Anonymous Functions</h4>
-
-<p>The example above, where we’ve utilized <code class="highlighter-rouge">map</code> and <code class="highlighter-rouge">filter</code> combined with a <code class="highlighter-rouge">lambda</code> function leads us into our next example.</p>
-
-<p>The <code class="highlighter-rouge">lambda</code> keyword created an anonymous function within a Python expression. However the syntax limits the <code class="highlighter-rouge">lambda</code> to be pure expressions. This means that the body of a <code class="highlighter-rouge">lambda</code> function can’t use other Python statements such as <code class="highlighter-rouge">while</code> or <code class="highlighter-rouge">try</code>, etc.</p>
-
-<p>These are typically limited in their use because of the lack of the ability to use more complex control structures within the <code class="highlighter-rouge">lambda</code> functions. This can lead to unreadable or unworkable results.</p>
-
-<p>However, they can still prove useful in certain contexts, such as list arguments.</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">food</span> <span class="o">=</span> <span class="p">[</span><span class="s">'eggplant'</span><span class="p">,</span> <span class="s">'carrots'</span><span class="p">,</span> <span class="s">'celery'</span><span class="p">,</span> 
-        <span class="s">'potatoes'</span><span class="p">,</span> <span class="s">'tomatoes'</span><span class="p">,</span> <span class="s">'rhubarb'</span><span class="p">,</span>
-        <span class="s">'strawberry'</span><span class="p">,</span> <span class="s">'blueberry'</span><span class="p">,</span> <span class="s">'raspberry'</span><span class="p">,</span>
-        <span class="s">'banana'</span><span class="p">,</span> <span class="s">'cherry'</span><span class="p">]</span>
-
-<span class="k">print</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">food</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">word</span><span class="p">:</span> <span class="n">word</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>['banana', 'rhubarb', 'tomatoes', 'potatoes', 'carrots', 'eggplant', 'celery', 'blueberry', 'raspberry', 'strawberry', 'cherry']
-</code></pre>
-</div>
-
-<h4 id="references">References</h4>
-
-<ul>
-  <li>Fluent Python, Ramalho <a href="http://shop.oreilly.com/product/0636920032519.do">Purchase Link</a></li>
-</ul>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2016/12/17/Sequential-and-Binary-Search-in-Python/">
-        Sequential and Binary Search in Python
-      </a>
-    </h1>
-
-    <span class="post-date">17 Dec 2016</span>
-
-    <p>This notebook will include examples of searching and sorting algorithms implemented in python. It is both for my own learning, and for anyone else who would like to use this notebook for anything they’d like.</p>
-
-<h2 id="searching">Searching</h2>
-
-<p>Finding an item in a collection of items is a pretty typical search problem. Depending on the implementation, a search will tend to return a <code class="highlighter-rouge">True</code> or <code class="highlighter-rouge">False</code> boolean answer to the question of “is this item contained within this collection of items?”.</p>
-
-<p>An example of this can be seen below, using Pythons <code class="highlighter-rouge">in</code> operator.</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># Finding a single integer in an array of integers using Python's `in` </span>
-<span class="c"># operator</span>
-
-<span class="mi">15</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">11</span><span class="p">]</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>False
-</code></pre>
-</div>
-
-<p>We can see this returns a boolean answer of <code class="highlighter-rouge">False</code>, indicating that the integer isn’t present in the array.</p>
-
-<p>Below is another example where the answer is <code class="highlighter-rouge">True</code>.</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># Finding a single integer in an array of integers using Python's `in` </span>
-<span class="c"># operator</span>
-
-<span class="mi">11</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">11</span><span class="p">]</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>True
-</code></pre>
-</div>
-
-<p>Python provides useful abstractions like this for a lot of search and sort functionality, but it’s important to understand what’s going on ‘under the hood’ of these functions.</p>
-
-<h2 id="sequential-search">Sequential Search</h2>
-
-<h3 id="unordered-array">Unordered array</h3>
-
-<p>Datum, in arrays such as the ones used in the examples above, are typically stores in a collection such as a list. These datum within these lists have linear, or sequential relationship. They are each stores in a position within the array, relative to the other datum.</p>
-
-<p>When searching for a specific datum within the array, we are able to seqeuntially evaluate each item in the list, or array, to see if it matches the item we’re looking for.</p>
-
-<p>Using <code class="highlighter-rouge">sequential_search</code>, we simply move from item to item in the list, evaluating whether our search expression is <code class="highlighter-rouge">True</code>, or <code class="highlighter-rouge">False</code>.</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># Search sequentially through a list, incrementing the position counter</span>
-<span class="c"># if is_present is not True, otherwise set is_present to True and return</span>
-
-<span class="k">def</span> <span class="nf">sequential_search</span><span class="p">(</span><span class="n">li</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-    <span class="n">position</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">is_present</span> <span class="o">=</span> <span class="bp">False</span>
-    
-    <span class="k">while</span> <span class="n">position</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">li</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_present</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">li</span><span class="p">[</span><span class="n">position</span><span class="p">]</span> <span class="o">==</span> <span class="n">item</span><span class="p">:</span>
-            <span class="n">is_present</span> <span class="o">=</span> <span class="bp">True</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">position</span> <span class="o">=</span> <span class="n">position</span> <span class="o">+</span> <span class="mi">1</span>
-    
-    <span class="k">return</span> <span class="n">is_present</span>
-
-<span class="n">test_array</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">31</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">25</span><span class="p">]</span>
-<span class="k">print</span><span class="p">(</span><span class="n">sequential_search</span><span class="p">(</span><span class="n">test_array</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-<span class="k">print</span><span class="p">(</span><span class="n">sequential_search</span><span class="p">(</span><span class="n">test_array</span><span class="p">,</span> <span class="mi">25</span><span class="p">))</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>False
-True
-</code></pre>
-</div>
-
-<p>The example above uses an example of uses an unordered list. Because this list is unordered, we will need to evaluate every item in the list to understand if it is the item that we’re searching for. Because this is the case, the computational complexity of our <code class="highlighter-rouge">sequential_search</code> function is <script type="math/tex">O(n)</script>.</p>
-
-<p>Here is a table summarizing the cases :</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Case</th>
-      <th>Best Case</th>
-      <th>Worst Case</th>
-      <th>Average Case</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>item is present</td>
-      <td>1</td>
-      <td><script type="math/tex">n</script></td>
-      <td><script type="math/tex">\frac{n}{2}</script></td>
-    </tr>
-    <tr>
-      <td>item isn’t present</td>
-      <td><script type="math/tex">n</script></td>
-      <td><script type="math/tex">n</script></td>
-      <td><script type="math/tex">n</script></td>
-    </tr>
-  </tbody>
-</table>
-
-<p>This can be seen as such :</p>
-
-<p>For every <script type="math/tex">n</script> and every input size of <script type="math/tex">n</script>, the following is true:</p>
-
-<ul>
-  <li>The while loop is executed at most <script type="math/tex">n</script> times
-    <ul>
-      <li><code class="highlighter-rouge">position</code> is incremented on each iteration, so <code class="highlighter-rouge">position</code> &gt; <script type="math/tex">n</script> after <script type="math/tex">n</script> iterations.</li>
-    </ul>
-  </li>
-  <li>Each iteration takes <script type="math/tex">c</script> steps for some constant <script type="math/tex">c</script></li>
-  <li><script type="math/tex">d</script> steps are taken outside of the loop, for some constant <script type="math/tex">d</script></li>
-</ul>
-
-<p>Therefore for <em>all</em> inputs of size <script type="math/tex">n</script>, the time needed for the entire search is <strong>at most</strong> <script type="math/tex">(cn+d) = O(n)</script>.</p>
-
-<p>At worst, the item <script type="math/tex">x</script> we’re searching for is the <em>last</em> item in the entire list of items. This can be seen as</p>
-
-<p><script type="math/tex">A[n] = x</script> and <script type="math/tex">A[i] \ne x</script> for all <script type="math/tex">i</script> s.t. <script type="math/tex">1 \le i \lt n</script></p>
-
-<h3 id="ordered-array">Ordered array</h3>
-
-<p>If we assume that the list, or array, that we’re searching over is ordered, say from low to high, the chance of the item we’re looking for being in any one of the <script type="math/tex">n</script> positions is still the same. However, if the item is <em>not</em> present we have a slight advantage in that the item that we’re looking for may never be present past another item of greater value.</p>
-
-<p>For example, if we’re looking for the number 25, and through the process of searching through the array, we happen upon the number 27, we know that no other integers past number 27 will have the value that we’re looking for.</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">ordered_sequential_search</span><span class="p">(</span><span class="n">li</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-    <span class="n">position</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">found</span> <span class="o">=</span> <span class="bp">False</span>
-    <span class="n">stop</span> <span class="o">=</span> <span class="bp">False</span>
-    
-    <span class="k">while</span> <span class="n">position</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">li</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">found</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">stop</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">li</span><span class="p">[</span><span class="n">position</span><span class="p">]</span> <span class="o">==</span> <span class="n">item</span><span class="p">:</span>
-            <span class="n">found</span> <span class="o">==</span> <span class="bp">True</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">li</span><span class="p">[</span><span class="n">position</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">item</span><span class="p">:</span>
-                <span class="n">stop</span> <span class="o">=</span> <span class="bp">True</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="n">position</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-    
-    <span class="k">return</span> <span class="n">found</span>
-
-<span class="n">test_li</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">27</span><span class="p">,</span><span class="mi">45</span><span class="p">]</span>
-<span class="k">print</span><span class="p">(</span><span class="n">ordered_sequential_search</span><span class="p">(</span><span class="n">test_li</span><span class="p">,</span> <span class="mi">25</span><span class="p">))</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>False
-</code></pre>
-</div>
-
-<p>We can see that we are able to terminate the execution of the search because we’ve found a number greater than the number we’re searching for with the assumption that the list being passed into the function is ordered, we know we can terminate the computation.</p>
-
-<p>Modifying the table above, we can see that with the item <em>not</em> present in our array, we save some computational cycles in the negative case.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Case</th>
-      <th>Best Case</th>
-      <th>Worst Case</th>
-      <th>Average Case</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>item is present</td>
-      <td>1</td>
-      <td><script type="math/tex">n</script></td>
-      <td><script type="math/tex">\frac{n}{2}</script></td>
-    </tr>
-    <tr>
-      <td>item isn’t present</td>
-      <td><script type="math/tex">n</script></td>
-      <td><script type="math/tex">n</script></td>
-      <td><script type="math/tex">\frac{n}{2}</script></td>
-    </tr>
-  </tbody>
-</table>
-
-<p>This can prove really useful if we can somehow, somewhere else in our data structure definitions, that we can guarantee ordering of our arrays. This example is left for future work as it’s more abstract to just the search examples we’re displaying here.</p>
-
-<h2 id="binary-search">Binary Search</h2>
-
-<p>With sequential search we start by evaluating the first entry of array for whether or not it matches the the item that we’re looking for, and if it does not we proceed through the entire collection, trying to find a match. There are at most, at any time, <script type="math/tex">n-1</script> more items to look at if the item we’re currently evaluating is not the one we’re looking for.</p>
-
-<p>Binary search takes a bit of a different approach to the problem. Instead of searching through the collection, sequentially, starting with the first item in the list or array, the process starts at the middle. If the middle item of the list is <em>not</em> the item that we’re looking for, and is larger than the middle value, we can drop the entire bottom half of the list and save ourselves that much computation time.</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># Binary search example</span>
-<span class="k">def</span> <span class="nf">binary_search</span><span class="p">(</span><span class="n">li</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-    <span class="n">first</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">last</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">li</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">found</span> <span class="o">=</span> <span class="bp">False</span>
-    
-    <span class="k">while</span> <span class="n">first</span> <span class="o">&lt;=</span> <span class="n">last</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">found</span><span class="p">:</span>
-        <span class="n">midpoint</span> <span class="o">=</span> <span class="p">((</span><span class="n">first</span> <span class="o">+</span> <span class="n">last</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">li</span><span class="p">[</span><span class="n">midpoint</span><span class="p">]</span> <span class="o">==</span> <span class="n">item</span><span class="p">:</span>
-            <span class="n">found</span> <span class="o">=</span> <span class="bp">True</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">item</span> <span class="o">&lt;</span> <span class="n">li</span><span class="p">[</span><span class="n">midpoint</span><span class="p">]:</span>
-                <span class="n">last</span> <span class="o">=</span> <span class="p">(</span><span class="n">midpoint</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">first</span> <span class="o">=</span> <span class="p">(</span><span class="n">midpoint</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">found</span>
-
-<span class="n">test_li</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">42</span><span class="p">,</span><span class="mi">45</span><span class="p">]</span>
-<span class="k">print</span><span class="p">(</span><span class="n">binary_search</span><span class="p">(</span><span class="n">test_li</span><span class="p">,</span> <span class="mi">45</span><span class="p">))</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>True
-</code></pre>
-</div>
-
-<p>Using our handy table again, we can analyze the complexity of the binary search algorithm.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Comparisons</th>
-      <th>Approximate Number of Items Left</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td><script type="math/tex">\frac{n}{2}</script></td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td><script type="math/tex">\frac{n}{4}</script></td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td><script type="math/tex">\frac{n}{8}</script></td>
-    </tr>
-    <tr>
-      <td>…</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td><script type="math/tex">i</script></td>
-      <td><script type="math/tex">\frac{n}{2^{i}}</script></td>
-    </tr>
-  </tbody>
-</table>
-
-<p>The number of comparisons necessary to get to this point is <script type="math/tex">i</script> where <script type="math/tex">\frac{n}{2^{i}} = 1</script>. Solving for <script type="math/tex">i</script> is <script type="math/tex">i = log n</script>. Therefore, binary search has a computational complexity of <script type="math/tex">O(log n)</script>.</p>
-
-<h4 id="references">References</h4>
-
-<p><a href="http://interactivepython.org/courselib/static/pythonds/SortSearch/TheSequentialSearch.html">http://interactivepython.org/courselib/static/pythonds/SortSearch/TheSequentialSearch.html</a></p>
-
-<p><a href="http://www.cs.toronto.edu/~tfowler/csc263/TutorialNotes1.txt">http://www.cs.toronto.edu/~tfowler/csc263/TutorialNotes1.txt</a></p>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2016/12/12/NIPS-2016/">
-        NIPS 2016
-      </a>
-    </h1>
-
-    <span class="post-date">12 Dec 2016</span>
-
-    <h1 id="quick-summary">Quick Summary</h1>
-
-<p>This year’s NIPS conference had record attendance at over 6000 people! As opposed to when I attended last year in Montreal, this was an, almost, two fold increase. That said, hats off to the organizers and all of the staff for being able to double the size of a conference and still have it be a relatively smooth attendance experience.</p>
-
-<p>Speaking with other attendees though, I think there was a general interest in structuring the conference a bit more differently than the way it had been. There was even mention of breaking the Deep Learning portion of the conference off into it’s own conference in and of itself. That might be a bit extreme, however there was, without a doubt, a healthy amount of sessions and talks that were based on deep learning.</p>
-
-<p>All said and done, though, it was an awesome experience that has left me charged to keep learning and trying the amazing ideas that were presented and exchanged throughout the conference. With that, I thought I’d post a list of all of the sessions I’d attended and try to provide a quick summary of what intuitions I’d built about the presentations. Keep in mind these notes are made both from memory and from the scribbles I have in my notebook. Come to think of it, there is actually a second thing I would have preferred, if it were possible. Sessions tended to be in the range of 20-30 minutes, and that never seemed to be enough time for individuals to present on their problems and potential progresses they had made. A lot of the problems that are being framed up can be incredible technical and may require half to three quarters of the allotted presentation time. I don’t pretend to have a solution to this problem, but rather am just interested in providing feedback should anyone stumble on it.</p>
-
-<p>One thing that I wish that I could figure out how to do, in a meaningful way, is to contribute to the greater research “good” that the Open Science ideology that the machine learning community follows, outside of either a large(r) ML shop that can “afford” to pay someone to be half-reseacher, and outside of direct academia. There is the new effort <a href="http://ai-on.org/">AI-ON.org</a> – so maybe that’s the answer?</p>
-
-<h1 id="sessions-attended-and-slides-if-i-could-find-them">Sessions Attended (and slides if I could find them)</h1>
-
-<h4 id="variational-inference">Variational Inference</h4>
-
-<p><a href="https://nips.cc/Conferences/2016/Schedule?showEvent=6199">Variational Inference: Foundations and Modern Methods</a></p>
-
-<ul>
-  <li><a href="https://nips.cc/Conferences/2016/Schedule?showEvent=6199">NIPS Session Link</a></li>
-  <li><a href="http://www.cs.columbia.edu/~blei/talks/2016_NIPS_VI_tutorial.pdf">Slides</a></li>
-</ul>
-
-<h4 id="nuts-and-bolts-of-building-applications-using-deep-learning">Nuts and Bolts of Building Applications using Deep Learning</h4>
-
-<ul>
-  <li><a href="Nuts and Bolts of Building Applications using Deep Learning">NIPS Session Link</a></li>
-  <li><a href="https://www.dropbox.com/s/dyjdq1prjbs8pmc/NIPS2016%20-%20Pages%202-6%20(1).pdf?dl=0">Handout</a></li>
-</ul>
-
-<h4 id="generative-adversarial-networks">Generative Adversarial Networks</h4>
-
-<ul>
-  <li><a href="https://nips.cc/Conferences/2016/Schedule?showEvent=6202">NIPS Session Link</a></li>
-  <li><a href="http://www.iangoodfellow.com/slides/2016-12-04-NIPS.pdf">Slides</a></li>
-</ul>
-
-<h4 id="predictive-learning">Predictive Learning</h4>
-
-<ul>
-  <li><a href="https://nips.cc/Conferences/2016/Schedule?showEvent=6197">NIPS Session Link</a></li>
-  <li><a href="https://drive.google.com/file/d/0BxKBnD5y2M8NREZod0tVdW5FLTQ/view">Slides</a></li>
-</ul>
-
-<h4 id="value-iteration-networks-award-talk">Value Iteration Networks (award talk)</h4>
-
-<ul>
-  <li><a href="https://nips.cc/Conferences/2016/Schedule?showEvent=7437">NIPS Session Link</a></li>
-  <li><a href="https://arxiv.org/pdf/1602.02867.pdf">Paper</a></li>
-</ul>
-
-<h4 id="intelligent-biosphere">Intelligent Biosphere</h4>
-
-<ul>
-  <li><a href="https://nips.cc/Conferences/2016/Schedule?showEvent=6193">NIPS Session Link</a></li>
-  <li>Slides coming soon…</li>
-</ul>
-
-<h4 id="infogan-interpretable-representation-learning-by-information-maximizing-generative-adversarial-nets">InfoGAN: Interpretable Representation Learning by Information Maximizing Generative Adversarial Nets</h4>
-
-<ul>
-  <li><a href="https://nips.cc/Conferences/2016/Schedule?showEvent=7140">NIPS Session Link</a></li>
-  <li><a href="https://arxiv.org/abs/1606.03657">Paper</a></li>
-</ul>
-
-<h4 id="value-iteration-networks">Value Iteration Networks</h4>
-
-<ul>
-  <li><a href="https://papers.nips.cc/paper/6046-value-iteration-networks">NIPS Session Link</a></li>
-  <li><a href="https://papers.nips.cc/paper/6046-value-iteration-networks.pdf">Paper</a></li>
-</ul>
-
-<h4 id="synthesis-of-mcmc-and-belief-propagation">Synthesis of MCMC and Belief Propagation</h4>
-
-<ul>
-  <li><a href="https://nips.cc/Conferences/2016/Schedule?showEvent=7447">NIPS Session Link</a></li>
-  <li><a href="http://papers.nips.cc/paper/6318-synthesis-of-mcmc-and-belief-propagation">Paper</a></li>
-</ul>
-
-<h4 id="using-fast-weights-to-attend-to-the-recent-past">Using Fast Weights to Attend to the Recent Past</h4>
-
-<ul>
-  <li><a href="https://nips.cc/Conferences/2016/Schedule?showEvent=7439">Nips Session Link</a></li>
-  <li><a href="https://papers.nips.cc/paper/6057-using-fast-weights-to-attend-to-the-recent-past.pdf">Paper</a></li>
-</ul>
-
-<h4 id="phased-lstm-accelerating-recurrent-network-training-for-long-or-event-based-sequences">Phased LSTM: Accelerating Recurrent Network Training for Long or Event-based Sequences</h4>
-
-<ul>
-  <li><a href="">NIPS Session Link</a></li>
-  <li><a href="Phased LSTM: Accelerating Recurrent Network Training for Long or Event-based Sequences">Paper</a></li>
-</ul>
-
-<h4 id="machine-learning-and-likelihood-free-inference-in-particle-physics">Machine Learning and Likelihood-Free Inference in Particle Physics</h4>
-
-<p>This talk was really, really cool. But the time constraints didn’t allow Kyle to get into what I was interested in, and that was the embeddings work that had been done. I’m very interested in creating embeddings of tokens according to their co-occurence distribution(s).</p>
-
-<ul>
-  <li><a href="https://nips.cc/Conferences/2016/Schedule?showEvent=6195">NIPS Session Link</a></li>
-  <li><a href="https://figshare.com/articles/NIPS_2016_Keynote_Machine_Learning_Likelihood_Free_Inference_in_Particle_Physics/4291565/1">Slides</a></li>
-</ul>
-
-<h4 id="deep-learning-without-poor-local-minima">Deep Learning without Poor Local Minima</h4>
-
-<ul>
-  <li><a href="Deep Learning without Poor Local Minima">NIPS Session Link</a></li>
-  <li><a href="https://arxiv.org/abs/1605.07110">Paper</a></li>
-</ul>
-
-<h4 id="learning-to-poke-by-poking-experiential-learning-of-intuitive-physics">Learning to Poke by Poking: Experiential Learning of Intuitive Physics</h4>
-
-<ul>
-  <li><a href="https://nips.cc/Conferences/2016/Schedule?showEvent=7469">NIPS Session Link</a></li>
-  <li><a href="https://arxiv.org/abs/1606.07419">Paper</a></li>
-</ul>
-
-<h4 id="weight-normalization-a-simple-reparameterization-to-accelerate-training-of-deep-neural-networks">Weight Normalization: A Simple Reparameterization to Accelerate Training of Deep Neural Networks</h4>
-
-<ul>
-  <li><a href="https://nips.cc/Conferences/2016/Schedule?showEvent=7471">NIPS Session Link</a></li>
-  <li><a href="https://arxiv.org/abs/1602.07868">Paper</a></li>
-</ul>
-
-<h4 id="showing-versus-doing-teaching-by-demonstration">Showing versus doing: Teaching by demonstration</h4>
-
-<ul>
-  <li><a href="https://nips.cc/Conferences/2016/Schedule?showEvent=7482">NIPS Session Link</a></li>
-  <li><a href="https://papers.nips.cc/paper/6413-showing-versus-doing-teaching-by-demonstration.pdf">Paper</a></li>
-</ul>
-
-<h4 id="relevant-sparse-codes-with-variational-information-bottleneck">Relevant sparse codes with variational information bottleneck</h4>
-
-<ul>
-  <li><a href="https://nips.cc/Conferences/2016/Schedule?showEvent=7483">NIPS Session Link</a></li>
-  <li><a href="https://arxiv.org/abs/1605.07332">Paper</a></li>
-</ul>
-
-<h2 id="symposia">Symposia</h2>
-
-<h4 id="recurrent-neural-networks-and-other-machines-that-learn-algorithms">Recurrent Neural Networks and Other Machines that Learn Algorithms</h4>
-
-<ul>
-  <li><a href="https://nips.cc/Conferences/2016/Schedule?showEvent=6260">NIPS Link</a></li>
-  <li><a href="http://people.idsia.ch/~rupesh/rnnsymposium2016/">Symposium Homepage</a></li>
-</ul>
-
-<h4 id="deep-learning-symposium">Deep Learning Symposium</h4>
-
-<ul>
-  <li><a href="https://nips.cc/Conferences/2016/Schedule?showEvent=6257">NIPS Link</a></li>
-  <li><a href="https://sites.google.com/site/nips2016deeplearnings/home">Symposium Homepage</a></li>
-</ul>
-
-<p>Looking at this list after trying to recompile it from my notes, it’s both exhausting and intimidating to think about trying to rehash the workshops on top of everything else listed here. So I will keep this post to just the tutorials and oral talks for the time being. I will create another post that covers the workshops material, as well.</p>
-
-
-  </div>
-  
-</div>
-
-<div class="pagination">
-  
-    <a class="pagination-item older" href="/page2">Older</a>
-  
-  
-    <span class="pagination-item newer">Newer</span>
-  
-</div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/img/1935466_1689354807987819_96212943307069819_n.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="site-heading">
+                    <h1>Ed Henry's Blog</h1>
+                    <hr class="small">
+                    <span class="subheading">Rnadom notes and/or musings about technology</span>
+                </div>
+            </div>
+        </div>
     </div>
+</header>
 
-  </body>
+<!-- Main Content -->
+<div class="container">
+	<div class="row">
+		<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+			
+<div class="post-preview">
+    <a href="/2016/12/21/Netflow-flow2vec/">
+        <h2 class="post-title">            Netflow Flow2vec
+        </h2>
+        
+    </a>
+    <p class="post-meta">Posted by Ed Henry's Blog on December 21, 2016</p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/12/21/Hashing-in-Python/">
+        <h2 class="post-title">            Hashing In Python
+        </h2>
+        
+    </a>
+    <p class="post-meta">Posted by Ed Henry's Blog on December 21, 2016</p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/12/21/First-Class-Functions/">
+        <h2 class="post-title">            First Class Functions
+        </h2>
+        
+    </a>
+    <p class="post-meta">Posted by Ed Henry's Blog on December 21, 2016</p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/12/17/Sequential-and-Binary-Search-in-Python/">
+        <h2 class="post-title">            Sequential and Binary Search in Python
+        </h2>
+        
+    </a>
+    <p class="post-meta">Posted by Ed Henry on December 17, 2016</p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/12/12/NIPS-2016/">
+        <h2 class="post-title">            NIPS 2016
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Summary of my NIPS 2016 Attendance
+        </h3>
+        
+    </a>
+    <p class="post-meta">Posted by Ed Henry on December 12, 2016</p>
+</div>
+<hr>
+
+
+<!-- Pager -->
+
+<ul class="pager">
+    
+    
+    <li class="next">
+        <a href="/page2">Older Posts &rarr;</a>
+    </li>
+    
+</ul>
+
+
+		</div>
+	</div>
+</div>
+
+<hr>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://twitter.com/EdHenry_">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="https://github.com/edhenry">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="mailto:edward.m.henry@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; Ed Henry 2016</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/clean-blog.min.js "></script>
+
+
+    
+
+
+</body>
+
 </html>
