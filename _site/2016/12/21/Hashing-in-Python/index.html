@@ -1,7 +1,7 @@
 
 <h2 id="hashing">Hashing</h2>
 
-<p>Hashing can be useful in speeding up the search process for a specific item that is part of a larger collection of items. Depending on the implementation of the hashing algorithm, this can turn the computational complexity of our search algorithm from $O(n)$ to $O(1)$. We do this by building a specific data structure, which we’ll dive into next.</p>
+<p>Hashing can be useful in speeding up the search process for a specific item that is part of a larger collection of items. Depending on the implementation of the hashing algorithm, this can turn the computational complexity of our search algorithm from <script type="math/tex">O(n)</script> to <script type="math/tex">O(1)</script>. We do this by building a specific data structure, which we’ll dive into next.</p>
 
 <h4 id="hash-table">Hash Table</h4>
 
@@ -44,13 +44,13 @@
 
 <p>Each entry in this hash table, is currently set to a value of <code class="highlighter-rouge">None</code>.</p>
 
-<p>A hash function is used when mapping values into the slots available within a Hash table. The hash function typically takes, as input, an item from a collection, and will return an integer in the range of slot names, between $0$ and $m-1$. There are many different hash functions, but the first we can discuss is the “remainder method” hash function.</p>
+<p>A hash function is used when mapping values into the slots available within a Hash table. The hash function typically takes, as input, an item from a collection, and will return an integer in the range of slot names, between <script type="math/tex">0</script> and <script type="math/tex">m-1</script>. There are many different hash functions, but the first we can discuss is the “remainder method” hash function.</p>
 
 <h4 id="remainder-hash-function">Remainder Hash Function</h4>
 
-<p>The remainder hash function takes an item from a collection, divides it by the table size, returning the remainder of it’s hash value $h(item) = item \% \text{table_size}$. Typically modulo arithmetic is present in some form for all hash functions, as the result must be in the range of the total number of slots within the table.</p>
+<p>The remainder hash function takes an item from a collection, divides it by the table size, returning the remainder of it’s hash value <script type="math/tex">h(item) = item \% \text{table_size}</script>. Typically modulo arithmetic is present in some form for all hash functions, as the result must be in the range of the total number of slots within the table.</p>
 
-<p>Assuming we have a set of integer items ${25,54,34,67,75,21,77,31}$, we can use our hash function to find slots for our values, accordingly.</p>
+<p>Assuming we have a set of integer items <script type="math/tex">\{25,54,34,67,75,21,77,31\}</script>, we can use our hash function to find slots for our values, accordingly.</p>
 
 <div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span><span class="mi">54</span><span class="p">,</span><span class="mi">34</span><span class="p">,</span><span class="mi">67</span><span class="p">,</span><span class="mi">75</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">77</span><span class="p">,</span><span class="mi">31</span><span class="p">]</span>
 

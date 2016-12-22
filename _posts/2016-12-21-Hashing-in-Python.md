@@ -1,7 +1,7 @@
 
 ## Hashing
 
-Hashing can be useful in speeding up the search process for a specific item that is part of a larger collection of items. Depending on the implementation of the hashing algorithm, this can turn the computational complexity of our search algorithm from $O(n)$ to $O(1)$. We do this by building a specific data structure, which we'll dive into next.
+Hashing can be useful in speeding up the search process for a specific item that is part of a larger collection of items. Depending on the implementation of the hashing algorithm, this can turn the computational complexity of our search algorithm from $$O(n)$$ to $$O(1)$$. We do this by building a specific data structure, which we'll dive into next.
 
 #### Hash Table
 
@@ -16,13 +16,13 @@ Example of a hash table (sorry for the poor formatting because markdown :
 
 Each entry in this hash table, is currently set to a value of `None`.
 
-A hash function is used when mapping values into the slots available within a Hash table. The hash function typically takes, as input, an item from a collection, and will return an integer in the range of slot names, between $0$ and $m-1$. There are many different hash functions, but the first we can discuss is the "remainder method" hash function. 
+A hash function is used when mapping values into the slots available within a Hash table. The hash function typically takes, as input, an item from a collection, and will return an integer in the range of slot names, between $$0$$ and $$m-1$$. There are many different hash functions, but the first we can discuss is the "remainder method" hash function. 
 
 #### Remainder Hash Function
 
-The remainder hash function takes an item from a collection, divides it by the table size, returning the remainder of it's hash value $h(item) = item \% \text{table_size}$. Typically modulo arithmetic is present in some form for all hash functions, as the result must be in the range of the total number of slots within the table.
+The remainder hash function takes an item from a collection, divides it by the table size, returning the remainder of it's hash value $$h(item) = item \% \text{table_size}$$. Typically modulo arithmetic is present in some form for all hash functions, as the result must be in the range of the total number of slots within the table.
 
-Assuming we have a set of integer items $\{25,54,34,67,75,21,77,31\}$, we can use our hash function to find slots for our values, accordingly.
+Assuming we have a set of integer items $$\{25,54,34,67,75,21,77,31\}$$, we can use our hash function to find slots for our values, accordingly.
 
 
 ```python
