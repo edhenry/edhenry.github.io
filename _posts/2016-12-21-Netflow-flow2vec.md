@@ -99,7 +99,7 @@ subsample_labels = flowdata.loc[:,['Label']]
 subsample_cats_1 = flowdata.loc[:,['Proto', 'SrcAddr', 'DstAddr', 'Dport', 'Label']]
 ```
 
-## Ford2vec - co-occurence idea for flow data
+## Flow2vec - co-occurence idea for flow data
 
 Attempting to find some co-occurence patterns in the flow data according to how an algorithm like word2vec, in its skip-gram implementation specifically for this work, works. The idea is that flows, $V_{f}$ for vector representation, that occur within a window $W_{f}$, which can be modeled as "time" using timestamps from the capture. A visual representation of a single flow and window of flows can be seen below :
 
