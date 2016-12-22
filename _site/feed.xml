@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://localhost:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2016-12-21T22:53:08-05:00</updated><id>http://localhost:4000//</id><title type="html">Ed Henry’s Blog</title><subtitle>A place for me to keep notes about what I know that hopefully someone else finds useful</subtitle><entry><title type="html">Netflow Flow2vec</title><link href="http://localhost:4000/2016/12/21/Netflow-flow2vec/" rel="alternate" type="text/html" title="Netflow Flow2vec" /><published>2016-12-21T00:00:00-05:00</published><updated>2016-12-21T00:00:00-05:00</updated><id>http://localhost:4000/2016/12/21/Netflow-flow2vec</id><content type="html" xml:base="http://localhost:4000/2016/12/21/Netflow-flow2vec/">&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pandas&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pd&lt;/span&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://localhost:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2016-12-21T22:54:34-05:00</updated><id>http://localhost:4000//</id><title type="html">Ed Henry’s Blog</title><subtitle>A place for me to keep notes about what I know that hopefully someone else finds useful</subtitle><entry><title type="html">Netflow Flow2vec</title><link href="http://localhost:4000/2016/12/21/Netflow-flow2vec/" rel="alternate" type="text/html" title="Netflow Flow2vec" /><published>2016-12-21T00:00:00-05:00</published><updated>2016-12-21T00:00:00-05:00</updated><id>http://localhost:4000/2016/12/21/Netflow-flow2vec</id><content type="html" xml:base="http://localhost:4000/2016/12/21/Netflow-flow2vec/">&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pandas&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pd&lt;/span&gt;
 &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;numpy&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;np&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;#import pyhash&lt;/span&gt;
 &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;gensim&lt;/span&gt;
@@ -102,15 +102,7 @@
 &lt;p&gt;&lt;img src=&quot;/img/flow_window_5.jpg&quot; alt=&quot;&quot; /&gt;
 &lt;em&gt;Windows of flows&lt;/em&gt;&lt;/p&gt;
 
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;When we consider the conditional probabilities $$P(w&lt;/td&gt;
-      &lt;td&gt;f)&lt;script type=&quot;math/tex&quot;&gt;with a given set of flow captures **Captures** the goal is to set the parameters&lt;/script&gt;\theta&lt;script type=&quot;math/tex&quot;&gt;of&lt;/script&gt;P(w&lt;/td&gt;
-      &lt;td&gt;f;\theta)$$ so as to maximize the capture probability :&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+&lt;p&gt;When we consider the conditional probabilities &lt;script type=&quot;math/tex&quot;&gt;P(w\|f)&lt;/script&gt; with a given set of flow captures &lt;strong&gt;Captures&lt;/strong&gt; the goal is to set the parameters &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt; of &lt;script type=&quot;math/tex&quot;&gt;P(w\|f;\theta)&lt;/script&gt; so as to maximize the capture probability :&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;\underset{\theta}{\operatorname{argmax}} \underset{f \in Captures}{\operatorname{\prod}} \left[\underset{w \in W_{f}}{\operatorname{\prod}} P(w \vert f;\theta)\right]&lt;/script&gt;
 
@@ -138,16 +130,7 @@
 
 &lt;p&gt;One of the other portions of the word2vec algorithm that I will be testing in this experiment will be negative sampling.&lt;/p&gt;
 
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;The objective of Skipgram with Negative Sampling is to maximize the the probability that &lt;script type=&quot;math/tex&quot;&gt;(f,w)&lt;/script&gt; came from the data &lt;script type=&quot;math/tex&quot;&gt;D&lt;/script&gt;. This can be modeled as a distribution such that $$P(D=1&lt;/td&gt;
-      &lt;td&gt;f,w)&lt;script type=&quot;math/tex&quot;&gt;be the probability that&lt;/script&gt;(f,w)&lt;script type=&quot;math/tex&quot;&gt;came from the data and&lt;/script&gt;P(D=0&lt;/td&gt;
-      &lt;td&gt;f,w) = 1 - P(D=1&lt;/td&gt;
-      &lt;td&gt;f,w)&lt;script type=&quot;math/tex&quot;&gt;the probability that&lt;/script&gt;(f,w)$$ did not.&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+&lt;p&gt;The objective of Skipgram with Negative Sampling is to maximize the the probability that &lt;script type=&quot;math/tex&quot;&gt;(f,w)&lt;/script&gt; came from the data &lt;script type=&quot;math/tex&quot;&gt;D&lt;/script&gt;. This can be modeled as a distribution such that &lt;script type=&quot;math/tex&quot;&gt;P(D=1\|f,w)&lt;/script&gt; be the probability that &lt;script type=&quot;math/tex&quot;&gt;(f,w)&lt;/script&gt; came from the data and &lt;script type=&quot;math/tex&quot;&gt;P(D=0\|f,w) = 1 - P(D=1\|f,w)&lt;/script&gt; the probability that &lt;script type=&quot;math/tex&quot;&gt;(f,w)&lt;/script&gt; did not.&lt;/p&gt;
 
 &lt;p&gt;The distribution is modeled as :&lt;/p&gt;
 
@@ -155,29 +138,13 @@
 
 &lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;\vec{f}&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;\vec{w}&lt;/script&gt;, each a &lt;script type=&quot;math/tex&quot;&gt;d&lt;/script&gt;-dimensional vector, are the model parameters to be learned.&lt;/p&gt;
 
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;The negative sampling tries to maximize $$P(D=1&lt;/td&gt;
-      &lt;td&gt;f,w)&lt;script type=&quot;math/tex&quot;&gt;for observed&lt;/script&gt;(f,w)&lt;script type=&quot;math/tex&quot;&gt;pairs while maximizing&lt;/script&gt;P(D=0&lt;/td&gt;
-      &lt;td&gt;f,w)&lt;script type=&quot;math/tex&quot;&gt;for stochastically sampled &quot;negative&quot; examples, under the assumption that selecting a context for a given word is likely to result in an unobserved&lt;/script&gt;(f,w)$$ pair.&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+&lt;p&gt;The negative sampling tries to maximize &lt;script type=&quot;math/tex&quot;&gt;P(D=1\|f,w)&lt;/script&gt; for observed &lt;script type=&quot;math/tex&quot;&gt;(f,w)&lt;/script&gt; pairs while maximizing &lt;script type=&quot;math/tex&quot;&gt;P(D=0\|f,w)&lt;/script&gt; for stochastically sampled “negative” examples, under the assumption that selecting a context for a given word is likely to result in an unobserved &lt;script type=&quot;math/tex&quot;&gt;(f,w)&lt;/script&gt; pair.&lt;/p&gt;
 
 &lt;p&gt;SGNS’s objective for a single &lt;script type=&quot;math/tex&quot;&gt;(f,w)&lt;/script&gt; output observation is then:&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;E = \log \sigma(\vec{f} \cdot \vec{w}) + k \cdot \mathbb{E}_{w_{N} \sim P_{D}} [\log \sigma(\vec{-f} \cdot \vec{w}_N)]&lt;/script&gt;
 
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;where &lt;script type=&quot;math/tex&quot;&gt;k&lt;/script&gt; is the number of “negative” samples and &lt;script type=&quot;math/tex&quot;&gt;w_{N}&lt;/script&gt; is the sampled window, drawn according to the empirical unigram distribution $$P_{D}(w) = \frac{\text{#}w}{&lt;/td&gt;
-      &lt;td&gt;D&lt;/td&gt;
-      &lt;td&gt;}$$&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;k&lt;/script&gt; is the number of “negative” samples and &lt;script type=&quot;math/tex&quot;&gt;w_{N}&lt;/script&gt; is the sampled window, drawn according to the empirical unigram distribution &lt;script type=&quot;math/tex&quot;&gt;P_{D}(w) = \frac{\text{#}w}{\|D\|}&lt;/script&gt;&lt;/p&gt;
 
 &lt;p&gt;Let’s disassemble this objective function into its respective terms and put it back together again :&lt;/p&gt;
 
@@ -698,17 +665,9 @@
 
 &lt;p&gt;Kmeans has an objective function that intends to partition &lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt; objects into &lt;script type=&quot;math/tex&quot;&gt;k&lt;/script&gt; clusters in which each object, &lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt;, belongs to the cluster with the nearest mean. This can be seen as :&lt;/p&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;J = \sum_{j=1}^{k}\sum_{i=1}^{n} | x_{i}^{(j)} - c_{j}|^2&lt;/script&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;J = \sum_{j=1}^{k}\sum_{i=1}^{n} \| x_{i}^{(j)} - c_{j}\|^2&lt;/script&gt;
 
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Where $$&lt;/td&gt;
-      &lt;td&gt;x_{i}^{(j)} - c_{j}&lt;/td&gt;
-      &lt;td&gt;^2&lt;script type=&quot;math/tex&quot;&gt;is a chosen distance measure between a datapoint&lt;/script&gt;x^{j}_{i}&lt;script type=&quot;math/tex&quot;&gt;and the cluster center&lt;/script&gt;c{j}&lt;script type=&quot;math/tex&quot;&gt;, is an indicator of the distance of the&lt;/script&gt;n&lt;script type=&quot;math/tex&quot;&gt;datapoints from their respective cluster&lt;/script&gt;k&lt;script type=&quot;math/tex&quot;&gt;centers. In this case,&lt;/script&gt;k$$ is a hyperparameter that can be used within the model to define how many cluster centroids should be trained over.&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+&lt;p&gt;Where &lt;script type=&quot;math/tex&quot;&gt;\| x_{i}^{(j)} - c_{j}\|^2&lt;/script&gt; is a chosen distance measure between a datapoint &lt;script type=&quot;math/tex&quot;&gt;x^{j}_{i}&lt;/script&gt; and the cluster center &lt;script type=&quot;math/tex&quot;&gt;c{j}&lt;/script&gt;, is an indicator of the distance of the &lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt; datapoints from their respective cluster &lt;script type=&quot;math/tex&quot;&gt;k&lt;/script&gt; centers. In this case, &lt;script type=&quot;math/tex&quot;&gt;k&lt;/script&gt; is a hyperparameter that can be used within the model to define how many cluster centroids should be trained over.&lt;/p&gt;
 
 &lt;h4 id=&quot;todo-&quot;&gt;TODO :&lt;/h4&gt;
 
