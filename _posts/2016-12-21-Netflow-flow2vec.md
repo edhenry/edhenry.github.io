@@ -106,7 +106,7 @@ Attempting to find some co-occurence patterns in the flow data according to how 
 ![](/img/flow_window_5.jpg)
 *Windows of flows*
 
-When we consider the conditional probabilities $$P(w\|f)$$ with a given set of flow captures **Captures** the goal is to set the parameters $$\theta$$ of $$P(w\|f;\theta)$$ so as to maximize the capture probability :
+When we consider the conditional probabilities $$P(w|f)$$ with a given set of flow captures **Captures** the goal is to set the parameters $$\theta$$ of $$P(w|f;\theta)$$ so as to maximize the capture probability :
 
 $$ \underset{\theta}{\operatorname{argmax}} \underset{f \in Captures}{\operatorname{\prod}} \left[\underset{w \in W_{f}}{\operatorname{\prod}} P(w \vert f;\theta)\right] $$
 
@@ -134,7 +134,7 @@ At the end of the embedding exercise we can use k-means to attempt to cluster fl
 
 One of the other portions of the word2vec algorithm that I will be testing in this experiment will be negative sampling.
 
-The objective of Skipgram with Negative Sampling is to maximize the the probability that $$(f,w)$$ came from the data $$D$$. This can be modeled as a distribution such that $$P(D=1\|f,w)$$ be the probability that $$(f,w)$$ came from the data and $$P(D=0\|f,w) = 1 - P(D=1\|f,w)$$ the probability that $$(f,w)$$ did not. 
+The objective of Skipgram with Negative Sampling is to maximize the the probability that $$(f,w)$$ came from the data $$D$$. This can be modeled as a distribution such that $$P(D=1|f,w)$$ be the probability that $$(f,w)$$ came from the data and $$P(D=0|f,w) = 1 - P(D=1|f,w)$$ the probability that $$(f,w)$$ did not. 
 
 The distribution is modeled as :
 
@@ -142,13 +142,13 @@ $$P(D=1|f,w) = \sigma(\vec{f} \cdot \vec{w}) = \frac{1}{1+e^{-\vec{f} \cdot \vec
 
 where $$\vec{f}$$ and $$\vec{w}$$, each a $$d$$-dimensional vector, are the model parameters to be learned.
 
-The negative sampling tries to maximize $$P(D=1\|f,w)$$ for observed $$(f,w)$$ pairs while maximizing $$P(D=0\|f,w)$$ for stochastically sampled "negative" examples, under the assumption that selecting a context for a given word is likely to result in an unobserved $$(f,w)$$ pair.
+The negative sampling tries to maximize $$P(D=1|f,w)$$ for observed $$(f,w)$$ pairs while maximizing $$P(D=0|f,w)$$ for stochastically sampled "negative" examples, under the assumption that selecting a context for a given word is likely to result in an unobserved $$(f,w)$$ pair.
 
 SGNS's objective for a single $$(f,w)$$ output observation is then:
 
 $$ E = \log \sigma(\vec{f} \cdot \vec{w}) + k \cdot \mathbb{E}_{w_{N} \sim P_{D}} [\log \sigma(\vec{-f} \cdot \vec{w}_N)] $$
 
-where $$k$$ is the number of "negative" samples and $$w_{N}$$ is the sampled window, drawn according to the empirical unigram distribution $$P_{D}(w) = \frac{\text{#}w}{\|D\|}$$
+where $$k$$ is the number of "negative" samples and $$w_{N}$$ is the sampled window, drawn according to the empirical unigram distribution $$P_{D}(w) = \frac{\text{#}w}{|D|}$$
 
 Let's disassemble this objective function into its respective terms and put it back together again :
 
@@ -704,9 +704,9 @@ Now that we have some vector representations of occurences of flows within the c
 
 Kmeans has an objective function that intends to partition $$n$$ objects into $$k$$ clusters in which each object, $$n$$, belongs to the cluster with the nearest mean. This can be seen as :
 
-$$ J = \sum_{j=1}^{k}\sum_{i=1}^{n} \| x_{i}^{(j)} - c_{j}\|^2 $$
+$$ J = \sum_{j=1}^{k}\sum_{i=1}^{n} | x_{i}^{(j)} - c_{j}|^2 $$
 
-Where $$\| x_{i}^{(j)} - c_{j}\|^2$$ is a chosen distance measure between a datapoint $$x^{j}_{i}$$ and the cluster center $$c{j}$$, is an indicator of the distance of the $$n$$ datapoints from their respective cluster $$k$$ centers. In this case, $$k$$ is a hyperparameter that can be used within the model to define how many cluster centroids should be trained over.
+Where $$| x_{i}^{(j)} - c_{j}|^2$$ is a chosen distance measure between a datapoint $$x^{j}_{i}$$ and the cluster center $$c{j}$$, is an indicator of the distance of the $$n$$ datapoints from their respective cluster $$k$$ centers. In this case, $$k$$ is a hyperparameter that can be used within the model to define how many cluster centroids should be trained over.
 
 #### TODO :
 
