@@ -85,33 +85,33 @@ print(sequential_search(test_array, 25))
     True
 
 
-The example above uses an example of uses an unordered list. Because this list is unordered, we will need to evaluate every item in the list to understand if it is the item that we're searching for. Because this is the case, the computational complexity of our `sequential_search` function is $$O(n)$$.
+The example above uses an example of uses an unordered list. Because this list is unordered, we will need to evaluate every item in the list to understand if it is the item that we're searching for. Because this is the case, the computational complexity of our `sequential_search` function is $$$$O(n)$$$$.
 
 Here is a table summarizing the cases :
 
 | Case               | Best Case | Worst Case | Average Case |
 |--------------------|-----------|------------|--------------|
-| item is present    | 1         | $$n$$        | $$\frac{n}{2}$$|
-| item isn't present | $$n$$       | $$n$$        | $$n$$          |
+| item is present    | 1         | $$$$n$$$$        | $$$$\frac{n}{2}$$$$|
+| item isn't present | $$$$n$$$$       | $$$$n$$$$        | $$$$n$$$$          |
 
 This can be seen as such :
 
-For every $$n$$ and every input size of $$n$$, the following is true:
+For every $$$$n$$$$ and every input size of $$$$n$$$$, the following is true:
 
-* The while loop is executed at most $$n$$ times
-    * `position` is incremented on each iteration, so `position` > $$n$$ after $$n$$ iterations.
-* Each iteration takes $$c$$ steps for some constant $$c$$
-* $$d$$ steps are taken outside of the loop, for some constant $$d$$
+* The while loop is executed at most $$$$n$$$$ times
+    * `position` is incremented on each iteration, so `position` > $$$$n$$$$ after $$$$n$$$$ iterations.
+* Each iteration takes $$$$c$$$$ steps for some constant $$$$c$$$$
+* $$$$d$$$$ steps are taken outside of the loop, for some constant $$$$d$$$$
 
-Therefore for *all* inputs of size $$n$$, the time needed for the entire search is **at most** $$(cn+d) = O(n)$$.
+Therefore for *all* inputs of size $$$$n$$$$, the time needed for the entire search is **at most** $$$$(cn+d) = O(n)$$$$.
 
-At worst, the item $$x$$ we're searching for is the _last_ item in the entire list of items. This can be seen as 
+At worst, the item $$$$x$$$$ we're searching for is the _last_ item in the entire list of items. This can be seen as 
 
-$$A[n] = x$$ and $$A[i] \ne x$$ for all $$i$$ s.t. $$1 \le i \lt n$$
+$$$$A[n] = x$$$$ and $$$$A[i] \ne x$$$$ for all $$$$i$$$$ s.t. $$$$1 \le i \lt n$$$$
 
 ### Ordered array
 
-If we assume that the list, or array, that we're searching over is ordered, say from low to high, the chance of the item we're looking for being in any one of the $$n$$ positions is still the same. However, if the item is _not_ present we have a slight advantage in that the item that we're looking for may never be present past another item of greater value.
+If we assume that the list, or array, that we're searching over is ordered, say from low to high, the chance of the item we're looking for being in any one of the $$$$n$$$$ positions is still the same. However, if the item is _not_ present we have a slight advantage in that the item that we're looking for may never be present past another item of greater value.
 
 For example, if we're looking for the number 25, and through the process of searching through the array, we happen upon the number 27, we know that no other integers past number 27 will have the value that we're looking for.
 
@@ -146,14 +146,14 @@ Modifying the table above, we can see that with the item _not_ present in our ar
 
 | Case               | Best Case | Worst Case | Average Case |
 |--------------------|-----------|------------|--------------|
-| item is present    | 1         | $$n$$        | $$\frac{n}{2}$$|
-| item isn't present | $$n$$       | $$n$$        | $$\frac{n}{2}$$|
+| item is present    | 1         | $$$$n$$$$        | $$$$\frac{n}{2}$$$$|
+| item isn't present | $$$$n$$$$       | $$$$n$$$$        | $$$$\frac{n}{2}$$$$|
 
 This can prove really useful if we can somehow, somewhere else in our data structure definitions, that we can guarantee ordering of our arrays. This example is left for future work as it's more abstract to just the search examples we're displaying here.
 
 ## Binary Search
 
-With sequential search we start by evaluating the first entry of array for whether or not it matches the the item that we're looking for, and if it does not we proceed through the entire collection, trying to find a match. There are at most, at any time, $$n-1$$ more items to look at if the item we're currently evaluating is not the one we're looking for.
+With sequential search we start by evaluating the first entry of array for whether or not it matches the the item that we're looking for, and if it does not we proceed through the entire collection, trying to find a match. There are at most, at any time, $$$$n-1$$$$ more items to look at if the item we're currently evaluating is not the one we're looking for.
 
 Binary search takes a bit of a different approach to the problem. Instead of searching through the collection, sequentially, starting with the first item in the list or array, the process starts at the middle. If the middle item of the list is _not_ the item that we're looking for, and is larger than the middle value, we can drop the entire bottom half of the list and save ourselves that much computation time.
 
@@ -187,13 +187,13 @@ Using our handy table again, we can analyze the complexity of the binary search 
 
 | Comparisons | Approximate Number of Items Left|
 |-------------|---------------------------------|
-| 1           | $$\frac{n}{2}$$                   |
-| 2           | $$\frac{n}{4}$$                   |
-| 3           | $$\frac{n}{8}$$                   |
+| 1           | $$$$\frac{n}{2}$$$$                   |
+| 2           | $$$$\frac{n}{4}$$$$                   |
+| 3           | $$$$\frac{n}{8}$$$$                   |
 | ...                                           |
-|$$i$$          | $$\frac{n}{2^{i}}$$               |
+|$$$$i$$$$          | $$$$\frac{n}{2^{i}}$$$$               |
 
-The number of comparisons necessary to get to this point is $$i$$ where $$\frac{n}{2^{i}} = 1$$. Solving for $$i$$ is $$i = log n$$. Therefore, binary search has a computational complexity of $$O(log n)$$.
+The number of comparisons necessary to get to this point is $$$$i$$$$ where $$$$\frac{n}{2^{i}} = 1$$$$. Solving for $$$$i$$$$ is $$$$i = log n$$$$. Therefore, binary search has a computational complexity of $$$$O(log n)$$$$.
 
 #### References
 
