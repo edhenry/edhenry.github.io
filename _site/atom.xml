@@ -4,7 +4,7 @@
  <title>Ed Henry</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <link href="http://localhost:4000/"/>
- <updated>2016-12-21T20:39:18-05:00</updated>
+ <updated>2016-12-21T21:01:43-05:00</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>Ed Henry</name>
@@ -115,23 +115,14 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h2 id=&quot;word2vec-co-occurence-idea-for-flow-data&quot;&gt;Word2vec (co-occurence idea for flow data)&lt;/h2&gt;
+&lt;h2 id=&quot;ford2vec---co-occurence-idea-for-flow-data&quot;&gt;Ford2vec - co-occurence idea for flow data&lt;/h2&gt;
 
 &lt;p&gt;Attempting to find some co-occurence patterns in the flow data according to how an algorithm like word2vec, in its skip-gram implementation specifically for this work, works. The idea is that flows, $V_{f}$ for vector representation, that occur within a window $W_{f}$, which can be modeled as “time” using timestamps from the capture. A visual representation of a single flow and window of flows can be seen below :&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/img/flow_window_5.jpg&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/flow_window_5.jpg&quot; alt=&quot;&quot; /&gt;
+&lt;em&gt;Windows of flows&lt;/em&gt;&lt;/p&gt;
 
-&lt;p&gt;The image doesn’t display the timestamp, but the windowing will be done according to a selected time window.&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Considering the conditional probabilities $P(w&lt;/td&gt;
-      &lt;td&gt;f)$, with a given set of flow captures &lt;em&gt;Captures&lt;/em&gt;, the goal is to set the parameters $\theta$ of $P(w&lt;/td&gt;
-      &lt;td&gt;f;\theta)$ so as to maximize the capture probability :&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+&lt;p&gt;When we consider the conditional probabilities $P(w|f)$ with a given set of flow captures &lt;strong&gt;Captures&lt;/strong&gt; the goal is to set the parameters $\theta$ of $P(w|f;\theta)$ so as to maximize the capture probability :&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;\underset{\theta}{\operatorname{argmax}} \underset{f \in Captures}{\operatorname{\prod}} \left[\underset{w \in W_{f}}{\operatorname{\prod}} P(w \vert f;\theta)\right]&lt;/script&gt;
 
@@ -153,52 +144,27 @@
 
 &lt;h4 id=&quot;maximizing-the-objective-will-result-in-good-embeddings-v_f--forall-w-in-v&quot;&gt;Maximizing the objective will result in good embeddings $v_{f}  \forall w \in V$&lt;/h4&gt;
 
-&lt;p&gt;#####&lt;em&gt;It is important to note with the above statment, with respect to time, is the assumption that the data I am operating from has already been ordered according to the tooling I used to acquire it&lt;/em&gt;&lt;/p&gt;
+&lt;h5 id=&quot;it-is-important-to-note-with-the-above-statment-with-respect-to-time-is-the-assumption-that-the-data-i-am-operating-from-has-already-been-ordered-according-to-the-tooling-i-used-to-acquire-it_&quot;&gt;It is important to note with the above statment, with respect to time, is the assumption that the data I am operating from has already been ordered according to the tooling I used to acquire it_&lt;/h5&gt;
 
 &lt;h2 id=&quot;skip-gram-negative-sampling&quot;&gt;Skip-gram Negative Sampling&lt;/h2&gt;
 
 &lt;p&gt;One of the other portions of the word2vec algorithm that I will be testing in this experiment will be negative sampling.&lt;/p&gt;
 
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;The objective of Skipgram with Negative Sampling is to maximize the the probability that $(f,w)$ came from the data $D$. This can be modeled as a distribution such that $P(D=1&lt;/td&gt;
-      &lt;td&gt;f,w)$ be the probability that $(f,w)$ came from the data and $P(D=0&lt;/td&gt;
-      &lt;td&gt;f,w) = 1 - P(D=1&lt;/td&gt;
-      &lt;td&gt;f,w)$ the probability that $(f,w)$ did not.&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+&lt;p&gt;The objective of Skipgram with Negative Sampling is to maximize the the probability that $(f,w)$ came from the data $D$. This can be modeled as a distribution such that $P(D=1|f,w)$ be the probability that $(f,w)$ came from the data and $P(D=0|f,w) = 1 - P(D=1|f,w)$ the probability that $(f,w)$ did not.&lt;/p&gt;
 
 &lt;p&gt;The distribution is modeled as :&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;P(D=1|f,w) = \sigma(\vec{f} \cdot \vec{w}) = \frac{1}{1+e^{-\vec{f} \cdot \vec{w}}}&lt;/script&gt;
 
-&lt;p&gt;where $\vec{f}$ and $\vec{w}$ (each a d-dimensional vector) are the model parameters to be learned.&lt;/p&gt;
+&lt;p&gt;where $\vec{f}$ and $\vec{w}$, each a $d$-dimensional vector, are the model parameters to be learned.&lt;/p&gt;
 
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;The negative sampling tries to maximize $P(D=1&lt;/td&gt;
-      &lt;td&gt;f,w)$ for observed $(f,w)$ pairs while maximizing $P(D=0&lt;/td&gt;
-      &lt;td&gt;f,w)$ for stochastically sampled “negative” examples, under the assumption that selecting a context for a given word is likely to result in an unobserved $(f,w)$ pair.&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+&lt;p&gt;The negative sampling tries to maximize $P(D=1|f,w)$ for observed $(f,w)$ pairs while maximizing $P(D=0|f,w)$ for stochastically sampled “negative” examples, under the assumption that selecting a context for a given word is likely to result in an unobserved $(f,w)$ pair.&lt;/p&gt;
 
 &lt;p&gt;SGNS’s objective for a single $(f,w)$ output observation is then:&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;E = \log \sigma(\vec{f} \cdot \vec{w}) + k \cdot \mathbb{E}_{w_{N} \sim P_{D}} [\log \sigma(\vec{-f} \cdot \vec{w}_N)]&lt;/script&gt;
 
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;where $k$ is the number of “negative” samples and $w_{N}$ is the sampled window, drawn according to the empirical unigram distribution $P_{D}(w) = \frac{#w}{&lt;/td&gt;
-      &lt;td&gt;D&lt;/td&gt;
-      &lt;td&gt;}$&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+&lt;p&gt;where $k$ is the number of “negative” samples and $w_{N}$ is the sampled window, drawn according to the empirical unigram distribution $P_{D}(w) = \frac{\text{#}w}{|D|}$&lt;/p&gt;
 
 &lt;p&gt;Let’s disassemble this objective function into its respective terms and put it back together again :&lt;/p&gt;
 
@@ -210,10 +176,11 @@
 
 &lt;p&gt;Optimizing this objective groups flows that have similar embeddings, while scattering unobserved pairs.&lt;/p&gt;
 
-&lt;p&gt;####TODO (further exploration) :&lt;/p&gt;
+&lt;h5 id=&quot;todo---further-exploration-&quot;&gt;TODO - further exploration :&lt;/h5&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;Running true tuples of SRCIP, DSTIP, DSTPORT, and PROTO (label included for now, need to figure out how to persist through pipeline without skewing results - need to figure out how to match up labeling to flow after word2vec has been run)&lt;/li&gt;
+  &lt;li&gt;Running true tuples of SRCIP, DSTIP, DSTPORT, and PROTO&lt;/li&gt;
+  &lt;li&gt;Label included for now, need to figure out how to persist through pipeline without skewing results - need to figure out how to match up labeling to flow after word2vec has been run&lt;/li&gt;
   &lt;li&gt;Implement timestamp window oriented ‘sentence’ creation, current implementation created same length flow ‘sentences’ for every $f$ flow&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -261,29 +228,33 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Here we train a model without using the negative sampling hyperparameter &lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# We will be using this for testing of accuracy of model vs. using the &lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# negative sampling function&lt;/span&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Here we train a model without using the negative sampling &lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# hyperparameter. We will be using this for testing of &lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# accuracy of model vs. using the negative sampling function&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;flow_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gensim&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Word2Vec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;str_corpora&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;workers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;23&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;min_count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;flow_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gensim&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Word2Vec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;str_corpora&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;workers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;23&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+                                    &lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+                                    &lt;span class=&quot;n&quot;&gt;min_count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Here we train a model using the negative sampling which we will then compare&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# to the model above for the impact that the negative sampling has on the &lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# clustering of flows&lt;/span&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Here we train a model using the negative sampling which &lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# we will then compare to the model above for the impact &lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# that the negative sampling has on the clustering of flows&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;flow_model_sgns&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gensim&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Word2Vec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;str_corpora&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;workers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;23&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;negative&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sample&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;flow_model_sgns&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gensim&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Word2Vec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;str_corpora&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;workers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;23&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+                                         &lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+                                         &lt;span class=&quot;n&quot;&gt;negative&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sample&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h2 id=&quot;preliminary-results-very-rough-no-real-hyperparameter-tunings--exploration-etc&quot;&gt;Preliminary results (very rough, no real hyperparameter tunings / exploration, etc.)&lt;/h2&gt;
+&lt;h2 id=&quot;preliminary-results---very-rough-no-real-hyperparameter-tunings--exploration-etc&quot;&gt;Preliminary results - very rough, no real hyperparameter tunings / exploration, etc.&lt;/h2&gt;
 
 &lt;p&gt;We can see below the results may prove to be useful with respect to certain labels present in the dataset, but not others. This may have to do with the raw occurence rates of certain flow and window #$(f,w)$ combinations vs. others. I use labels lightly as well as this will ultimately become an exercise of semi-supervised learning as it can sometimes be impossible for humans to interpret the results of an unsupervised learning task without any type of contextual insight, as labels can provide. In the case of written language, the “insight” that is provided is the fact that we know what the meanings of words are within the language and if they’re clustering correctly, re: synonyms and antonyms, etc.&lt;/p&gt;
 
 &lt;p&gt;We can tune for this using subsampling above in the SGNS model. Which will we do next.&lt;/p&gt;
 
-&lt;p&gt;####TODO:&lt;/p&gt;
+&lt;h4 id=&quot;todo&quot;&gt;TODO:&lt;/h4&gt;
 &lt;ul&gt;
   &lt;li&gt;GridSearch for hyperparameters&lt;/li&gt;
 &lt;/ul&gt;
@@ -718,7 +689,7 @@
 
 &lt;p&gt;Where $| x_{i}^{(j)} - c_{j}|^2$ is a chosen distance measure between a datapoint $x^{j}_{i}$ and the cluster center $c{j}$, is an indicator of the distance of the $n$ datapoints from their respective cluster $k$ centers. In this case, $k$ is a hyperparameter that can be used within the model to define how many cluster centroids should be trained over.&lt;/p&gt;
 
-&lt;p&gt;####TODO :&lt;/p&gt;
+&lt;h4 id=&quot;todo-&quot;&gt;TODO :&lt;/h4&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Limitation for arrays larger than 16GB due to an underlying dependency that numpy has, need to investigate - this is why I’m only running kmeans on a subset of the overall model learned above&lt;/li&gt;
@@ -816,7 +787,7 @@
 
 &lt;p&gt;Use t-SNE and matplotlib to visualize the clusters created using Word2Vec.&lt;/p&gt;
 
-&lt;p&gt;####TODO :&lt;/p&gt;
+&lt;h4 id=&quot;todo--1&quot;&gt;TODO :&lt;/h4&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Brief explanation of the tSNE algorithm and how it handles compressing higher dimensional data into 2 or 3 dimension for visualization&lt;/li&gt;
@@ -878,92 +849,9 @@
 &lt;h2 id=&quot;things-left-to-research--validate--test&quot;&gt;Things left to research / validate / test&lt;/h2&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;Tune hyperparameters of models for all algorithms (word2vec, kmeans, tSNE)&lt;/li&gt;
-  &lt;li&gt;Find fixes for limitations of larger datasets for tooling that has dependencies on numpy (kmeans, tSNE)&lt;/li&gt;
+  &lt;li&gt;Tune hyperparameters of models for all algorithms – word2vec, kmeans, tSNE&lt;/li&gt;
+  &lt;li&gt;Find fixes for limitations of larger datasets for tooling that has dependencies on numpy – kmeans, tSNE&lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;h2 id=&quot;--everything-below-this-line-for-future-use--&quot;&gt;—- EVERYTHING BELOW THIS LINE FOR FUTURE USE —-&lt;/h2&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Generate hash for all flows within the dataset&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;flowdata_dict&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Parallelize the hashing of flows&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;concurrent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;futures&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ProcessPoolExecutor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;executor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;executor&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;process_flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flowdata_sample&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iterrows&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()):&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;flowdata_dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;## ONLY USE THIS BLOCK IF YOU WANT PER TO SORT FLOWS PER IP&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Lists for tcp and udp flows&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;tcp_flows&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;udp_flows&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Iterate over dataframe&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;d&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flowdata_sample&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iterrows&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'tcp'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        
-        &lt;span class=&quot;c&quot;&gt;#Append flow&lt;/span&gt;
-        
-        &lt;span class=&quot;n&quot;&gt;tcp_flows&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        
-    &lt;span class=&quot;k&quot;&gt;elif&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'udp'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;udp_flows&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Set for identifying unique IPs from flows&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;unique_per_proto&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tcp_flows&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    
-    &lt;span class=&quot;c&quot;&gt;# Add unique SrcAddr to set for TCP flows&lt;/span&gt;
-    
-    &lt;span class=&quot;n&quot;&gt;unique_per_proto&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;udp_flows&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    
-    &lt;span class=&quot;c&quot;&gt;# Add unique SrcAddr to set for UDP flows&lt;/span&gt;
-    
-    &lt;span class=&quot;n&quot;&gt;unique_per_proto&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;## ONLY USE THIS BLOCK IF YOU WANT PER TO SORT FLOWS PER IP&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Set for unique IPs for overall flowset &lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# Maintaining ordering of existing data&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# Use this if we wanted a corpus per srcIP&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;unique_per_flow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;d&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flowdata_sample&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iterrows&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;unique_per_flow&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Sort flows according to srcIP&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;ip_dicts&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Parallelization framework&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;concurrent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;futures&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ProcessPoolExecutor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;executor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    
-    &lt;span class=&quot;c&quot;&gt;# pass in unique set to executor&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;# Return dict from each process&lt;/span&gt;
-    
-    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;d&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;executor&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sort_ip_flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;unique_per_proto&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    
-        &lt;span class=&quot;c&quot;&gt;# Roll all dicts up into list&lt;/span&gt;
-        
-        &lt;span class=&quot;n&quot;&gt;ip_dicts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 </content>
  </entry>
  

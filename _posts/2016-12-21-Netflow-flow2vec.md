@@ -99,17 +99,16 @@ subsample_labels = flowdata.loc[:,['Label']]
 subsample_cats_1 = flowdata.loc[:,['Proto', 'SrcAddr', 'DstAddr', 'Dport', 'Label']]
 ```
 
-## Word2vec (co-occurence idea for flow data)
+## Ford2vec - co-occurence idea for flow data
 
 Attempting to find some co-occurence patterns in the flow data according to how an algorithm like word2vec, in its skip-gram implementation specifically for this work, works. The idea is that flows, $V_{f}$ for vector representation, that occur within a window $W_{f}$, which can be modeled as "time" using timestamps from the capture. A visual representation of a single flow and window of flows can be seen below :
 
-<img src="/img/flow_window_5.jpg">
+![](/img/flow_window_5.jpg)
+*Windows of flows*
 
-The image doesn't display the timestamp, but the windowing will be done according to a selected time window.
+When we consider the conditional probabilities $P(w\|f)$ with a given set of flow captures **Captures** the goal is to set the parameters $\theta$ of $P(w\|f;\theta)$ so as to maximize the capture probability :
 
-Considering the conditional probabilities $P(w|f)$, with a given set of flow captures _Captures_, the goal is to set the parameters $\theta$ of $P(w|f;\theta)$ so as to maximize the capture probability :
-
-$$\underset{\theta}{\operatorname{argmax}} \underset{f \in Captures}{\operatorname{\prod}} \left[\underset{w \in W_{f}}{\operatorname{\prod}} P(w \vert f;\theta)\right] $$
+$$ \underset{\theta}{\operatorname{argmax}} \underset{f \in Captures}{\operatorname{\prod}} \left[\underset{w \in W_{f}}{\operatorname{\prod}} P(w \vert f;\theta)\right] $$
 
 in this equation $W_{f}$ is a set of surrounding flows of flow $f$. Alternatively :
 
@@ -129,27 +128,27 @@ At the end of the embedding exercise we can use k-means to attempt to cluster fl
 
 #### Maximizing the objective will result in good embeddings $v_{f}  \forall w \in V$
 
-#####_It is important to note with the above statment, with respect to time, is the assumption that the data I am operating from has already been ordered according to the tooling I used to acquire it_
+##### It is important to note with the above statment, with respect to time, is the assumption that the data I am operating from has already been ordered according to the tooling I used to acquire it_
 
 ## Skip-gram Negative Sampling
 
 One of the other portions of the word2vec algorithm that I will be testing in this experiment will be negative sampling.
 
-The objective of Skipgram with Negative Sampling is to maximize the the probability that $(f,w)$ came from the data $D$. This can be modeled as a distribution such that $P(D=1|f,w)$ be the probability that $(f,w)$ came from the data and $P(D=0|f,w) = 1 - P(D=1|f,w)$ the probability that $(f,w)$ did not. 
+The objective of Skipgram with Negative Sampling is to maximize the the probability that $(f,w)$ came from the data $D$. This can be modeled as a distribution such that $P(D=1\|f,w)$ be the probability that $(f,w)$ came from the data and $P(D=0\|f,w) = 1 - P(D=1\|f,w)$ the probability that $(f,w)$ did not. 
 
 The distribution is modeled as :
 
 $$P(D=1|f,w) = \sigma(\vec{f} \cdot \vec{w}) = \frac{1}{1+e^{-\vec{f} \cdot \vec{w}}}$$
 
-where $\vec{f}$ and $\vec{w}$ (each a d-dimensional vector) are the model parameters to be learned.
+where $\vec{f}$ and $\vec{w}$, each a $d$-dimensional vector, are the model parameters to be learned.
 
-The negative sampling tries to maximize $P(D=1|f,w)$ for observed $(f,w)$ pairs while maximizing $P(D=0|f,w)$ for stochastically sampled "negative" examples, under the assumption that selecting a context for a given word is likely to result in an unobserved $(f,w)$ pair.
+The negative sampling tries to maximize $P(D=1\|f,w)$ for observed $(f,w)$ pairs while maximizing $P(D=0\|f,w)$ for stochastically sampled "negative" examples, under the assumption that selecting a context for a given word is likely to result in an unobserved $(f,w)$ pair.
 
 SGNS's objective for a single $(f,w)$ output observation is then:
 
 $$ E = \log \sigma(\vec{f} \cdot \vec{w}) + k \cdot \mathbb{E}_{w_{N} \sim P_{D}} [\log \sigma(\vec{-f} \cdot \vec{w}_N)] $$
 
-where $k$ is the number of "negative" samples and $w_{N}$ is the sampled window, drawn according to the empirical unigram distribution $P_{D}(w) = \frac{\#w}{|D|}$
+where $k$ is the number of "negative" samples and $w_{N}$ is the sampled window, drawn according to the empirical unigram distribution $P_{D}(w) = \frac{\text{#}w}{\|D\|}$
 
 Let's disassemble this objective function into its respective terms and put it back together again :
 
@@ -161,9 +160,10 @@ $$ \ell = \Sigma_{f \in V_{f}} \Sigma_{w \in V_{w}} \#(f,w)(\log \sigma(\vec{f} 
 
 Optimizing this objective groups flows that have similar embeddings, while scattering unobserved pairs.
 
-####TODO (further exploration) : 
+##### TODO - further exploration : 
 
-* Running true tuples of SRCIP, DSTIP, DSTPORT, and PROTO (label included for now, need to figure out how to persist through pipeline without skewing results - need to figure out how to match up labeling to flow after word2vec has been run)
+* Running true tuples of SRCIP, DSTIP, DSTPORT, and PROTO 
+* Label included for now, need to figure out how to persist through pipeline without skewing results - need to figure out how to match up labeling to flow after word2vec has been run
 * Implement timestamp window oriented 'sentence' creation, current implementation created same length flow 'sentences' for every $f$ flow
 
 
@@ -218,29 +218,33 @@ for corpus in corpora[0]:
 
 
 ```python
-# Here we train a model without using the negative sampling hyperparameter 
-# We will be using this for testing of accuracy of model vs. using the 
-# negative sampling function
+# Here we train a model without using the negative sampling 
+# hyperparameter. We will be using this for testing of 
+# accuracy of model vs. using the negative sampling function
 
-flow_model = gensim.models.Word2Vec(str_corpora, workers=23, size=200, window=20, min_count=1)
+flow_model = gensim.models.Word2Vec(str_corpora, workers=23, 
+                                    size=200, window=20, 
+                                    min_count=1)
 ```
 
 
 ```python
-# Here we train a model using the negative sampling which we will then compare
-# to the model above for the impact that the negative sampling has on the 
-# clustering of flows
+# Here we train a model using the negative sampling which 
+# we will then compare to the model above for the impact 
+# that the negative sampling has on the clustering of flows
 
-flow_model_sgns = gensim.models.Word2Vec(str_corpora, workers=23, size=100, window=30, negative=10, sample=5)
+flow_model_sgns = gensim.models.Word2Vec(str_corpora, workers=23, 
+                                         size=100, window=30, 
+                                         negative=10, sample=5)
 ```
 
-## Preliminary results (very rough, no real hyperparameter tunings / exploration, etc.)
+## Preliminary results - very rough, no real hyperparameter tunings / exploration, etc.
 
 We can see below the results may prove to be useful with respect to certain labels present in the dataset, but not others. This may have to do with the raw occurence rates of certain flow and window #$(f,w)$ combinations vs. others. I use labels lightly as well as this will ultimately become an exercise of semi-supervised learning as it can sometimes be impossible for humans to interpret the results of an unsupervised learning task without any type of contextual insight, as labels can provide. In the case of written language, the "insight" that is provided is the fact that we know what the meanings of words are within the language and if they're clustering correctly, re: synonyms and antonyms, etc.
 
 We can tune for this using subsampling above in the SGNS model. Which will we do next.
 
-####TODO:
+#### TODO:
 * GridSearch for hyperparameters
 
 Here we see that there is indeed a clustering that has happened with respect to the "From-Botnet-V42-UDP-DNS"
@@ -704,7 +708,7 @@ $$ J = \sum_{j=1}^{k}\sum_{i=1}^{n} \| x_{i}^{(j)} - c_{j}\|^2 $$
 
 Where $\| x_{i}^{(j)} - c_{j}\|^2$ is a chosen distance measure between a datapoint $x^{j}_{i}$ and the cluster center $c{j}$, is an indicator of the distance of the $n$ datapoints from their respective cluster $k$ centers. In this case, $k$ is a hyperparameter that can be used within the model to define how many cluster centroids should be trained over.
 
-####TODO :
+#### TODO :
 
 * Limitation for arrays larger than 16GB due to an underlying dependency that numpy has, need to investigate - this is why I'm only running kmeans on a subset of the overall model learned above
 * Dimensionality reduction of some kind over the data - 300 dimensional data isn't crazy high but might have some improved performance here as well.
@@ -809,7 +813,7 @@ Raw flow vectors $V_{f}$, created by word2vec, are embedded in dimensionality eq
 
 Use t-SNE and matplotlib to visualize the clusters created using Word2Vec.
 
-####TODO :
+#### TODO :
 
 * Brief explanation of the tSNE algorithm and how it handles compressing higher dimensional data into 2 or 3 dimension for visualization
 
@@ -874,93 +878,5 @@ plt.savefig('test2.eps', format='eps', dpi=600)
 ## Things left to research / validate / test
 
 
-* Tune hyperparameters of models for all algorithms (word2vec, kmeans, tSNE)
-* Find fixes for limitations of larger datasets for tooling that has dependencies on numpy (kmeans, tSNE)
-
-
-## ---- EVERYTHING BELOW THIS LINE FOR FUTURE USE ----
-
-
-```python
-# Generate hash for all flows within the dataset
-
-flowdata_dict = {}
-
-# Parallelize the hashing of flows
-
-with concurrent.futures.ProcessPoolExecutor() as executor:
-    for flow in executor.map(process_flow, flowdata_sample.iterrows()):
-        flowdata_dict[flow[0]] = (flow[1], flow[2])
-```
-
-
-```python
-## ONLY USE THIS BLOCK IF YOU WANT PER TO SORT FLOWS PER IP
-
-# Lists for tcp and udp flows
-
-tcp_flows = []
-udp_flows = []
-
-# Iterate over dataframe
-
-for d in flowdata_sample.iterrows():
-    if d[1][2] == 'tcp':
-        
-        #Append flow
-        
-        tcp_flows.append(d)
-        
-    elif d[1][2] == 'udp':
-        udp_flows.append(d)
-
-# Set for identifying unique IPs from flows
-
-unique_per_proto = set()
-
-for flow in tcp_flows:
-    
-    # Add unique SrcAddr to set for TCP flows
-    
-    unique_per_proto.add(flow[1][3])
-
-for flow in udp_flows:
-    
-    # Add unique SrcAddr to set for UDP flows
-    
-    unique_per_proto.add(flow[1][3])
-```
-
-
-```python
-## ONLY USE THIS BLOCK IF YOU WANT PER TO SORT FLOWS PER IP
-
-# Set for unique IPs for overall flowset 
-# Maintaining ordering of existing data
-# Use this if we wanted a corpus per srcIP
-
-unique_per_flow = set()
-
-for d in flowdata_sample.iterrows():
-    unique_per_flow.add(d[1][3])
-```
-
-
-```python
-# Sort flows according to srcIP
-
-ip_dicts = []
-
-# Parallelization framework
-
-with concurrent.futures.ProcessPoolExecutor() as executor:
-    
-    # pass in unique set to executor
-    # Return dict from each process
-    
-    for d in executor.map(sort_ip_flow, unique_per_proto):
-    
-        # Roll all dicts up into list
-        
-        ip_dicts.append(d)
-```
+* Tune hyperparameters of models for all algorithms -- word2vec, kmeans, tSNE
+* Find fixes for limitations of larger datasets for tooling that has dependencies on numpy -- kmeans, tSNE
