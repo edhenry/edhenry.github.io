@@ -1,14 +1,14 @@
 
 #### Breadth First Search
 
-In this notebook / blog post we will explore breadth first search, which is an algorithm for searching a given graph for the lowest cost path to a goal state $G$.
+In this notebook / blog post we will explore breadth first search, which is an algorithm for searching a given graph for the lowest cost path to a goal state $$G$$.
 
-The _cost_ is intentionally abstract as it can be defined as whatever you'd like it to be, whether it be the least amount of vertices traversed to get to $G$ or whether it be the lowest sum of the weights of edges between a given state and the goal state, $G$.
+The _cost_ is intentionally abstract as it can be defined as whatever you'd like it to be, whether it be the least amount of vertices traversed to get to $$G$$ or whether it be the lowest sum of the weights of edges between a given state and the goal state, $$G$$.
 
 Some quick notational and fundamental review of the definition of a graph is below :
 
 * Vertex
-    * End state, also called a node, of a given path through a graph $G$
+    * End state, also called a node, of a given path through a graph $$G$$
     * Can also house additional information known as a _payload_
 
 * Edge
@@ -18,15 +18,15 @@ Some quick notational and fundamental review of the definition of a graph is bel
 * Weight
     * A value assigned to an edge to denote "cost" of traversing that edge between two vertices
 
-With these definitions we can formally define as a graph, $G$ where $G = (V,E)$.
+With these definitions we can formally define as a graph, $$G$$ where $$G = (V,E)$$.
 
-$V$ is a set of vertices and $E$ is a set of edges, respectively.
+$$V$$ is a set of vertices and $$E$$ is a set of edges, respectively.
 
-Each edge is a tuple $(v,w)$ where $w,v \in V$, adding $w$ as a third component to represent the weight of that vertex.
+Each edge is a tuple $$(v,w)$$ where $$w,v \in V$$, adding $$w$$ as a third component to represent the weight of that vertex.
 
 * Path
     * A sequence of edges that connect two vertices.
-    * Formally defined as $\{w_{1},w_{2},...,w_{n}\}$ such that $(w_{i},w_{i+1}) \in E \ \ \ \forall 1 \le i \le n-1$
+    * Formally defined as $$\{w_{1},w_{2},...,w_{n}\}$$ such that $$(w_{i},w_{i+1}) \in E \ \ \ \forall 1 \le i \le n-1$$
     
 There are great libraries that provide Graph ADT's, but in this example we'll implement a Graph class ourselves. It will be useful in understanding a graph and how we can use it.
 
@@ -220,10 +220,10 @@ networkx_graph.add_edges_from(edges)
 nx.draw_networkx(networkx_graph)
 ```
 
-![png](output_10_1.png)
+![png](/img/output_10_1.png)
 
 
-But the library also has the added ability to generate random graphs for us. In this case, the `dense_gnm_random_graph()` will generate a random graph of $G_{n,m}$ where $n$ is the node count and $m$ are the number of edges randomly distributed throughout the graph.
+But the library also has the added ability to generate random graphs for us. In this case, the `dense_gnm_random_graph()` will generate a random graph of $$G_{n,m}$$ where $$n$$ is the node count and $$m$$ are the number of edges randomly distributed throughout the graph.
 
 
 ```python
@@ -233,7 +233,7 @@ nx.draw_networkx(networkx_graph_1)
 ```
 
 
-![png](output_12_0.png)
+![png](/img/output_12_0.png)
 
 
 The networkx library tends to return iterators for each object within the graph context, such as the graph iteself, or the nodes within a graph or the neighbors of a particular node within the graph. This is useful because traversal algorithms such as breadth first search tend to operator in an iterative manner.
