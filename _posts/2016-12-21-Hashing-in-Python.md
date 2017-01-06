@@ -1,3 +1,8 @@
+---
+layout:     post
+title:      Hashing in Python
+author:     Ed Henry
+---
 
 ## Hashing
 

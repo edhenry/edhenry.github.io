@@ -1,3 +1,8 @@
+---
+layout:     post
+title:      First Class Functions in Python
+author:     Ed Henry
+---
 
 ## First Class Functions
 

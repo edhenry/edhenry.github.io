@@ -1,4 +1,8 @@
-
+---
+layout:     post
+title:      Netflow and word2vec -> flow2vec
+author:     Ed Henry
+---
 
 ```python
 import pandas as pd
