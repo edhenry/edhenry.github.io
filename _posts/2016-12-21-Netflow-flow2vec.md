@@ -2,6 +2,7 @@
 layout:     post
 title:      Netflow and word2vec -> flow2vec
 author:     Ed Henry
+tags: [Python, Machine Learning, word2vec, netflow]
 ---
 
 ```python

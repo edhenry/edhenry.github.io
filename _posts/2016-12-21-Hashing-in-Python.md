@@ -2,6 +2,7 @@
 layout:     post
 title:      Hashing in Python
 author:     Ed Henry
+tags: [Python, Hashing, Algorithm]
 ---
 
 ## Hashing

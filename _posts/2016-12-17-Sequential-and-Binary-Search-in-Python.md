@@ -2,6 +2,7 @@
 layout:     post
 title:      Sequential and Binary Search in Python
 author:     Ed Henry
+tags: [Python, Search, Algorithm]
 ---
 
 

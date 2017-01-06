@@ -2,6 +2,7 @@
 layout:     post
 title:      Breadth First Search in Python
 author:     Ed Henry
+tags: [Python, Search, Algorithm, BFS]
 ---
 
 

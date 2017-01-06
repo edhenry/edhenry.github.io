@@ -2,6 +2,7 @@
 layout:     post
 title:      First Class Functions in Python
 author:     Ed Henry
+tags: [Python]
 ---
 
 ## First Class Functions
