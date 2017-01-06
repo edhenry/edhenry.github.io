@@ -1,3 +1,9 @@
+---
+layout:     post
+title:      Breadth First Search in Python
+author:     Ed Henry
+---
+
 
 #### Breadth First Search
 
