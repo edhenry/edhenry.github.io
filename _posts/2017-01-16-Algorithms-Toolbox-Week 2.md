@@ -1,3 +1,15 @@
+---
+layout:     post
+title:      Algorithmic Toolbox - Week 2
+author:     Ed Henry
+tags: [Python, Algorithm, Coursera]
+---
+
+### Quick Intro
+
+As a refresher, I've started working through the [Algorithmic Toolbox](https://www.coursera.org/learn/algorithmic-toolbox) course offered on [Coursera](https://www.coursera.org/). It's been a while since I've reviewed a lot of the basic algorithms and data structures fundamentals, so I figured I would work through the course to grease the bearings again, so to speak.
+
+That said, this is a notebook that covers some of the concepts and programming assignments in Week 2 of the course. I will try to post most of the stuff I review and examples I work through for anyone who may find it interesting and useful.
 
 
 ```python
