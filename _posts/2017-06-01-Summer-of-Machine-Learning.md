@@ -37,5 +37,5 @@ I hope this post wasn't received as too "cheesy", for lack of a better word, but
 
 I kinda ripped off the formatting of your spreadsheet Chris, I really hope you don't mind. Thank you for being the inspiration that has finally pushed me start something more meaningful for myself and the community.
 
-<iframe src="https://docs.google.com/spreadsheets/d/1gbEoi7NP9czCGWbddzN8arYtdqtJZTKx3IsRm7CBkbM/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false"height="800"width="600"></iframe>
+<iframe style="width:100%; height:800px" src="https://docs.google.com/spreadsheets/d/1gbEoi7NP9czCGWbddzN8arYtdqtJZTKx3IsRm7CBkbM/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
 
