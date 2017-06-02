@@ -1,0 +1,35 @@
+---
+layout:     post
+title:      Summer of Machine Learning
+author:     Ed Henry
+subtitle:  	Shout out to Chris Albon
+---
+
+# Disconnected
+
+Something has been bothering me over the last couple of years. As I've progressed in my career I subsequently feel as though I've almost entirely disconnected with what helped me launch this part of the career to begin with. Posting what I learn about online, in an effort to help bolster the amount of useful information that is available in the vast sea of garbage that is the internet.
+
+[Chris Albon](https://twitter.com/chrisalbon) recently posted on his [blog](https://chrisalbon.com/blog/summer_of_machine_learning.html) about an effort he's going to make this summer with respect to bettering himself both professionally and personally. This post really hit home for me because it's something that I feel like I've wanted to do for quite some time now. But I always feel as though the stuff I may write about or the experiments that I may run somehow won't be "up to snuff" with others in the machine learning world because I don't have the proper pedigree of ivy league computer science education. This summer I am hoping to run these fears down, as I know I've produced many good works in my professional role, even though I couldn't publicize them.
+
+There has also been quite the backlack on social media lately with respect to the requirement of a mathematical pedigree in order to be effective in the understanding and application of machine learning. While I do believe that having a concrete understanding of the mathematics that underly much of the machine learning ideas and processes today, I don't see it as an ultimately impossible field to get into if you have the drive and willingness to spend hours upon hours staring at equations in hopes of maybe not understanding them, but rather getting to used to them, to paraphrase von Neumann.
+
+I've also recently enrolled in classes at the local community college in an effort to bolster my understanding of the mathematical landscape that is the underpinnings of the probability, statistics, linear algebra, calculus, etc. that are all required to get used to the tools and methods that are used in machine learning, and more specifically deep learning. I wasn't able to afford college, and still cannot afford a large university's tuition, when I was the typical age that most attend, but I've been fortunate enough to find myself, now, in a position to fund my own education and I am now doing just that. I used to think of this as a personal flaw, for quite some time, but now I see that it was truly one of the things in my life that helped me develop a certain drive that I believe was required to foster the skills to build a career in technology.
+
+I have a deep passion for communcation in general, as most of the career has been spent in the realm of information technology infrastructure, specifically in the areas of data networks and distributed systems, and I look to ideas in papers such as [Learning to Communicate with Deep Multi-Agent Reinforcement Learning](https://papers.nips.cc/paper/6042-learning-to-communicate-with-deep-multi-agent-reinforcement-learning.pdf) as inspiration for ways that I may be able to apply this research to what I know and love, as well.
+
+All of this said, I'm going to follow in Chris' footsteps and work toward not only bettering myself, but also giving back as much as I can to the rest of the world in the same way that the people whom I've learned from, have. Chris set goals in his post, and I think I'll try to do the same. 
+
+* Goals :
+    * Work my way through, and complete the many false starts I've had with Christopher Bishop's [Pattern Rognition and Machine Learning](https://www.amazon.com/Pattern-Recognition-Learning-Information-Statistics/dp/0387310738)
+    * Same goes for the [Deep Learning](https://www.amazon.com/Deep-Learning-Adaptive-Computation-Machine/dp/0262035618/ref=pd_lpo_sbs_14_t_0?_encoding=UTF8&psc=1&refRID=KRFJEVVCHZBXCW5QEYTT) book from Goodfellow et. al.
+    * Contribute as much as I can of my system's background to the community (I'll start with the Docker containers I've built for reusability and reproducability here [Docker Images](https://hub.docker.com/u/edhenry/))
+    * I've lost 80 lbs since last year through running, but it's time to switch it up, so I'll start a Freeletics regimen for supplement while cutting back on running
+
+Chris had more specific goals than I do, but I am intentionally leaving mine less concrete as I want them to be able to change and grow with me as I re-integrate back into the community as a whole, whether it be the machine learning community, or the one that I hold closest today, IT infrastructure, to be as general as possible.
+
+I hope this post wasn't received as too "cheesy", for lack of a better word, but I do feel like I want to start giving back again after a 2+ year haitus. 
+
+I kinda ripped off the formatting of your spreadsheet Chris, I really hope you don't mind. Thank you for being the inspiration that has finally pushed me start something more meaningful for myself and the community.
+
+<iframe src="https://docs.google.com/spreadsheets/d/1gbEoi7NP9czCGWbddzN8arYtdqtJZTKx3IsRm7CBkbM/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+
