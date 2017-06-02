@@ -11,11 +11,17 @@ Something has been bothering me over the last couple of years. As I've progresse
 
 [Chris Albon](https://twitter.com/chrisalbon) recently posted on his [blog](https://chrisalbon.com/blog/summer_of_machine_learning.html) about an effort he's going to make this summer with respect to bettering himself both professionally and personally. This post really hit home for me because it's something that I feel like I've wanted to do for quite some time now. But I always feel as though the stuff I may write about or the experiments that I may run somehow won't be "up to snuff" with others in the machine learning world because I don't have the proper pedigree of ivy league computer science education. This summer I am hoping to run these fears down, as I know I've produced many good works in my professional role, even though I couldn't publicize them.
 
-There has also been quite the backlack on social media lately with respect to the requirement of a mathematical pedigree in order to be effective in the understanding and application of machine learning. While I do believe that having a concrete understanding of the mathematics that underly much of the machine learning ideas and processes today, I don't see it as an ultimately impossible field to get into if you have the drive and willingness to spend hours upon hours staring at equations in hopes of maybe not understanding them, but rather getting to used to them, to paraphrase von Neumann.
+# Community
+
+There has also been quite the backlack on social media lately with respect to the requirement of a mathematical pedigree, see [here](https://twitter.com/quantombone/status/866002986350149632), [here](https://twitter.com/math_rachel/status/866808228499275776), and [here](http://www.topbots.com/you-dont-need-phd-master-machine-deep-learning-data-science), etc., in order to be effective in the understanding and application of machine learning. While I do believe that having a concrete understanding of the mathematics that underly much of the machine learning ideas and processes today, I don't see it as an ultimately impossible field to get into if you have the drive and willingness to spend time staring at equations in hopes of maybe not understanding them, but rather getting to used to them, to paraphrase von Neumann.
 
 I've also recently enrolled in classes at the local community college in an effort to bolster my understanding of the mathematical landscape that is the underpinnings of the probability, statistics, linear algebra, calculus, etc. that are all required to get used to the tools and methods that are used in machine learning, and more specifically deep learning. I wasn't able to afford college, and still cannot afford a large university's tuition, when I was the typical age that most attend, but I've been fortunate enough to find myself, now, in a position to fund my own education and I am now doing just that. I used to think of this as a personal flaw, for quite some time, but now I see that it was truly one of the things in my life that helped me develop a certain drive that I believe was required to foster the skills to build a career in technology.
 
 I have a deep passion for communcation in general, as most of the career has been spent in the realm of information technology infrastructure, specifically in the areas of data networks and distributed systems, and I look to ideas in papers such as [Learning to Communicate with Deep Multi-Agent Reinforcement Learning](https://papers.nips.cc/paper/6042-learning-to-communicate-with-deep-multi-agent-reinforcement-learning.pdf) as inspiration for ways that I may be able to apply this research to what I know and love, as well.
+
+I really just hope to continue fostering and building the communities required to make all of these amazing ideas and technologies flourish.
+
+# Summed up
 
 All of this said, I'm going to follow in Chris' footsteps and work toward not only bettering myself, but also giving back as much as I can to the rest of the world in the same way that the people whom I've learned from, have. Chris set goals in his post, and I think I'll try to do the same. 
 
@@ -31,5 +37,5 @@ I hope this post wasn't received as too "cheesy", for lack of a better word, but
 
 I kinda ripped off the formatting of your spreadsheet Chris, I really hope you don't mind. Thank you for being the inspiration that has finally pushed me start something more meaningful for myself and the community.
 
-<iframe src="https://docs.google.com/spreadsheets/d/1gbEoi7NP9czCGWbddzN8arYtdqtJZTKx3IsRm7CBkbM/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+<iframe src="https://docs.google.com/spreadsheets/d/1gbEoi7NP9czCGWbddzN8arYtdqtJZTKx3IsRm7CBkbM/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false"height="800"width="600"></iframe>
 
