@@ -16,8 +16,6 @@ I wanted to reflect on what I've learned throughout my tenure at Brocade, in an 
 
 * I learned what teamwork looks and feels like in, what at the time, was one of the largest companies I'd ever worked for.
 
-* I learned what real talent looks like, and it certainly wasn't me, or at least it didn't feel like it.
-
 * I learned what developing strategy, architecture, and following through with engineering those thoughts, really felt like.
 
 * I learned what impact a group of people who really believe in something can have on the larger picture of a company.
