@@ -123,6 +123,6 @@ More to come...
 
 # References
 
-[1 - A Collection of Definitions of Intelligence](www.vetta.org/documents/A-Collection-of-Definitions-of-Intelligence.pdf)
-[2 - A Formal Measure of Machine Intelligence](http://arxiv.org/abs/cs/0605024)
-[3 - A Formal Measure of Machine Intelligence (Poster)](http://www.vetta.org/documents/ui_ai50_poster.pdf)
+* [1 - A Collection of Definitions of Intelligence](www.vetta.org/documents/A-Collection-of-Definitions-of-Intelligence.pdf)
+* [2 - A Formal Measure of Machine Intelligence](http://arxiv.org/abs/cs/0605024)
+* [3 - A Formal Measure of Machine Intelligence (Poster)](http://www.vetta.org/documents/ui_ai50_poster.pdf)
