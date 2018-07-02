@@ -36,7 +36,7 @@ I want to formalize the definition of machine learning in the way that the resea
 
 I think about it in terms of Tom Mitchell's definition, in his book [Machine Learning](https://www.amazon.com/Learning-McGraw-Hill-International-Editions-Computer/dp/0071154671/ref=asap_bc?ie=UTF8), which offers a formal definition in the bounds by which science and engineering can work. 
 
-> A computer program is said to **learn** from experience E with respect to some class of task T and performance measure P, if its performance measure P at task T as measured by P, improves with experience.
+> A computer program is said to **learn** from _experience_ **E** with respect to some class of _task_ **T** and _performance_ measure **P**, if its performance measure **P** at task **T** as measured by **P**, improves with experience.
 
 
 This definition also captures the fundamental areas of research and industry application that exist within machine learning as well. I will get into those later on.
