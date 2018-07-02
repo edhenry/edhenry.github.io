@@ -67,7 +67,7 @@ Knowledge is defined as:
 
 > Facts, information, and skills acquired through experience or education; the theoretical or practical understanding of a subject.
 
-Yet again we're up against the wall with some of the lingual abstractions that are being harnessed in this definition. `Facts`, `information`, `skills, `experience`, `education`, etc. all contain some sort of implicit definitions in which we tend to take for granted logically. Down the next rabbit hole. Rather than looking into the definitions and etymologies of words used to describe a phenomenon that we are observing, we can appeal to a more rigorous definition of what intelligence may be. Looking at the work that Legg and Hutter have already done we can find an attempt at a to define, at least machine intelligence, in its broadest reasonable sense.
+Yet again we're up against the wall with some of the lingual abstractions that are being harnessed in this definition. `Facts`, `information`, `skills`, `experience`, `education`, etc. all contain some sort of implicit definitions in which we tend to take for granted logically. Down the next rabbit hole. Rather than looking into the definitions and etymologies of words used to describe a phenomenon that we are observing, we can appeal to a more rigorous definition of what intelligence may be. Looking at the work that Legg and Hutter have already done we can find an attempt at a to define, at least machine intelligence, in its broadest reasonable sense.
 
 The work performed by Legg and Hutter starts with an analysis of 70 or so definitions of intelligence from different areas of academia including researchers in artificial intelligence and psychologists. There are a few salient definitions from both backgrounds that really stuck out to me. 
 
