@@ -2,6 +2,8 @@
 
 There is a seemingly common thread right now in the tech industry around the confluence of terminology that can be used when addressing the broader practice of studying and applying machine learning to interesting problems in the industry. For some value of interesting.
 
+First I want to start with a history of the term `artificial intelligence`. The term was coined by John McCarthy for the famous conference at Dartmouth that was held in 1956, hosted by that of Marvin Minksy, and Claude Shannon as well. The conference's aim was to study the idea that ever aspect of learning or other feature of intelligence can be, in principle, be so precisely described that a machine can be made to simulate it. Said differently the goal of the conference was to investigate the plausibility of machine being able to emulate, typically perceptual, problems that were previously reserved for the domain of humans.
+
 ## Definitions
 
 I want to start this post with some definitions from some of the major literature in the field to normalize what is meant when using different words and phrases to describe the application of science to quantify and/or qualify some dataset.
@@ -112,3 +114,5 @@ More to come...
 * [1 - A Collection of Definitions of Intelligence](www.vetta.org/documents/A-Collection-of-Definitions-of-Intelligence.pdf)
 * [2 - A Formal Measure of Machine Intelligence](http://arxiv.org/abs/cs/0605024)
 * [3 - A Formal Measure of Machine Intelligence (Poster)](http://www.vetta.org/documents/ui_ai50_poster.pdf)
+* [4 - The History of Artificial Intelligence](https://courses.cs.washington.edu/courses/csep590/06au/projects/history-ai.pdf)
+* [5 - A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence](http://www-formal.stanford.edu/jmc/history/dartmouth/dartmouth.html)
