@@ -2,7 +2,7 @@
 
 There is a seemingly common thread right now in the tech industry around the confluence of terminology that can be used when addressing the broader practice of studying and applying machine learning to interesting problems in the industry. For some value of interesting.
 
-First I want to start with a history of the term `artificial intelligence`. The term was coined by John McCarthy for the famous conference at Dartmouth that was held in 1956, hosted by that of Marvin Minksy, and Claude Shannon as well. The conference's aim was to study the idea that ever aspect of learning or other feature of intelligence can be, in principle, be so precisely described that a machine can be made to simulate it. Said differently the goal of the conference was to investigate the plausibility of machine being able to emulate, typically perceptual, problems that were previously reserved for the domain of humans.
+First I want to start with a history of the term `artificial intelligence`. The term was coined by John McCarthy for the famous conference at Dartmouth that was held in 1956, hosted by that of Marvin Minksy, and Claude Shannon as well. The conference's aim was to study the idea that every aspect of learning or other feature of intelligence can, in principle, be so precisely described that a machine can be made to simulate it. Said differently the goal of the conference was to investigate the plausibility of a machine being able to emulate, at least at first perceptual, problems that were previously reserved for the domain of humans.
 
 ## Definitions
 
