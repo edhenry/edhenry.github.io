@@ -115,7 +115,7 @@ More to come...
 
 # References
 
-* [1 - A Collection of Definitions of Intelligence](www.vetta.org/documents/A-Collection-of-Definitions-of-Intelligence.pdf)
+* [1 - A Collection of Definitions of Intelligence](https://arxiv.org/abs/0706.3639)
 * [2 - A Formal Measure of Machine Intelligence](http://arxiv.org/abs/cs/0605024)
 * [3 - A Formal Measure of Machine Intelligence (Poster)](http://www.vetta.org/documents/ui_ai50_poster.pdf)
 * [4 - The History of Artificial Intelligence](https://courses.cs.washington.edu/courses/csep590/06au/projects/history-ai.pdf)
