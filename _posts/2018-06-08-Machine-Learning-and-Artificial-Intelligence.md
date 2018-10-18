@@ -1,3 +1,9 @@
+---
+layout:     post
+title:      Machine Learning and Artificial Intelligence
+author:     Ed Henry
+---
+
 # Machine Learning and Artificial Intelligence
 
 There is a seemingly common thread right now in the tech industry around the confluence of terminology that can be used when addressing the broader practice of studying and applying machine learning to interesting problems. For some value of interesting.
