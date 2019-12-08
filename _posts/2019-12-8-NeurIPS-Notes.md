@@ -1,3 +1,10 @@
+---
+layout:     post
+title:      Notes from my NeurIPS 2019 Attendance
+author:     Ed Henry
+---
+
+
 # NeurIPS 2019
 
 ***DISCLAIMER : THESE ARE RUNNING NOTES FROM MY CONFERENCE ATTENDANCE, I MAY OR MAY NOT COME BACK TO UPDATE THESE NOTES PLEASE USE AT YOUR OWN RISK***

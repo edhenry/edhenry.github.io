@@ -1,3 +1,8 @@
+---
+layout:     post
+title:      ML in the Wild
+author:     Ed Henry
+---
 
 # Machine Learning in the Wild
 
