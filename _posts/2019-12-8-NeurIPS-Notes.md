@@ -154,9 +154,9 @@ The question being asked "Can data be encypted and still be used to train models
 		* just need agreement from all of the participant parties
 		* We can design this "agreement" in many different ways
 * Encryption is homomorphic
-	* adding a public value : [x] + y = (x^(0) + y)
-	* Multiplication needs triples of encrypted random numbers with the property that [a][b]=[c]
-		* once we have these tiples we can then generated a share for a, b, c
+	* adding a public value : $$\[x\] + y = (x^(0) + y)$$
+	* Multiplication needs triples of encrypted random numbers with the property that $$\[a\]\[b\]=\[c\]$$
+		* once we have these tiples we can then generated a share for $$a$$, $$b$$, $$c$$
 			* these tiples are sent the participant parties who then calculate epsilon and deltas
 			* contain no information because they're all encrypted
 			* "open epsilon and delta" - leak no information because they're substracttions from a random number
