@@ -170,7 +170,7 @@ The question being asked "Can data be encypted and still be used to train models
 * Feature List [slide](https://photos.app.goo.gl/gzLXMuHC6Dnh5TiUA)
 * Has ONNX integrations
 
-## Bayesian Deep Learning 
+## Bayesian Deep Learning [URL](https://neurips.cc/Conferences/2019/Schedule?showEvent=13205)
 
 * Gradient Descent with Bayes
 	* Claim is that we can derive this by choosing Gaussian with fixed covariance
@@ -298,3 +298,122 @@ The question being asked "Can data be encypted and still be used to train models
 * Challenges in Continual Learning [Slide]()
 
 * Towards Life Long Learning [Slide]()
+
+
+## Interpretable Comparison of Distributions and Models
+
+* Divergence Measures
+	* Are P and Q the same?
+		* We can measure the difference or the ratio of probabilities P - Q or P/Q
+		* Divergence measure measuing difference will 
+	* Integral Probability Mertrics
+		* IPM are looking for a function that is well behaved , meaning smooth
+			* differnce in distributional expectations
+	* The MMD: integral probability trick [Slide]()
+		* Maximimze the mean discrepancy of the distributions
+			* smooth function for P vs Q
+		* Assuming we can axpress our algorothm using dot products, we can take advantage of the analytical form for solving
+		* Infinitely many features that allow us to tell what is different when we use MMD
+			* Feature dictionary allows me to distinguish P and Q, no matter the difference between them
+		* Expectations of functions are linear combinations of eprected features
+			* Turns out the expectation of F is a fot product of F and X
+				* 
+* How does the Wassterstein 1 behave?
+	* Using a wasserstein-1 function that is lipschitz defined
+
+* Phi divergences [Slides]()
+	* Taking the ratio of the expectations of the densities 
+	* Taking the reverse KL
+
+### Two Sample Testing
+
+* CIFAR 10
+	* Weird conclusions in the reults of this paper
+	* In the testing of CIFAR 10 - given these distributions how can we measure if they're the same?
+	* Remember that MMD(P,Q) = 
+
+* Estimating the MMD [Slide 1]() [Slide 2]()
+	* Differnce between the mean embeddings (difference between these latent representations)
+	* Expected features of the same size
+	* Differences in the mean of the distributions and across the distributions
+	* Take an empirical average and we can measure this
+	* With this discrepancy, is this MMD true? Small numner "0.09" is small, but not 0.
+
+* Behavior of the MMD [Slide]()
+	* P,Q laplace with difference variances in y
+	* samples frawn iid from P and Q
+	* If we keep drawing on P and Q, we can see that this looks a lot like a normal distribution
+	* Asymptotics of the MMD are a normal distribution
+	* Central limit theorem results hold
+	* Asymptotically normal with a mean at tthe TRUE MMD, and variance sigma^2 of the MMD
+		* variance decays asymptotically 
+	* What about when P and Q are the same? [Slides]()
+		* turns out it's an infinite sum of chi^2 distributions
+			* this distribution depends on choice of kernel and what thr distribution of the data is
+			* We do know that it converges to distribution of _something_
+	* A summary of asymptotics
+		* 1. Distributions are close, they're normal
+		* 2. The same and its this weird mixture of chi^2
+	* Classical statistical tests
+		* Distance is big, then we can say they're not the same
+		* If the estimate is less than a threshold then maybe they're the same or we didn't have enough data to capture the variance
+		* We can take the MMD estimator and ask whether our estimator is bigger than a threshold CL [Slide]()
+			* under the known process, when P=Q, we want to reject the null at the rate most 0.05
+			* Probability of doing that, to be less than L
+		* We can shuffle all examples together, which is a random mixture of dogs and fish [Slide]()
+			* we can estimate the distance between these new tilde's and we can estimate what this actually means when P=Q
+			* What is the 1 - quantile, and that should be a good estimator
+		* Given a kernel, we can now run a test
+			* Choosing a kernel, we can start with exponentiated quadratic
+				* Kernel is characteristic no matter what bandwidth we pick
+				* As we see infinitely many examples, all of the maxx escapes to the right
+					* Problem is, we never have infinite samples
+					* In our example, bandwidth choice mastters _A LOT_
+				* If we choose too smooth of a kernel then we get a witness function that can barely distinguish between the two distributions
+			* Power will be really low because of rejection bandwidth will be really high
+				* In high dimensions, it doesn't matter what bandwidth we pick because the bandwidth is based on pixel distance between images which breaks down in the curse of dimensionality
+			* Often helpful to use a relevant representation, by creating a new representation
+				* Take some hidden layer near the end of a classifier (reneralizes a little bit better)
+					* Measure MMD between 2000 hidden dimensional representation from a classifer
+					* Turns out KID and FID use MMD and give way better properties
+				* Interesting that they use the semgentation mask as the pixel count (linear kernel of counts of pixels)
+					* This seems super informative
+		* What about tests for other distances
+			* Sometimes nice closed forms are useful
+		* Choosing the best test
+			* Picking a kernel that's good for a particular model
+			* Power depends on the distributions P and Q (and n)
+			* Can maybe pick a good kernel manually for a given problem
+	
+	* Optmizing MMD for test power [Slide]()
+		* As we see more and more data this will converge to Gaussian
+			* for large n, the second term is negligible
+		* Our estimator is differentiable in kernel parameters
+	
+	* Data Splitting
+		* Important we don't trick ourselves and keep everything statistically bound
+		* We need to be looking at the test error here
+		* We split part of the data to learn the kernel, and the other part to test that kernel
+			* This second part is exactly the standard testing framework covered above
+			* This is a methodology notion
+		* Learning a kernel is very helpful [Slide]()
+	
+	* Alternative Approach
+		* We can train a classifier to do something like this above
+		* We split the data, train a classifier to distinguish X from Y and evaluate it on the other half of the data
+			* Accuracy 50% = can't tell, accuracy = 100%, clearly different
+				* 60%, the fact that we can classify at all tells us the distributions are different
+	
+	* Classifier as two-sample test [Slide]()
+		* almost exactly equivalent	
+		* 0-1 kernel inflates invariance, decreases the test powr
+
+	* Interpretability [Slides]()
+		* Can we distinguish two distributions
+		* Break up each image into its component pixels and learn a kernel for each pixel
+			* Using an ARD kernel
+		* We can look at where the witness function "cares about the most"
+			* histogram of  witness function might overlap, as the means are close to eachother
+			* the points that have the witness function interprets that it looks the most like a dataset
+	
+	* Main references and further learning [Slide]()
