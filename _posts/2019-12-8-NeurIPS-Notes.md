@@ -34,12 +34,11 @@ Considerations :
 
 * Are we even able to simluate the dynamics of the environment?
 
-
 #### Offline Evaluation
 
-** More easily applied to historical data (we don't have access to a simluation environment)
-** Important sampling can be used to estimate the expected reward under a new policy
-** Requires estimates of the behavior policy which is usually estimated by separate supervised models
+* More easily applied to historical data (we don't have access to a simluation environment)
+* Important sampling can be used to estimate the expected reward under a new policy
+* Requires estimates of the behavior policy which is usually estimated by separate supervised models
 
 This might be the only way forward as we don't have the capability to simulate the dynamics of the envoironment.
 
@@ -70,8 +69,6 @@ Paper : Evaluating Reinforcement Learning Algorithms in an Oberservational Healt
 * Certain domains may **Require** offine evaluation due to ethical or data issues
 * OPE may seem relevant in scenarios where a simulator isn't available, but **high variance** makes estimating the value of the optimal policy extremely difficult 
 * Investimg time to build a model of the environment is important
-
-
 
 ## Private Federated Learning
 
@@ -172,4 +169,3 @@ The question being asked "Can data be encypted and still be used to train models
 * High level architecture slide (https://photos.app.goo.gl/vQiojJcbSw9tU5TL6)
 * Feature List (https://photos.app.goo.gl/gzLXMuHC6Dnh5TiUA)
 * Has ONNX integrations
-	* 
