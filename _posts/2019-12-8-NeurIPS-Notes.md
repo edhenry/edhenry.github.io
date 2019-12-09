@@ -133,7 +133,7 @@ The question being asked "Can data be encypted and still be used to train models
 * How and why does this matter to PyTorch
 	* End state of this would be to have a flag in an API where (privacy=True)
 	* Far from that. 
-	* Built a framework called CrypTen (https://github.com/facebookresearch/CrypTen)
+	* Built a framework called CrypTen [URL](https://github.com/facebookresearch/CrypTen)
 
 * CrypTen Design Principles
 	* Eager Execution 
@@ -146,7 +146,7 @@ The question being asked "Can data be encypted and still be used to train models
 		* Multiple parties process "part" of the data
 			* images divded between parties would be done pixel by pixel and this might be uninteresting to any single participant
 			* No parties can reconstruct the actual data without collaboration from all parties
-	* Assume we have an integer representing some information : $x \in \{0,..,N-1\}$
+	* Assume we have an integer representing some information : $$x \in \{0,..,N-1\}$$
 	* Choose some random mask in the same interval : r ~ 
 	* Encrypt by subtracting the mask that we've samples above
 	* (x-r) becomes independent btween participant clients
@@ -166,6 +166,6 @@ The question being asked "Can data be encypted and still be used to train models
 	* non-linearities that involve exponentation are 
 	* relu break down into sharing 'bits'
 
-* High level architecture slide (https://photos.app.goo.gl/vQiojJcbSw9tU5TL6)
-* Feature List (https://photos.app.goo.gl/gzLXMuHC6Dnh5TiUA)
+* High level architecture [slide](https://photos.app.goo.gl/vQiojJcbSw9tU5TL6)
+* Feature List [slide](https://photos.app.goo.gl/gzLXMuHC6Dnh5TiUA)
 * Has ONNX integrations
