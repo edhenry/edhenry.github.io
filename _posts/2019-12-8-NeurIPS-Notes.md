@@ -83,19 +83,19 @@ Privacy Principles at Apple for ML
 * Security
 	* The foundation for all of this
 
-Threat Model
+* Threat Model
 	* Malicious Adversarys
 		* Perform arbitrary inferences on the learned model to extract data points
 	* Curious onlooker
 		* Passively looking at updates
 
-Central Differential Privacy with small privacy parameters (Epsilon <= 2)
+* Central Differential Privacy with small privacy parameters (Epsilon <= 2)
 	* moment accounting
 
-Local Differential Privacy 
+* Local Differential Privacy 
 	* local pertubation on the device modifies the vector into a new vector z = M(w)
 
-Control - allows users to opt into this feature within device settings
+* Control - allows users to opt into this feature within device settings
 	* Expose the information that is being sent to apple
 		* Actual parameters, and many other data points
 
