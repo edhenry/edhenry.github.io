@@ -169,3 +169,132 @@ The question being asked "Can data be encypted and still be used to train models
 * High level architecture [slide](https://photos.app.goo.gl/vQiojJcbSw9tU5TL6)
 * Feature List [slide](https://photos.app.goo.gl/gzLXMuHC6Dnh5TiUA)
 * Has ONNX integrations
+
+## Bayesian Deep Learning 
+
+* Gradient Descent with Bayes
+	* Claim is that we can derive this by choosing Gaussian with fixed covariance
+	* Global to local approximation
+* Newton's Method from Bayes
+	* In this case we choose a multivariate Gaussian [Slide]()[Paper]()
+	* We can express in terms of gradient of Hessian of the loss
+		* We can use this expectation parameter and ask questions about higher order information about the loss surface
+		* If we're not sure about a second order method, then principles say that we shouldn't maybe use these methods
+	* 2 parts
+		* choose the approximation
+		* second is choosing which order of parameters we might want to use
+* RMS/Adam from Bayes [Slide]() [Paper]()
+	* This has taken the community a long time to figure out but we can see that we can draw lines between the bayeslian learning rule for multivariate Gaussian and RMSprop
+* Summary
+	* If we add momentum to the bayesian objective a lot of these things can be explained using similar prinsiples
+
+* Bayes as optimization [Slide]() [Papers]()
+	* What we can do to derive the bayes rule in this special case
+		* We define the loss to be the negative log joint (estimate)
+		* We can plug this into an objective function over all distributions
+		* With no restriction we should arrive at the posterior distribution
+		* Entropy is the negative expected value
+		* The expectation of the log ratio of q over e^-l becomes 0 (as log(1) = 0)
+		
+* Bayes with Approximate Posterior
+	* Trying to make a point that using this learning rule, how do we optimize it?
+		* Optimizing it in the right way allows us to do much more than variational inference, including exact bayesian inference
+	* Bayesian Principle, rather than variational principle
+
+* Conjugate Bayesian Inference from Bayesian Principles [Slide]() [Paper]()
+	* Computing these messages in forward backward algorithm, we're finding the expectation of the gradient
+	* We can write this loss as two parts
+		* loss of the joint
+		* depends on the data (conjugate really means depends on the data)
+	* Choose a q to match the sufficient statistics 
+	* We can write this as a combination of a learning term and a quadratic term
+	* Compute the expectation fo the loss, we can see that it's linear in the expectation parameter
+	* The expectation of the loss is linear in the expectation parameter
+		* Need this to compute the squares (see slide)
+	* This is a generalization that applies to things like forward backward, SVI, Variational message passing, etc.
+		* This is all proved in the paper link above
+
+* Laplace Appriximation [Slide]()
+	* Run the newton method and eventually it will converge to the laplacian 
+
+### Designing New deeo-learning algorithms
+#### Uncertainty Estimation with Deep Learning
+
+* Uncertainty Estimation for Image Segmentation [Slide]()
+	* We can see missing pieces of sidewalk, etc. this shows wher
+
+* Some Bayesian Deep Learning Methods [Slide]()
+	* One line of work proved popular and just keep running standard DL, and then use some ideas to dropout some weights, and doing this it somehow corresponds to solving this bayesian problem (see paper)
+		* Pros : Scales well to large problems
+		* Cons : Not flexible
+	* Point is to get the average with the goal of "how do we choose this average"
+		* Get this model, and perturb and this allows to add some noise and allow us to explore a bit
+	* The principle of SGD corresponds to a Gaussian with parameters that we cannot really control
+	* We can use any parameterization we want
+
+* Scaling up VI to ImageNet [Slide]()
+	* Taking a sample of the gradients and this helps us to scale it to ImageNet
+
+* Variation Online Gauss-Newton [Slide]()
+	* Improve RMSprop with Bayesian Touch
+		* Remove the "local" approximation of the Expectation
+		* Add some second order approximation
+		* No square root of the scale
+	* Takes some more computation but it's worth it in that we're estimation varaince of the diagonal gaussian then we might want to make that tradeoff
+	* Estimating a diagonal gaussian with some variance around it, and the variance scaled
+	* We can borrow a lot of tricks from the DL side of the world through the framing of the problem we covered previously
+* BDL Methods do not really know that they are performing badly under dataset shift
+	* This is telling us about uncertainty and about performance
+		* We are shifting the data slowly and we can see that accuracy goes down
+		* If we're estimating uncertainty it should be reflected in our calibration
+
+* Resources for Uncertainty in DL [Slide]()
+
+* Challenges in Uncertainty Estimation
+	* We can't just take bayesian principles and apply them to non-convex problems
+	* different local minima correcpond to various solutions
+		* local approximations only capture "local uncertainty" -- in the same way that DL only captures a local solution to the functional defn
+		* These methods miss a whole lot of the data space
+		* This is a very hard problem
+	* More flexible approximations really tells us that we need to go beyond second order optimization
+		* Fundamentally there are tools that are missing for us to do this
+
+#### Data Importance
+
+* Which examples are more important for a classifier given [Slide]()
+	* Does our model really "know' this?
+	* Does the model understand why it is the way that it is?
+* Model View vs Data View [Slide]()
+	* Bayes automatically defines data-importance
+	* Points closer to the boundary are more "important"
+	* The data view tells us what makes the model certain
+
+* DNN to Gaussian Processes [Slide]()
+	* Trained with just a deterministic method (Adam, etc)
+	* Can we warp that line to get a distribution?
+		* Get a gaussian approximation of this red line and it turns out that the GP are posteriors of linear models
+			* posterior is equal to the posterior approximation
+		* Find a basis function where this linear approximation and we can convert it to a Gaussian Process
+	* These things seem to a dual of eachother
+
+* "Global" to "Local" [Slide]()
+	* This posterior approximations connect "global" parameters (model weights) to "local" parameters (data examples)
+	* When we use gaussian approximation, we approximate this loss function
+	* Local parameters can be seen as "dual" variables that define the "importance" of the data.
+
+* Continual Learning [Slide]()
+	* We're not seeing part of the data and when we do this with NN's we show that if we do this in the naive way then we start forgetting the past
+	* There is no mechanism to remember the past, this global thing that I want to remember what I did classify and what mistakes I'd made in the past
+
+* Continrual Learning with Bayes [Slide]()
+	* Remembers almost everything that happened
+	* Computing this posterior is challenging, so we can use posterior approximations
+
+* Some regularization-based continual learning methods [Slide]()
+
+* Functional Regularization of Memorable Past (FROMP)
+	* Identify, memorize, and regularize the past using Laplace approximation (similar to EWC)
+	*
+* Challenges in Continual Learning [Slide]()
+
+* Towards Life Long Learning [Slide]()
