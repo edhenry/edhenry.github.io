@@ -93,7 +93,7 @@ Privacy Principles at Apple for ML
 	* moment accounting
 
 * Local Differential Privacy 
-	* local pertubation on the device modifies the vector into a new vector z = M(w)
+	* local pertubation on the device modifies the vector into a new vector $$ z = M(w) $$
 
 * Control - allows users to opt into this feature within device settings
 	* Expose the information that is being sent to apple
@@ -154,8 +154,8 @@ The question being asked "Can data be encypted and still be used to train models
 		* just need agreement from all of the participant parties
 		* We can design this "agreement" in many different ways
 * Encryption is homomorphic
-	* adding a public value : $$\[x\] + y = (x^(0) + y)$$
-	* Multiplication needs triples of encrypted random numbers with the property that $$\[a\]\[b\]=\[c\]$$
+	* adding a public value : $$ \[x\] + y = (x^(0) + y) $$
+	* Multiplication needs triples of encrypted random numbers with the property that $$ \[a\]\[b\]=\[c\] $$
 		* once we have these tiples we can then generated a share for $$a$$, $$b$$, $$c$$
 			* these tiples are sent the participant parties who then calculate epsilon and deltas
 			* contain no information because they're all encrypted
