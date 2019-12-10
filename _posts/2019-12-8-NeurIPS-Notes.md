@@ -565,7 +565,7 @@ The question being asked "Can data be encypted and still be used to train models
 				* Target value pertubation distribution - Evaluate the target of interest across "appropriate" data and model pertubations
 	* Making Random Forests more interpretable using stability
 
-## Uniform Convergence may be unabe to explain generaliation in deep learning [Slides](http://www.cs.cmu.edu/~vaishnan/talks/neurips19_uc_slides.pdf)
+## Uniform Convergence may be unabe to explain generaliation in deep learning [Slides](http://www.cs.cmu.edu/~vaishnan/talks/neurips19_uc_slides.pdf) [Poster](http://www.cs.cmu.edu/~vaishnan/talks/neurips19_uc_poster.pdf)
 
 * Tighest uniform convergence bound that eventually shows it is vacuous
 * Given a training set $S$, algorithm $h$ in $\nathbb{H}$, then [Sl]
@@ -580,3 +580,85 @@ The question being asked "Can data be encypted and still be used to train models
 		* This overparameterzed deep network can 
 	* Looking aheead it's important to understand the complexities contained within the decision boundaries and derive new tools as a test case
 
+## On Exact computation with an infinitely wide neural network [Slides](https://neurips.cc/media/Slides/nips/2019/westexhibitionhallc+b3(10-10-05)-10-10-20-15845-on_exact_comput.pdf) [Poster](http://www.cs.cmu.edu/~ruosongw/poster_cntk.pdf)
+
+* Neural Tangent Kernel's (NTK's)
+* Theoretical contribution
+	* When width is sufficiently large (polynomial in number of data, depth and inverse of target accuracy) the predictor learned by applying gradient descent 
+* Empirical contribution
+	* Dynamic programming techniques for calculating NTK's for CNN's + efficient GPU implementations
+	* There is still a gap between the performance of CNN's and that of the NTK's
+		* This means that the success of deep learning cannot be fully explained by NTK's
+	* Future directions
+		* Understand neural net architectures and common techniquest from the lends of NTK's
+		* Combine NTK with other techniques in kernel methods
+
+## Generalization Bounds of Stochastic Gradient Descent [Slides](https://neurips.cc/media/Slides/nips/2019/westexhibitionhallc+b3(10-10-05)-10-10-25-15846-generalization_.pdf) [Poster](https://drive.google.com/drive/folders/1dHLGUG78Uei4c8YEVfv2qFSVO8MGfDy5?usp=sharing)
+
+	* Learning large overparameterized DNN's, the empirical observation don extremely wide networks shows that generalization error tends to vary
+	* Deep RELU networks are almost linear in terms of their parameters on small neighborhoods around random initialization
+	* Applicable to general loss functions
+	* Generalization bounds for wide and DNN's that do not increase in network width
+	* Random feature model (NTRF) that naturally connects over-parameterized DNNs with NTK
+
+## Efficient and Accuract estimation of lipschitz constands for DNN's [Slides](https://neurips.cc/media/Slides/nips/2019/westexhibitionhallc+b3(10-10-05)-10-10-30-15847-efficient_and_a.pdf) [Poster](https://www.seas.upenn.edu/~mahyarfa/files/Slides_NeurIPS_2019.pdf)
+* Lipschitz constant means with 2 points X and Y, they'll be close before and after being passed through the neural network
+	* generalization bounds and robust classification lean on this
+	* This problem of computing Lipschitz constants is NP hard so we try to find tight bounds around this
+	* Say we have an accurate upper bound of a model
+		* We can take a point f(x), and we can measure \delta of mis-classification and input that back into the network
+			* We can certify that if we perturb X in a small ball drawn around this delta, it odesn't change the classification
+			* If we can find this small lipschitz constanc we might be able to prove that this network has a form of robustness
+		* HOw do we do this?
+			* Product of the norm of the matrices
+				* Simple methods like this give upper nounds to the lipschitz constant that are conservative. Can we do anything more accurate?
+			* We cna frame up finding this Lipschitz constant as a non-convex optimization problem
+				* Over approximate the hidden layers via incremental qudratic constaints
+					* Give rise to a semi-definite program giving us this tight upper bound that we're looking for
+				* We can trade off scalability with accuracy of the upper bound
+		* How does this bound we get compare to others?
+			* We show that in general our bound is much tighter than other bounds
+	* Adversarial robustness
+		* Hypothesis trained using adversarial optimizers
+			* Emperitically when we evaluate this lipschitz constant these networks have much lower
+* Accurate and scalable way of calculating Lipschitz constants in Neural Networks
+
+## Regularization Effect of a large initial learning rate [Slides](https://neurips.cc/media/Slides/nips/2019/westexhibitionhallc+b3(10-10-05)-10-10-35-15848-towards_explain.pdf) [Poster](https://drive.google.com/file/d/1lg8hg-1QMFUDvYzZWg83DF7X3yXSl9kw/view?usp=sharing)
+
+* Large initial learning rates are crucial for generalization
+* Scaling back by a certain factor at certain epochs
+	* small learning rates early on lead to better train and test performance?
+* LEarning rate schedule changes the order of patterns in the data whcih influence the network
+	* class signitures in the data that admit what the class is, but it will ignore other patterns in the data
+* Large learning rates initially learn easy patterns but hard-to-fit patterns after annealing
+* Non-convexity is crucial because different learning rate schedules will find different solutions
+* Artificially modify CIFAR 10 to exhibit specific pattern types
+	* 20% are hard to generalize - because of variations in the image
+	* Easier to fit in the second set 20%, easy to generalize but hard to fit -- this is by construction
+	* Path that imitates what the class is
+	* 60% of examples overlay a patch on the image and the memorization of the patch early on shows this method fits early and doesn't generalize well
+
+## Data-Dependent Sample Complexities [Slides](https://neurips.cc/media/Slides/nips/2019/westexhibitionhallc+b3(10-10-05)-10-10-40-15849-data-dependent_.pdf) [Poster](https://drive.google.com/file/d/1E5SV6Mx_YDCPqnE5aAISSTk09mUkNu6L/view?usp=sharing)
+
+* How do we design principle regularizers for DNN's
+	* Current technqiues are designed ad-hoc
+		* Batch-norm and dropout - we know they work, but noy why
+	* Can we prove a theoretically upper bound on the generalization and hope it improves performance
+* Bottle-neck prior
+	* most priors only ocnsider the norms of weight matrices and because of this they get pessimistic bounds that are exponential in depth
+* Bounds that depends more on data dependent properties
+	* upperbounded by the weights and training data
+	* informal theory is that this can be upper bounded by (see slides)
+	* Jacobian norm isthe max norm of the jacobian of the model on the hidden layers
+	* margin is the largest logit of the output, minus the second largest
+* INterpretation of this bound is it measures the 'Lipschitzness" of the network around training examples
+* Noise stability is small in practice with looser bounds (see slides)
+* Regularize the bound
+	* penalize the square jacobian norm in the loss 
+	* Normalzation layers such as batch norm and layer norm
+		* Helps in a lot of settings 
+* Check the bounds correlate with the test error and we found that our bound correlates well with test error
+* COnclusions
+	* Tighter data dependent properties
+	* BOund will avoid the exponential dependency on th depth of the network and optimizing this bound helps to improve performance
+	* Follow up work : tigher bounds and empirical improvement over strong baselines
