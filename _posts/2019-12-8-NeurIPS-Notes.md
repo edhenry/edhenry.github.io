@@ -660,5 +660,165 @@ The question being asked "Can data be encypted and still be used to train models
 * Check the bounds correlate with the test error and we found that our bound correlates well with test error
 * COnclusions
 	* Tighter data dependent properties
-	* BOund will avoid the exponential dependency on th depth of the network and optimizing this bound helps to improve performance
+	* Bound will avoid the exponential dependency on th depth of the network and optimizing this bound helps to improve performance
 	* Follow up work : tigher bounds and empirical improvement over strong baselines
+
+## Machine Learning Meets Single Cell Biology : Insights and Challenges
+
+* Address something asked by DaVinci - How are we made?
+	* We're created from a single cell and it eentually creates every cell in our body.
+	* How does this process happen?
+
+* Cells are like tiny computers, taking input and output through things like proliferation, differentiation, and activation
+* ALl cells have the same genetic code -- 3 billion letters
+	* How our genome is the instruction set for assembling the different cells
+	* Telling eachother how to behave
+	* We have 100's of cells
+* Single cell RNA-sequencing in droplet micro-fluids
+	* Measures for every single gene and cell for what gene it is and what cell it came from
+* The data matric for one sample ~ 250 million
+	* Gene by cell matrix that is rife with errors and artifacts from measurement
+	* We only capture about 5% of the transcripts, or what the humans are expressing
+* In the field, zero-inflation has taken root
+	* It's wrong
+	* "Drop out" -- this is uniform sampling and it sometimes leaves us to capture no gene or transcription gene
+		* every sample is affected by this
+		* No value is at it's actual value
+		* This should be modeled properly and not with 0 inflation
+	* How do we handle all of this data
+		* We like to visualize into 2 and 3 dimensions
+		* PCA failed this data type and we couldn't visualize it very well
+	* Following a Keynote at NeurIPS, someone presented T-SNE and it seems to fit the data well and we get good cell level separation
+	* While we might have a matrix of 20000 genes x 100000 cells -- T-SNE and UMAP seem to capture this non-linearity well
+	* We have this manifold because cell phenotypes are highly regulated
+		* We can see in 3D the nicely shaped non-convex shape
+		* Similar shapes in families because few regulators drive cell shape
+		* Lots of feedback loops and interactions between these genes, which limits and constricts the phenotypes a cell can be in
+		* Still have challenges in visualization
+			* Build better vis for this data as it's non-uniform and 5 orders of different density 
+				* Challenge is to handle this data with such different densities, it trips up many of the approaches we have today
+		* Common way to viz beyond 2 or 3 dimensions using nearest neighbor graphs
+			* We connect a cell to cells nearest that cell
+				* This is dependent on probability distributions which help to define this similarity metric
+		* The idea is one we have this graph we can really retain the manifold and use things like geodesic differences 
+			* Each tiny differnce in this graph can represent small differences between cells
+				* We can do distances and walks in these grpahs that allow us to measure the distance between cells
+		* Data is extreme structures and there are communities
+			* Social media community detection approaches find cell states and cell densities that are captures as cliques in the graph
+		* Nice thing is that these graphs are connected
+			* They share connectivity which allows us to cpature cell type transitions 
+				* These transitions are very sparse relative to the cell type
+		* Using 100 ro 200 examples over 10000 entities
+			* This isn't regular science and this works because biology has lots of structure and isn't adversarial in that respect
+			* 100000 or 1000000 cellshave awesome things -- treating each cell as a computer we can assume that the mollecrular influences create statistical dependencies in the data
+		* Out of the box algorithm gets us a correct reconstruction with no prior information of TCell networks
+		* Thisallows us to do disease regulatory networks and helps us to understand what is wrong in this specific cancer patient
+	* Asynchronous nature of the data
+		* All of our immune cells are in our bone marrow and these cells are able to generate all varities of immune cells within our bodies
+		* Asynchrony enables the inference of temporal pgoression
+		* From a single time point we can capture all of the dynamics of the process
+	
+	* Pesudo-time
+		* Reconstructing developement which allows us to reconstruct order grom a single time point
+		* THis process is highly non-linear we can order cells by chronology and the assumption is cell phenotypes change gradually
+	`	* Cannot be treated as absolute values as we know this data is incredinly noisey
+	* Wanderlust 
+		* We are able to reconstruct accurate progressions and discover order and timing of key events along differentiation
+		* This checkpoint of DNS recombinations inside of a cell, we wanted to understand if it were OK
+			* pediatric cancer is caused by understanding this checkpoint
+			* This wasn't known until we could find this tiny new cell population and it's novel regulation
+	* Data is structured 
+		* bifurcations through use of walks and waypooints
+			* the direct route between two cells along the same path should be more direct than non-immediate connections
+		* These waypoints help to resolve structure
+			* We find these using spectral clustering
+* Mapping development
+	* We want to order these cells on their manifold and understand how they bifurcate
+	* What decision making is going on and what is their possible future cell types and propensity to turn into these cell types
+	* Palantir : Building a Markiv Chain out of this graph allows us to find time ordering in our neighbor grpahs
+		* strong assumption that development goes forward and not back
+		* broken in processes such as cancer
+			* build a directed graph from this
+		* we can look at the extrema states and we find ourselves with an absorbing markov chain
+		* This allows us to compute the end states of all of our cells and we can roll out the fate for each cell
+			* entropy of these probabiities for all cells
+		* The proof is in the pudding -- applied to early mouse developemnt (endoderm (all internal organs are made of this))
+		* Data organized nicely along these dimensions
+			* cells aligned along temporal orders
+			* approximal distral organizations
+			* These organizations happen head to tail
+			* A smooth gut tube, even though we can't see anything that accounts for this organization, we can see the primodal organs jutting out from this tube
+		* We can transcriptionally see where cells are headed a full day before they progress in that way
+			* We go into the early days of the first decisions of the cells
+				* cell can become one of many classes
+		* We can take spatio-temporal maps of the mamaallian endoderm
+			* We see when FGR1 and FGR2 are both high, they'll be primitive endoderm
+		* Very high entropy _Right_ before this deicsion is made and entropy drops immedaitely after
+			* analysis shows that biologist saw that these cells are plastiq -- they can change by jumping out of that area and into the emryonic layer and assume the nature of the other cells
+		* Plasticity was predicted computationally, and we were then able to verify empirically
+
+* The Human Cell Atlas
+	* Cells in our body, relationships between then, and transitions that happen within the human cellular system
+	* Most of the data is still single cell genomics
+		* This atlas will have single cell genomics and spacial information of these cells
+	* This will require tons of computation
+		* global and open community that anyone can join
+		* public data of 10 billion cell playground
+	* Human cell atlas will serve as a healthy reference and ground truth for disease
+		* The methods we have now don't scale
+		* Data harmonization
+			* data from multiple samples that might be diseased
+				* our methods mistake disease for biological differnce
+		* Factor analysis for good gene programs
+			* How this data factors betwen cells and genes
+			* Simply comparing disease to normal
+* Latent sapces : Deep Learning in scRNA-seq
+	* count basis projected into latent space
+		* Data denoising and integration
+		* low dimensional embeddings
+	* Interpretation of latent factors is still lacking
+
+* Our goal is not to predict, but to understand
+	* Often the outlier is the _most_ important
+	* machine learning is all about the common mechanism and not the outlier, whereas biology _wants_ to know those outliers
+	* Keep our eye on the goal in biology and understanding that something rate
+
+	* Dendritic cells are rare 
+		* These cells split into different 
+	* Cell types aren't necessarily clusters
+		* Though clusters still have their own version of structure to them
+	* The more we zoom in, the more we find structure in this data and we see that meta-cells have real peaks in their density
+		* These meta-cells are defined by different programs and different covariances
+* Acute myioloid lukemia is accute cancer gone awry
+	* Normal immune cells seem to overlap
+	* These are early projectors of cancer cells -- before they go awry and crazy
+	* We want to know what happens that normal <> breaks, and cancer forms
+	* When we look at classicial methods, these diseases don't connect
+		* We believe in covariation and find a manifold that is driven by covariation and not just normal distributions
+		* Covariation in much lower dimensional space is much more computationally efficient
+		* The regulatory systems that go awry
+			* When we run these methods, we can see exactly where the cancer breaks off and becomes cancer
+* Response to therapy
+	* Bone marrow transplant patients who relapse and understanding how that relapse happens
+	* Understand the immune populations that differ between them, and using these dynamics we can see cell populations that really follow and raise up as the tumor burden rises and falls
+	* These are very tiny populations, so one has to be very careful in computation
+
+* Epigenetic data	
+	* What potential regulators that can be regulating these systems
+	* We can build generative processes, and using these latent variables we can understand different properties of these biological systems
+		* What is the covariate nature
+		* We can understand inter-variable influence
+		* What factors combine to what targets through their regulators
+* Most cells in a tumor in solid tumors are not cancer
+	* immune cells and supportive tissue make up 90%
+	* using factor analysis we can see cancer highjacks early development of these processes
+		* using a program that the embryo knows to metasticize a new organ in another part of the body
+			* understanding how they survive in the brain
+			* Identify that all cancers, both breast and lung, have the same gene that created their ability to survive there
+		
+	* Cancer uses regenerative mechanisms for it's evil deeds
+		* 1 change in 6 billion base pairs can make it go different under injury
+		* The reason that this is is because there is enormous cross talk and remodeling between the eputhelial systems and the cancer
+	* Spacial techniques are critically important
+		* Rapid autopsy programs allow us to collect samples
+		
