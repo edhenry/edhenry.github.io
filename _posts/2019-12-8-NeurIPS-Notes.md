@@ -479,7 +479,7 @@ The question being asked "Can data be encypted and still be used to train models
 
 * How can two people living in the same world come to two different conclusions?
 * 5 Things Everyone in ML Should know about
-	1. Humans comtinuously form beliefs
+	1. Humans continuously form beliefs
 		* We don't set them and we're done
 		* We continuously update our beliefs
 		* Every time we encounter an instance of a bowl, we update our beliefs about bowls
@@ -488,13 +488,13 @@ The question being asked "Can data be encypted and still be used to train models
 		* People do not have an accurate model of their own uncertainty
 		* If you think you know the answer, you won't check, and if we present the right answer to the person they _still_ reject it
 			* Might be why there is confirmation bias
-	3. Certanty is feedback driven
+	3. Certainty is feedback driven
 		* high level beliefs about concepts
 			* most useful for the decision making points in our lives
 				* we are sometimes certain when we shouldn't be
 		* People learned a novel rule based concept
 			* boolean logic to determine daxxy-ness
-		* In the beginning there is no concept, it could be a oroperty of the system, or not
+		* In the beginning there is no concept, it could be a property of the system, or not
 		* Entropy of an idealized model has little to do with interest and learning
 			* instead this certainty comes from feedback
 		* Reasoning about the world
@@ -511,7 +511,7 @@ The question being asked "Can data be encypted and still be used to train models
 
 ## Veridical Data Science
 
-* Veridicial - coinciding with reality
+* Veridical - coinciding with reality
 * PCS Framework for Data Science [Paper]()
 	* Predictability (P) (From ML)
 	* Computability (C) (From ML)
@@ -519,21 +519,21 @@ The question being asked "Can data be encypted and still be used to train models
 	* Bridges two of Breimann's cultures
 		* PCS connects science and engineering
 			* Predictability and stability embed two scientific principles
-		* Stability unifies and extends myriad works on pertubation analysis 
-			* It's a minimum requirement for reprocibility, interpretability, etc.
+		* Stability unifies and extends myriad works on perturbation analysis 
+			* It's a minimum requirement for reproducibility, interpretability, etc.
 			* Tests DSLC by shaking every part (I describe this as wiggling all parts of the system to see how it changes the output)
 			* There is always something to follow up when building models
 				* New users
-				* New pateints
+				* New patients
 				* New collaborators
-		* Data Pertubations
+		* Data Perturbations
 			* Data modality choices
-			* Sythetic data
+			* Synthetic data
 			* Data under different environments (invariance)
 			* Differential privacy (DP)
 			* Adversarial attacks to deep learning algorithms
-			* Data cleaning also falls into this data pertubation bucket
-		* Model/algorithm pertubations
+			* Data cleaning also falls into this data perturbation bucket
+		* Model/algorithm perturbations
 			* Robust statistics
 			* Semi-parametric
 			* Lasso and Ridge
@@ -543,35 +543,35 @@ The question being asked "Can data be encypted and still be used to train models
 			* Which data sets to use
 			* How to clean
 			* Whats plots
-			* What data pertubrations, etc.
+			* What data perturbations, etc.
 			* WRITE THIS ALL DOWN (MODEL CARDS FOR MODEL REPORTING)
 		* Reality correspondences <- great description of what we do when we "model" something
-		* How do we choose these pertubations?
-			* One can never consider _all_ pertubations 
-			* A pledge to the stability principle in PCS would lead to null results if too many pertubations were considered
-			* PCS requires documentations on the appropriateness of all pertubations
+		* How do we choose these perturbations?
+			* One can never consider _all_ perturbations 
+			* A pledge to the stability principle in PCS would lead to null results if too many perturbations were considered
+			* PCS requires documentations on the appropriateness of all perturbations
 		* Expanding statistical inference under PCS
 			* Modern goal of statistics is to provide one source of truth
-		* Crtitical examination of probabilistic statements in statistical inference
+		* Critical examination of probabilistic statements in statistical inference
 			* Viewing data as a realization of a random process is an ASSUMPTION unless randomization is explicit
 				* THIS DATA COULD HAVE BEEN GENERATED NON-RANDOMLY
 			* When not, using an r.v. actually implicitly assumes "stability"
 			* Use "approximate" and "postulated" models
-		* Inference beyond prbabilistic models
+		* Inference beyond probabilistic models
 			* We need to have a way to bring PDE models in with things like synthetic data
 			* Proposed PCS framework
 				* Problem formulation - translate the domain question to be answered by a model/algorithm (or multiple of them and seek stability)
 				* Prediction Screening for reality check : filter models/algorithms based on prediction accuracy on held out test data
-				* Target value pertubation distribution - Evaluate the target of interest across "appropriate" data and model pertubations
+				* Target value perturbation distribution - Evaluate the target of interest across "appropriate" data and model pertubations
 	* Making Random Forests more interpretable using stability
 
 ## Uniform Convergence may be unabe to explain generaliation in deep learning [Slides](http://www.cs.cmu.edu/~vaishnan/talks/neurips19_uc_slides.pdf) [Poster](http://www.cs.cmu.edu/~vaishnan/talks/neurips19_uc_poster.pdf)
 
-* Tighest uniform convergence bound that eventually shows it is vacuous
-* Given a training set $S$, algorithm $h$ in $\nathbb{H}$, then [Sl]
+* Tightest uniform convergence bound that eventually shows it is vacuous
+* Given a training set $S$, algorithm $h$ in $\mathbb{H}$, then [Sl]
 * In what setting do we show this bounds failure/
-	* Serparating an nested hypersheres, with no hidden noise, and completely eparatable
-	* Observe that as we incrase number of training data point, the loss follows as expected
+	* Separating an nested hyperspheres, with no hidden noise, and completely separable
+	* Observe that as we increase number of training data point, the loss follows as expected
 	* As we change the label of the datapoints between the hyperspheres, we take the set of all data points and show that s' is completely mis-classified even though it is a completely valid member of the training dataset.
 		* intuitively this can happen only if the boundary we have learned has "Skews" at each training point
 			* What this means is the learn decision boundary is quite complex
@@ -628,7 +628,7 @@ The question being asked "Can data be encypted and still be used to train models
 * Large initial learning rates are crucial for generalization
 * Scaling back by a certain factor at certain epochs
 	* small learning rates early on lead to better train and test performance?
-* LEarning rate schedule changes the order of patterns in the data whcih influence the network
+* Learning rate schedule changes the order of patterns in the data whcih influence the network
 	* class signitures in the data that admit what the class is, but it will ignore other patterns in the data
 * Large learning rates initially learn easy patterns but hard-to-fit patterns after annealing
 * Non-convexity is crucial because different learning rate schedules will find different solutions
