@@ -417,3 +417,94 @@ The question being asked "Can data be encypted and still be used to train models
 			* the points that have the witness function interprets that it looks the most like a dataset
 	
 	* Main references and further learning [Slide]()
+
+## Representation Learning and Fairness
+
+* This tutorial will outline how representation learning can be used to address fairness problems
+* A Framework for Fair Representation Learning
+	* Representation as a fairness problem [Slide]()
+		1. Creating a data regulator [Slide]()
+			* Determines what the fairness criteria are
+			* determines data sources
+			* audits results
+
+			* When Training
+				* Interacting with all of the stakeholders to understand the fairness criteria
+					* output is the fairness criteria
+				* Determinining fairness critera
+					* Algorithmic fairness
+					* Dataset fairness
+			* Examples for _how_ to do this
+				* Partition the dataset into space of disjoint cells such that similar individuals are in the same cell.
+				* Individuals in the same cell should be treated similarly
+			
+			* Lipschitz continuity implies individual fairness
+				* Good news : One can achieve fairness through Lipshitz regularization.
+				* Bad news : Data is non-Euclidean (eg. images, graphs, etc). 
+					* Standard Euclidean distance metrics aren't a good measure for this
+				* Challenge : Can we learn representations of the data such that the l_2 norm is a good metric to compare instances?
+
+			* Group Fairness : Similar Classifier Statistics across groups [Slides]()
+			* (im-)possibility result for group-fair classification
+				* Classifier statistics are not artbitrarily flexible 
+				* eg. Binary classification statistics have two degrees of freesom thus can match two independent statistics across groups
+				* Beyond binary classification, the degrees of freedom grows quadratically with number of classes
+			* Group Fairness : Advantages and Challenges
+				* Advantages
+					* Fairly easy to compute and roughly scales with the number of samples
+					* Often easier to explain to policy-makeers (as in terms of population behavior)
+					* More existing work, strategies already exist for representation learning
+				Challenges:
+					* data regulator must determine which classifier statistics to equalize.
+					* fairness of the representation depends on the quality of the fairness metric chosen by the regulator
+					* Group fairness can lead to (more) violated individual fairness, e.g intersectionality can lead to fairness gerrymandering
+
+		* Metric Elicitation [Slide]()
+			* Determine the ideal evaluation metric by interacting with users, and experts
+			* Query an oracle for this fairness metrics
+
+
+	* Which statistics should be equalized across groups?
+	* Commonly used measures are straightforward functions of classifier performance statistics.
+
+
+		2. Data Producer
+			* Computes the fair representation given the data regulator criteria
+		3. Data User
+			* Computes ML model given sanitized data
+		
+
+
+## Keynote 1 : How To Know
+
+* How can two people living in the same world come to two different conclusions?
+* 5 Things Everyone in ML Should know about
+	1. Humans comtinuously form beliefs
+		* We don't set them and we're done
+		* We continuously update our beliefs
+		* Every time we encounter an instance of a bowl, we update our beliefs about bowls
+	2. Certainty diminishes interest
+		* What you think you know is what determines your curiosity
+		* People do not have an accurate model of their own uncertainty
+		* If you think you know the answer, you won't check, and if we present the right answer to the person they _still_ reject it
+			* Might be why there is confirmation bias
+	3. Certanty is feedback driven
+		* high level beliefs about concepts
+			* most useful for the decision making points in our lives
+				* we are sometimes certain when we shouldn't be
+		* People learned a novel rule based concept
+			* boolean logic to determine daxxy-ness
+		* In the beginning there is no concept, it could be a oroperty of the system, or not
+		* Entropy of an idealized model has little to do with interest and learning
+			* instead this certainty comes from feedback
+		* Reasoning about the world
+			* Flat earthers -- if they watch online videos that confirm this it might increase the chance of early adoption of this idea as truth
+	4. Less feedback may encourage overconfidence
+	5. Humans form beliefs quickly
+		* Early evidence counts more than later evidence
+			* Leads to becoming certain and plays down our ability to update our beliefs
+* There is no such thing as a neutral tech platform
+	* The order in which information is presented makes a huge difference in our understanding of the world
+	* This reinforces some of the studies done around the 2016 elections
+	* Children are consuming more online data and this is affecting them
+* 
