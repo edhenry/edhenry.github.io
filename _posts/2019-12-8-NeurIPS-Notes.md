@@ -821,4 +821,20 @@ The question being asked "Can data be encypted and still be used to train models
 		* The reason that this is is because there is enormous cross talk and remodeling between the eputhelial systems and the cancer
 	* Spacial techniques are critically important
 		* Rapid autopsy programs allow us to collect samples
-		
+
+## Test of time award : Dual Averaging Method for Regularized Stochastic and Online Optimization
+
+* Stochastic optimization and empirical risk minimization
+* We want to minimize the empirical risk of a very large sample
+	* Convergence theory 
+		* Depending on loss function's convexity or strong convexity
+	* Online Convex optimization
+		* Here we consider an online game where each player predicts t+1
+			* suffers a loss $f_t(w_t)$
+			* loss measures total loss of a fixed $w$ from hindsight
+			* very similar to SGD
+	* Compressed sensing / sparse optimization
+		* LASSO
+			* minimize quadratic function with a constraint in the $l_1$ norm
+	* Proximal gradient methods
+		* Adding up of convex
