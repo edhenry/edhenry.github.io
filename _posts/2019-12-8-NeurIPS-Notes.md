@@ -475,7 +475,7 @@ The question being asked "Can data be encypted and still be used to train models
 		
 
 
-## Keynote 1 : How To Know
+## Keynote 1 : How To Know [Slides]()
 
 * How can two people living in the same world come to two different conclusions?
 * 5 Things Everyone in ML Should know about
@@ -507,4 +507,76 @@ The question being asked "Can data be encypted and still be used to train models
 	* The order in which information is presented makes a huge difference in our understanding of the world
 	* This reinforces some of the studies done around the 2016 elections
 	* Children are consuming more online data and this is affecting them
-* 
+
+
+## Veridical Data Science
+
+* Veridicial - coinciding with reality
+* PCS Framework for Data Science [Paper]()
+	* Predictability (P) (From ML)
+	* Computability (C) (From ML)
+	* Stability (S) (from statistics)
+	* Bridges two of Breimann's cultures
+		* PCS connects science and engineering
+			* Predictability and stability embed two scientific principles
+		* Stability unifies and extends myriad works on pertubation analysis 
+			* It's a minimum requirement for reprocibility, interpretability, etc.
+			* Tests DSLC by shaking every part (I describe this as wiggling all parts of the system to see how it changes the output)
+			* There is always something to follow up when building models
+				* New users
+				* New pateints
+				* New collaborators
+		* Data Pertubations
+			* Data modality choices
+			* Sythetic data
+			* Data under different environments (invariance)
+			* Differential privacy (DP)
+			* Adversarial attacks to deep learning algorithms
+			* Data cleaning also falls into this data pertubation bucket
+		* Model/algorithm pertubations
+			* Robust statistics
+			* Semi-parametric
+			* Lasso and Ridge
+			* Modes of non-convex empirical minimization
+		* Human decision is prevalent in DSCL
+			* Which problem to work on
+			* Which data sets to use
+			* How to clean
+			* Whats plots
+			* What data pertubrations, etc.
+			* WRITE THIS ALL DOWN (MODEL CARDS FOR MODEL REPORTING)
+		* Reality correspondences <- great description of what we do when we "model" something
+		* How do we choose these pertubations?
+			* One can never consider _all_ pertubations 
+			* A pledge to the stability principle in PCS would lead to null results if too many pertubations were considered
+			* PCS requires documentations on the appropriateness of all pertubations
+		* Expanding statistical inference under PCS
+			* Modern goal of statistics is to provide one source of truth
+		* Crtitical examination of probabilistic statements in statistical inference
+			* Viewing data as a realization of a random process is an ASSUMPTION unless randomization is explicit
+				* THIS DATA COULD HAVE BEEN GENERATED NON-RANDOMLY
+			* When not, using an r.v. actually implicitly assumes "stability"
+			* Use "approximate" and "postulated" models
+		* Inference beyond prbabilistic models
+			* We need to have a way to bring PDE models in with things like synthetic data
+			* Proposed PCS framework
+				* Problem formulation - translate the domain question to be answered by a model/algorithm (or multiple of them and seek stability)
+				* Prediction Screening for reality check : filter models/algorithms based on prediction accuracy on held out test data
+				* Target value pertubation distribution - Evaluate the target of interest across "appropriate" data and model pertubations
+	* Making Random Forests more interpretable using stability
+
+## Uniform Convergence may be unabe to explain generaliation in deep learning [Slides](http://www.cs.cmu.edu/~vaishnan/talks/neurips19_uc_slides.pdf)
+
+* Tighest uniform convergence bound that eventually shows it is vacuous
+* Given a training set $S$, algorithm $h$ in $\nathbb{H}$, then [Sl]
+* In what setting do we show this bounds failure/
+	* Serparating an nested hypersheres, with no hidden noise, and completely eparatable
+	* Observe that as we incrase number of training data point, the loss follows as expected
+	* As we change the label of the datapoints between the hyperspheres, we take the set of all data points and show that s' is completely mis-classified even though it is a completely valid member of the training dataset.
+		* intuitively this can happen only if the boundary we have learned has "Skews" at each training point
+			* What this means is the learn decision boundary is quite complex
+			* This complexity that even the most refined hypotehsis class is quite complex
+			* This proves the bounds are vacuous
+		* This overparameterzed deep network can 
+	* Looking aheead it's important to understand the complexities contained within the decision boundaries and derive new tools as a test case
+
