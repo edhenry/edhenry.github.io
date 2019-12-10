@@ -595,11 +595,11 @@ The question being asked "Can data be encypted and still be used to train models
 
 ## Generalization Bounds of Stochastic Gradient Descent [Slides](https://neurips.cc/media/Slides/nips/2019/westexhibitionhallc+b3(10-10-05)-10-10-25-15846-generalization_.pdf) [Poster](https://drive.google.com/drive/folders/1dHLGUG78Uei4c8YEVfv2qFSVO8MGfDy5?usp=sharing)
 
-	* Learning large overparameterized DNN's, the empirical observation don extremely wide networks shows that generalization error tends to vary
-	* Deep RELU networks are almost linear in terms of their parameters on small neighborhoods around random initialization
-	* Applicable to general loss functions
-	* Generalization bounds for wide and DNN's that do not increase in network width
-	* Random feature model (NTRF) that naturally connects over-parameterized DNNs with NTK
+* Learning large overparameterized DNN's, the empirical observation don extremely wide networks shows that generalization error tends to vary
+* Deep RELU networks are almost linear in terms of their parameters on small neighborhoods around random initialization
+* Applicable to general loss functions
+* Generalization bounds for wide and DNN's that do not increase in network width
+* Random feature model (NTRF) that naturally connects over-parameterized DNNs with NTK
 
 ## Efficient and Accuract estimation of lipschitz constands for DNN's [Slides](https://neurips.cc/media/Slides/nips/2019/westexhibitionhallc+b3(10-10-05)-10-10-30-15847-efficient_and_a.pdf) [Poster](https://www.seas.upenn.edu/~mahyarfa/files/Slides_NeurIPS_2019.pdf)
 * Lipschitz constant means with 2 points X and Y, they'll be close before and after being passed through the neural network
