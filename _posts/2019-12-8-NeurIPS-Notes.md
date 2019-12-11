@@ -170,7 +170,10 @@ The question being asked "Can data be encypted and still be used to train models
 * Feature List [slide](https://photos.app.goo.gl/gzLXMuHC6Dnh5TiUA)
 * Has ONNX integrations
 
-## Bayesian Deep Learning [URL](https://neurips.cc/Conferences/2019/Schedule?showEvent=13205)
+## Bayesian Deep Learning 
+
+[URL](https://neurips.cc/Conferences/2019/Schedule?showEvent=13205)
+[Recording]()
 
 * Gradient Descent with Bayes
 	* Claim is that we can derive this by choosing Gaussian with fixed covariance
@@ -217,7 +220,7 @@ The question being asked "Can data be encypted and still be used to train models
 * Laplace Appriximation [Slide]()
 	* Run the newton method and eventually it will converge to the laplacian 
 
-### Designing New deeo-learning algorithms
+### Designing New deep-learning algorithms
 #### Uncertainty Estimation with Deep Learning
 
 * Uncertainty Estimation for Image Segmentation [Slide]()
@@ -327,6 +330,8 @@ The question being asked "Can data be encypted and still be used to train models
 
 ### Two Sample Testing
 
+[Slides]()
+
 * CIFAR 10
 	* Weird conclusions in the reults of this paper
 	* In the testing of CIFAR 10 - given these distributions how can we measure if they're the same?
@@ -420,6 +425,8 @@ The question being asked "Can data be encypted and still be used to train models
 
 ## Representation Learning and Fairness
 
+[Slides]()
+
 * This tutorial will outline how representation learning can be used to address fairness problems
 * A Framework for Fair Representation Learning
 	* Representation as a fairness problem [Slide]()
@@ -475,7 +482,9 @@ The question being asked "Can data be encypted and still be used to train models
 		
 
 
-## Keynote 1 : How To Know [Slides]()
+## Keynote 1 : How To Know
+
+ [Slides]()
 
 * How can two people living in the same world come to two different conclusions?
 * 5 Things Everyone in ML Should know about
@@ -510,6 +519,8 @@ The question being asked "Can data be encypted and still be used to train models
 
 
 ## Veridical Data Science
+
+[Slides]()
 
 * Veridical - coinciding with reality
 * PCS Framework for Data Science [Paper]()
@@ -565,7 +576,10 @@ The question being asked "Can data be encypted and still be used to train models
 				* Target value perturbation distribution - Evaluate the target of interest across "appropriate" data and model pertubations
 	* Making Random Forests more interpretable using stability
 
-## Uniform Convergence may be unabe to explain generaliation in deep learning [Slides](http://www.cs.cmu.edu/~vaishnan/talks/neurips19_uc_slides.pdf) [Poster](http://www.cs.cmu.edu/~vaishnan/talks/neurips19_uc_poster.pdf)
+## Uniform Convergence may be unabe to explain generaliation in deep learning 
+
+[Slides](http://www.cs.cmu.edu/~vaishnan/talks/neurips19_uc_slides.pdf) 
+[Poster](http://www.cs.cmu.edu/~vaishnan/talks/neurips19_uc_poster.pdf)
 
 * Tightest uniform convergence bound that eventually shows it is vacuous
 * Given a training set $S$, algorithm $h$ in $\mathbb{H}$, then [Sl]
@@ -593,7 +607,10 @@ The question being asked "Can data be encypted and still be used to train models
 		* Understand neural net architectures and common techniquest from the lends of NTK's
 		* Combine NTK with other techniques in kernel methods
 
-## Generalization Bounds of Stochastic Gradient Descent [Slides](https://neurips.cc/media/Slides/nips/2019/westexhibitionhallc+b3(10-10-05)-10-10-25-15846-generalization_.pdf) [Poster](https://drive.google.com/drive/folders/1dHLGUG78Uei4c8YEVfv2qFSVO8MGfDy5?usp=sharing)
+## Generalization Bounds of Stochastic Gradient Descent 
+
+[Slides](https://neurips.cc/media/Slides/nips/2019/westexhibitionhallc+b3(10-10-05)-10-10-25-15846-generalization_.pdf) 
+[Poster](https://drive.google.com/drive/folders/1dHLGUG78Uei4c8YEVfv2qFSVO8MGfDy5?usp=sharing)
 
 * Learning large overparameterized DNN's, the empirical observation don extremely wide networks shows that generalization error tends to vary
 * Deep RELU networks are almost linear in terms of their parameters on small neighborhoods around random initialization
@@ -601,7 +618,11 @@ The question being asked "Can data be encypted and still be used to train models
 * Generalization bounds for wide and DNN's that do not increase in network width
 * Random feature model (NTRF) that naturally connects over-parameterized DNNs with NTK
 
-## Efficient and Accuract estimation of lipschitz constands for DNN's [Slides](https://neurips.cc/media/Slides/nips/2019/westexhibitionhallc+b3(10-10-05)-10-10-30-15847-efficient_and_a.pdf) [Poster](https://www.seas.upenn.edu/~mahyarfa/files/Slides_NeurIPS_2019.pdf)
+## Efficient and Accuract estimation of lipschitz constands for DNN's 
+
+[Slides](https://neurips.cc/media/Slides/nips/2019/westexhibitionhallc+b3(10-10-05)-10-10-30-15847-efficient_and_a.pdf) 
+[Poster](https://www.seas.upenn.edu/~mahyarfa/files/Slides_NeurIPS_2019.pdf)
+
 * Lipschitz constant means with 2 points X and Y, they'll be close before and after being passed through the neural network
 	* generalization bounds and robust classification lean on this
 	* This problem of computing Lipschitz constants is NP hard so we try to find tight bounds around this
@@ -623,7 +644,10 @@ The question being asked "Can data be encypted and still be used to train models
 			* Emperitically when we evaluate this lipschitz constant these networks have much lower
 * Accurate and scalable way of calculating Lipschitz constants in Neural Networks
 
-## Regularization Effect of a large initial learning rate [Slides](https://neurips.cc/media/Slides/nips/2019/westexhibitionhallc+b3(10-10-05)-10-10-35-15848-towards_explain.pdf) [Poster](https://drive.google.com/file/d/1lg8hg-1QMFUDvYzZWg83DF7X3yXSl9kw/view?usp=sharing)
+## Regularization Effect of a large initial learning rate 
+
+[Slides](https://neurips.cc/media/Slides/nips/2019/westexhibitionhallc+b3(10-10-05)-10-10-35-15848-towards_explain.pdf) 
+[Poster](https://drive.google.com/file/d/1lg8hg-1QMFUDvYzZWg83DF7X3yXSl9kw/view?usp=sharing)
 
 * Large initial learning rates are crucial for generalization
 * Scaling back by a certain factor at certain epochs
@@ -638,7 +662,10 @@ The question being asked "Can data be encypted and still be used to train models
 	* Path that imitates what the class is
 	* 60% of examples overlay a patch on the image and the memorization of the patch early on shows this method fits early and doesn't generalize well
 
-## Data-Dependent Sample Complexities [Slides](https://neurips.cc/media/Slides/nips/2019/westexhibitionhallc+b3(10-10-05)-10-10-40-15849-data-dependent_.pdf) [Poster](https://drive.google.com/file/d/1E5SV6Mx_YDCPqnE5aAISSTk09mUkNu6L/view?usp=sharing)
+## Data-Dependent Sample Complexities 
+
+[Slides](https://neurips.cc/media/Slides/nips/2019/westexhibitionhallc+b3(10-10-05)-10-10-40-15849-data-dependent_.pdf) 
+[Poster](https://drive.google.com/file/d/1E5SV6Mx_YDCPqnE5aAISSTk09mUkNu6L/view?usp=sharing)
 
 * How do we design principle regularizers for DNN's
 	* Current technqiues are designed ad-hoc
@@ -664,6 +691,8 @@ The question being asked "Can data be encypted and still be used to train models
 	* Follow up work : tigher bounds and empirical improvement over strong baselines
 
 ## Machine Learning Meets Single Cell Biology : Insights and Challenges
+
+[Slides]()
 
 * Address something asked by DaVinci - How are we made?
 	* We're created from a single cell and it eentually creates every cell in our body.
@@ -824,6 +853,8 @@ The question being asked "Can data be encypted and still be used to train models
 
 ## Test of time award : Dual Averaging Method for Regularized Stochastic and Online Optimization
 
+[Slides]()
+
 * Stochastic optimization and empirical risk minimization
 * We want to minimize the empirical risk of a very large sample
 	* Convergence theory 
@@ -838,3 +869,281 @@ The question being asked "Can data be encypted and still be used to train models
 			* minimize quadratic function with a constraint in the $l_1$ norm
 	* Proximal gradient methods
 		* Adding up of convex
+
+## Causal Confusion in Imitation Learning 
+
+[Slides]()
+
+* Imitation learning is a powerful method for learning complex behaviors
+	* driving cars, flying drones, and grasp and pitch
+	* Behavioral cloning
+	* Supervised learning through observations of experts
+	* Not perfect
+		* Expert state and we roll out these states we get errors of the imitator acculator that show up in other parts of the state space
+		* distributional shift that arises due to this causality
+	* Does more information lead to better performance?
+		* What happens under distribution shift?
+		* Turns out that a given model learns to pay attention to the road and brakes when someone is in the road
+	* These fail because the model cannot infer causality
+	* Can we predict the expert's next action
+		* This is the only cause
+		* The expert ignore it and its nuisance variable
+		* End state variables
+			* If we learn 1 imitator that watches the road
+			* We can learn another imitator that wrongly treats both variables as a cause
+		* IN general if we have 2^N possible causal graphs
+	* Existence of causal confusion
+		* Consider 2 examples
+			* learns actions through history and one that doesn't
+			* validation score on held out data history plays a role in working well with history but in test it causes confusion
+		* How do we demonstrate this
+			* We add to the original state and use this information to create confounded states
+			* This corresponds to having just the causal 
+			* Use a VAE and treat the dimensions of the latent variables as potential causes
+				* Using behavioral cloning on the original state we get expert like rewards
+				* On confouded states, we do much worse indicating causal confusion
+			* What we need is to have a causal graph that indicates the random variables that the expertt pays attention to
+			* In the first phease we learn from all possible causal graphs 
+				* Binary vectors 1 - cause, 2 - nuisance
+				* randomly sample a causal graph and mask out the nuisance part of the state
+				* we concatenate the graph and feed it to into a NN and it predicts an action
+					* behavioral cloning loss
+			* In the second phase we infer the correct causal graph
+				* intervention changes th distribution of the state
+				* we score all possible graphs on additional information
+					* Mode 1 : query reward
+					* Mode 2 : 
+			* Collect trjectories as policies
+			* Query expert on states
+			* Pick graph most in agreement with experts
+		* DAGGer baseline performs significantly worse
+	* Learned graph visualization
+		* learned causal graph can ignore nuisance variables
+		* More information can hurt performance without this effort
+		* How to scale this up to more complicated tasks
+
+## Imitation Learning from Observations by Minimizing Inverse Dynamics Disagreement 
+
+[Slides]()
+
+* MDP formulation 
+* Divergence minimization perspective on inverse learning
+	* GAIL or AIRL 
+		* KL and JS divergences could be used
+		* Adversarial training for divergence minimization
+
+## Structure Prediction approach for generalization in cooperative multi-agent RL 
+
+[Slides]()
+
+## Guided Metapolicy policy Search 
+
+[Slides]() 
+[Paper]()
+
+## Using logarithmic Mapping to Enable Lower Discount Factors in Reinforcement Learning
+
+* Standard RL Setting
+	* Discount factor in play here
+* This can be modeled as an MDP
+* Goal : find an optimal policy to maximize reward which is some long term objective
+
+## Weight Agnostic Neural Networks 
+
+[Slides]() [Poster]()
+
+* Innate abilities in animals
+	* we're beginning to understand that ML architectures seem to have innateness
+	* CNN's are so well suited to image processing that they can do many tasks in that area
+* How far can we push this innateness idea
+	* To what extent can NN architectures along encode solutions to tasks?
+	* Different kind of NAS
+		* WE're looking for NAS' that perform without any training at all
+		* Judged on 0-shot performance
+		* Because of the large weight space
+			* Use a single value for our weight space
+			* Judge how well the network works by doing several roll out with different values
+		* Create a population of minimal networks
+			* These have inputs with no hidden nodes, connected to some outputs
+		* Performance of the network is averaged over rollouts and then ranked
+			* vary the networks to create new populations and continue the process
+		* We can vary in one of 3 ways
+			* Inset node
+			* Add hidden connection
+			* Change the activation function
+				* Gauss
+				* ReLU
+				* Sigmoid
+			
+	* Tested on 3 RL tasks
+		* cart-pole
+		* bi-ped
+		* car racing
+	* Compare these WAN found topologies
+		* when trained can reach SoTA
+	* Randomize the weights they don't perform well
+	* Shared weights produce pretty good behaviors
+	* If we tune the weights, they perform the same kind of SoTA performance as general purpose networks
+		* Able to do this with much smaller networks, sometimes orders of magnitudes
+	* For fun we tested this on MNIST
+		* Here we use a random weight -- we get an expected accuracy of 82%, best single weight is 92% -- little better than linear regression
+	* Searching for building blocks toward a differnt kind of neural architecture search
+		* architectures that have innate biases and priors
+	
+
+## Social Intelligence
+
+[Slides]()
+
+* What has changed since Rosenblat started playing with NN's?
+	* Compute power
+	* Data
+	* This gave Dean the idea to found Google Brain
+		* Early 2010's
+	* Edge TPU - 2 watts and 4 TOPS
+		* Mobile-net-v2 @ 400FPS
+	* Coral.ai prototyping boards
+	* Running workloads locally is important, BUT NOT SUFFICIENT, tool for implementing and reasoning about privacy
+	* Have to be "smart" about what data is thrown off of a device using ML
+	* Sanity wrt energy consumption and other natural resources
+		* moving data is what costs energy
+		* once the data is in a register and we want to operate over it, it's relatively free
+			* moving it is what costs energy
+* How do we make these giant distributed frameworks run efficiently, effectively, and privately?
+	* Federated learning allows centralized inference but localized training
+* Scale?
+	* 100's of millions of android phones have machine learning running on them
+	* Scale story is more complex
+		* data are both abundant and rare / precious
+			* we don't always have access to the data
+		* compute is both massive and limited/precious
+			* don't effect UX
+		* Premium on quick covergence, ie/ < 1 pass over the data
+		* FL both enabled ML fairness and can be in tension with it
+			* long tail and rare event learning can endanger some of the privacy aspects
+	* Generative models are really important in the federalted setting -- and it's not just about making pretty pictures...
+		* Capturing this underlying data generating distribution is key
+* Open problems
+	* tightening bounds, extending domains, handling infrastructure
+* Where is all of this AI stuff going anyway?
+	* ML / Data Science
+		* Conflicting narratives
+		* generally discussing regression problems
+	* AI 
+		* Passing a test or winning a game
+		* Super human performance given
+			* A well defined problem
+			* A loss function
+			* enough data
+		* Just how remarkable territory this actually covers
+		* What's the loss function for more profound things like
+			* criminal justice
+			* couples therapy 
+			* Art
+			* optimal hiring
+	* This is _not_ just a human issue
+		* Neurophilospher 
+			* Success of ANN's, notwithstanding, is a far cry from what intelligent bodies on this planet can do
+		* Motivational tribes are messy - paper in 2016 [Paper]()
+
+* Ecoli
+	* bacteria have a 1 bit output
+		* can go forward / back / turn like an RC car
+		* trjectory os ecoli looks (see slides)
+	* Energy is a function of their consumption and subsequent output
+	* Is this consumption methodology optimal?
+		* What actually has been optimized by evolution in this process?
+		* Inverse Reinforcement Learning
+			* well studied but ill-conditioned
+		* Modeling a signalling and sensoring function of the bacteria
+	* Genome is the reward map here
+		* through this evolutionary approach we can see chemotaxis(SP?)
+	* The error bars on this example are relaly big
+		* colonies have lots of reward maps
+		* huge variety of reward maps that do work (see slides)
+	* What persists, exists
+	* evolution decides on what is good or bad
+	* this is not exactly optimization**..
+
+	* Simple GAN 
+	[Paper]()
+
+		* All points are stable in wasserstein gan's
+		* The combined GAN is not doing gradient descent, locally each actor here is going gradient descent of its own well-defined cost function.
+			* Put together, the combined system
+
+	* Loss functions and gradient wrt special and general relativity
+		* Every actor is curving the space and this leads to general relativity
+	* Many "solutions" in this bacteria case
+		* signally begets collectivity
+	* Optimization is not really how life works
+		* it's also not how brains work
+
+* Backprop
+	* Looking at real neurons are a hell of  alot more complicated
+	* Brains don't just evaluate a function
+		* They develop
+		* imprint
+		* pre-programmed tasks
+		* self-modifying
+			* Looking at learning in ML, we're trying to minimize a loss by picking a particular set of weights
+		* Chain rule for all of this stuff
+			* backprop through a linear layer, we can see that these backprop equations look very similar to forward prop
+				* there's a symmetry here
+				* Also this weight update equation looks kind of Hebbian
+			* ANN's generally only implement the top part of the equation
+			* If we didn't do the bottom parts of the equation, it wouldn't be doing much
+	* The learning part of ML is a lot more complex than the feedforward linear layers in RELU
+		* There's always feedback
+		* There's always temporal dynamics
+		* Also
+			* momentum
+			* mini-batch
+			* adam
+			* structured ranom init
+	* Neurons have all the building blocks
+		* Per-cell state
+		* Per-synapse state
+		* Temporal averaging
+		* Random number sources
+		* multiple timescales
+	* Can we learn to learn with these building blocks?
+	* A more general, biological symapse update rule that doesn't require gradient descent
+		* LSTM at every synapse
+		* Shared weights, but individual state
+		* Noise gate g
+		* (Anti-)Hebbian
+		* Neurons can behave the same way
+			* Per cell state and learned behaviour for how to propagate
+		* Equations are factorial and not scalary
+			* Chemical activity
+			* allows multiple timescales
+			* mu parameters allow mixing at different time scales
+			* Slow timescales needed for learning, but also useful for time- qquestions
+		* Weights (or connectum)
+			* learning
+			* Development
+		* LSTM parameters
+	* In supervised learning paradigm:
+		* short brain lifetimes
+
+* Self-organizing neural cellular automata
+	* Self-training NN's that are training each cell
+		* reproduces a pattern
+		* learns how to do this via purely local interactions
+
+* These kinds of fundamentally social concepts and ensembles of "things" come together and create the systems we have today
+	* how we find this dance
+
+* Grand Challenges
+	* Brains with fully evolved architectures
+	* Understanding and characterizing evolved systems
+		* realm of anthropology and sociology
+	* Problem solving by artificial societies 
+	* Large-scale meta learning in the Federated setting
+	* Purposive "artificial ecology" engineering
+	* Dynamical systems theory for neural ensembles
+	* Can we define quantitative "SOTAs" for sociality?
+	* Can we think about what it would mean to approach this kind of "curved space" AI ethics
+
+* Artificial Life approaches?	
