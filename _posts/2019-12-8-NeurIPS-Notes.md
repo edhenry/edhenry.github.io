@@ -1147,3 +1147,216 @@ The question being asked "Can data be encypted and still be used to train models
 	* Can we think about what it would mean to approach this kind of "curved space" AI ethics
 
 * Artificial Life approaches?	
+
+
+## DualDICE 
+
+[Slides]()
+[Poster]()
+
+## From System 1 Deep Learning to System 2 Deep Learning
+
+* These things are linked together in really interesting ways and he's going to convince us of this
+* Connected to the notion of agency
+* Some people think that it might be enough to take what we have and grow our datasets and computer speed and all of a sudden we have intelligence
+	* Narrow AI - machines need much more data to learn a new task
+	* Sample efficiency
+	* Human provided labels
+		* These dont catch changes in distribution, etc.
+	* Next step completely different from deep learning?
+		* Do we need to take a step back to classical eras?
+* Thinking fast and slow
+	* 2 tasks
+		1. kinds of things we do inuitively and consciously and we can't explain verbally
+			* This is currently what DL is good at
+		2. Slow and logical, sequential, conscious, linguistic, planning, reasoning
+			* Future DL
+	* We're generalizing in a more powerful and conscious way in a way that we can explain
+		* The kinds of things we do with system programming
+* Missing to extend DL to reach human level AI
+	* out of distribution generalization and transfer
+	* Higher level cognitive system
+	* 	High level semantic representations
+		* corresponding to the kinds of concepts we link back to language
+	* Causality
+		* Many of these things tend ot be causal in effect
+	* Agent perspective
+		* Better world models
+		* Causality
+		* Knowledge-seeking
+	* There are questions between all of these 3 things listed above
+		* If we make progress in one, we can make progress in another
+* Consciousness
+	* Roadmap for priors for empowering system 2
+	* ML Goals : handle changes in dsistribution
+	* System 2 basics : attention & consciousness
+		* Cognitive neurscience to understand the human side of the consciousness
+	* Consciousness Prioer : sparse factor graphs
+		* We can think of these things as assumptions of the world
+			* The joint distribution betwen these high level concepts can be thought of as a factor graph
+	* Theoretical framework
+		* meta-learning
+		* localized changes hypothesis -> causal discovery
+			* Localized in some abstract space
+	* Compositional DL architectures
+		* Architectures we should explore to introduce the compositionality that we'll need to explore
+			* NN's that operate on sets of objects, and not just vectors
+			* Dynamical recombination
+* Changes in distribution (from IID to OOD)
+	* Artifically shuffle the data the achieve that?
+		* Natures does not shuffle the data, we shouldn't
+			* IRM paper from Bottou
+	* Out of distribution generalization and transfer
+		* No free lunch : need new assumptions to change this IID assumption
+		* If we discard this IID assumption, we need to replace it by something else
+		* Bengio posits priors might be the way to do this.
+* OOD Generalization
+	* The phenomenon of learner being able to genearlaize in some way to a different distribution
+		* If we are a learning agent (agent = actions)
+			* we almost always face non-stationarities
+				* Due to actions of self (agent)
+				* actions of other agents
+				* movement through time and space
+		* Once we start looking at multi-agent systems, it gets even more complicated
+		* THERE IS NO STATIONARITY IN OUR ABILITY TO SAMPLE REALITY IN THE WAY THAT WE DO
+* Compositionality helps IID and OOD to generalize
+	* Introducting more forms of compositionality allows us to learn from some finite set of combinations about a much larger set of combinations that are NOT in the set of the data that we have today
+	* Distributed representations
+		* Helps us see why we get an exponential advantage
+			* If we make the right assumptions, these things can be explained by variables and factors, and once we train a bunch of eatures we can generalize to new combinations of these features
+		* Each layer is composed for the next one, and this gives us another exponential advantage
+			* The one we know best we find in language
+				* We call this systemasticity
+	* This opens the door to better powers of analogies and abstract reasoning
+* Systematic generalization
+	* Dynamically recombining existing concepts into new concepts
+	* Even when new combinations have 0 probability under training distributions
+		* eg. science fiction scenarios
+		* eg. Driving in an unknown city
+	* Not very successful with the use of DL systems
+		* Current methods when asking models to answer questions not in the distribution they do not know how to answer them
+* Constrast with Symbolic AI Programs
+	* Avoiding the pitfalls of classical AI rule-based symbol-manipulation
+	* Need efficient large scale learning
+	* need semantic grounding
+	* need distributed representations for generalization
+	* efficient = trained search (also system 1)
+	* Need uncertainty handling
+	* But want
+		* systematic generalization
+		* factorizing knowledge into small exchangable pieces
+		* manipulating variables, instances, references & indirection
+
+* System 2
+	* Consciousness and attention
+		* Focus on one or a few elements at a time
+			* when translating we focus on a specific word to do the translation
+		* Content-based soft attnetion is convenient, can backprop to _learn where to attend_
+			* Soft-max that conditions on each of the elements and we can see how well we match on context
+			* Attention is parallel in that we compute a score for each and decide which ones where we want to put attnetion
+		* Attention should be thought of as the internal action
+			* needs a **learned attention policy**
+	* SoTA language models all rely on attention
+		* How attention, connected to memory, can also unlock the problem of vanishing gradients
+		* Operating on unbounded sets of key value pairs
+	* We can think of attention as creating a dynamic connection between layers
+		* as opposed to being hard coded today
+		* This is great, but from the point of view of the receiving model, it receives a value but it has no idea of where it's coming from
+			* We condition to the value, we have the concept of a key, an identifier for where this value came from
+				* We use this as a routing mechanism
+		* Downstream computation can know what the value it's receiving and where it's coming from
+			* Creating a name for these objects through a form of indirection
+			* we have systems of operating on sets
+* From **attention** to **consciouness**
+	* C-word is a bit taboo -- but maybe not anymore
+	* number of theories are related to the global workspace theory
+		* This theory says that what is going on with consciousness, there is a bottleneck of information in that some elements of what is computed in your brain is selected and then broadcast to the rest of the brain and influencing it
+		* Conditions heavily on perception and action
+			* Also gives rise naturally to the system 2 abilities above
+
+* Relation to ML?
+	* ML can be used to help brain scientist understand consciouness
+	* Work in neuroscience is based on fairly qualitative defns
+		* ML can help us to quantify what this actually means
+	* Feedback loops help provide specific tests that we can use to measure these concepts
+	* One of these motivations it to get rid of fuzziness and magic that surrounds consciousness
+	* Provide advantages to these particular form of agents
+
+* Thoughts, Consciousness, Language
+	* There is as trong ling between thoughts and language, in that one can be translated between mediums farily easily though a lot of information si dropped on the floor during decoding
+	* We want to explore things like Grounded Language Learning, by learning through environment interaction and perception
+		* Allows a learning to get to patterns through to it's understanding of how the world works
+
+* The consciousness prior : sparse factor graphs
+	* We can use these systems to encourage our learning systems to do a good job at out of distribution reasoning
+	* Sparse factor graph
+		* attention : to form conscious state, thought
+		* A thought is low dimensional object
+			* We sample these from a larger higher dimensional conscious state
+			* The conscious states that we sample 
+			* The thoughts we consciously have are pushed through this consciousness bottleneck
+	* What do these computations mean
+		* Some kind of inference is required
+		* What kind of joint distribution of high level concepts are we reasoning about
+	* Think about the kind of statements we make with natural language
+		* "If I drop the ball, it will fall on the ground"
+			* true but involved very few variables in that the statement only contains a finite number of words
+		* The relationship that I need to descibe can tightly capture the elements of this joint probability through very few variables
+	* Disentangled factors != marginally independent, eg. hand & ball
+		* We think of these as having this very structured joint distribution
+		* They come with very strong and powerful relationships
+		* Instead of imposing a very strong prior of complete margin independence we can find some prior that finds a joint distribution between these high level variables
+* Meta-Learning : End to end
+	* Meta-learning is learning to learn
+		* Backprop through inner loop 
+		* Having multiple timescales of learning 
+			* iterative optimization like computation
+			* out of loop evolution
+		* In this way we can talk about evolution algorithms, etc. and when we talk about this in the life of an individual 
+			* lifetime learning is the outer loop and local interaction through time is the inner loop
+	* We can train it's slow timescale meta parameters to generalize to new environments
+	* What kind of hypothesis can we make?
+		* becaue these actions are localized in space and time, because these things are locallly temporal then we can try to understand
+		* Independent of cause and mechainsim -- from an information perspective
+			* learning from one mechanism tells you nothing of the others
+			* if something like this changes due to an intervention then ew only need to adapt the portion of the model that has to deal with that part of the distribution
+			* It can be explained by a tiny change
+	* Good representations of variables and mechanisms + localized change hypothesis
+		* few bits needed to adapt to what has happened
+
+* How to factorize a joint distribution in this way?
+	* Learning whether A causes B
+		* Learner doesn't know but we might observe just X and Y
+		* Turns out, if we have the right composition then we can use this to learn about how to map X to Y, such as things like pixels that don't have causal structure in that image itself
+	* The assumption that these high level variables are causal doesn't work on pixels
+		* We cna't find a pixel that causes another pixel
+	* Learning neural causal models
+		* we can avoid the exponential number of grpahs that need to be considered through this
+		* ONe of the things found was that in order ot facilitate the causal structure the learner should try to infer the intervention on which variable it was performed
+		* most of the time our brain is trying to figure out "What caused the changes that I am seeing?"
+	* Able to find these commonly used causal induction methods
+		* Attacking this problem in a deep learning friendly way
+			* defined obejective with some regularization
+
+* Operating on sets of objects
+	* Using dynamically recombinations of objects
+	* Recurrent Independent Mechanisms
+		* operating on sets of these objects
+		* applied to recurrentness
+			* state is broken into pieces
+			* constaining the way these networks are talking to eachother in that they done in sparse and dynamic ways
+			* vectors aren't the standard vectors but rather sets of pairs 
+				* networks are exchanging variables along with their type (key, value) pairs
+					* leads to better out of distribution generalization than those that don't use these structures
+	* Tested in reinforcement learning
+		* found it helped in atari games
+
+* Recap
+	* Conscious processing by agents, systematic generalization
+		* Sparse factor graphs in space of high-level semantic variables
+		* Semantic variables are causal : agents, intentios, controllable objects
+	* Shares "rules" or modules that are reusable across tuples
+		* A particular subnetwork recieves input that is different dependent on context
+			* This can be applied to different instances in that it's much more like a bayes net but the same parameters can be used in many spaces
+	* another really important hypothesis is that the changes in dsitribution are mostly localized if we're presented information
+	* Things preserved across changes in distribution have to be grounded in that they're stable and robust to stationarity
