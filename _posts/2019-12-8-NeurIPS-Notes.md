@@ -1460,4 +1460,492 @@ The question being asked "Can data be encypted and still be used to train models
 			* We want to suppoer systematic considerations of the data
 			* Model user's search frontier, optimize for related chart specification, seeded by the user's current docus
 			* Candidate charts pruned and ranked using a formal model of design constraints
-		* 
+
+
+## Bayesian Deep Learning Workshop
+
+### Gaussian Process Behavior of Wide and Deep Neural Networks
+
+[Slides]()
+
+* Paper has been around for almost 2 years now
+* Lots of forward work -- along with an extended paper on arxiv today along with code
+* Data efficiency is a serious problem for deep RL
+* Prior and weights are typically very difficult to interpret
+	* Why do we expect good performance?
+	* Possible what we are doing inference with a terrible prior
+* Seminal results of the paper
+	* 1994 - showed that a single MLP with K hidden units, with a carefully scaled prior
+		* scaling outgoing weights by 1/K -- as you take the limit as k -> inf
+			* the vector converged to distribution multivariate with mean 0 and unit variance
+			* some form of gaussian quadrature
+			* proves this with standard multivariate central limit theorem
+* Central Limit Theorem
+	* 1 dimenstional CLT there are some interesting things
+	* Random variables converges to CDF at all points where the CDF is continuous
+	* CLT says that if we consider IID rv with mean 0 and unit variance
+	* Some sublties
+		* Consider an IID sequence of 2 possibilities [-1, 1] with P(0.5) has mean 0 variance 1
+		* We can define a set A
+			* Then for all n where A has probability zero under N(0,1)
+			* This set has 0 probability under this distribution
+				* be careful with what convergence of distribution actually means
+* What does this mean for a stochiastic process to converge in distribution
+	* carefully scaling the prior
+	* weights coming out of these layers will have 1/k_1 and 1/k_2 respectively
+	* c_2 is a normal quadrature is defined in terms of the covariance of the previous layer making it a recursive kernel definition
+* Deep Neural Networks as Gaussian Process
+	* Released same day and accepted as same confernece
+	* Check this paper out as well [Paper]()
+* Rigorous proof provided
+* Why would we expect a CLT here at all with multiple hidden layers
+	* Radford Neil
+		* Feeding a single data point through and we can look at the f_1 units - each will converge independent of other variables
+	* Multiple input data points
+		* there is a correlated normal vector at each f^(1)
+			* at some point, increasingly independent vectors converge to a correlated normal vector
+	* Problem with the argument
+* Preliminaries
+	* Need a convergent non-linearity
+		* Draw a bounding envelope on any point around the non-linearity
+			* we might get something that might not be defined if we don't, it effectively stabilizes everything
+	* Think about the network as an infinite sequence of network
+		* The hidden layers may grow at different rates as long as they all tend toward infinity
+	* Formal statement of the theorem
+* Proof sketch
+	* proceed through the network and by induction starting to closest data
+	* at each layer, reduce the problem to the convergence of any finite linear project of data and units
+* Exchangability
+	* An infinite sequence is exchangable if any finite permutation leaves its distribution invariant
+	* de Finetti's theorem
+		* an infinite sequence of random variables is exchangable iff ti's IID conditional on some random variable
+* Exchangable CLT [slide]()
+	* applies to triangular arrays
+
+* Experiments in the paper are relatively small data with low dimensionality [Slide]()
+	* In the majority of cases considered, the agreement is very close
+	* one can't tell the difference between the GP and 3 layer NN
+	* Slide shows, empirically, there seems to be little difference between a standard GP and a DNN with 3 hidden layers
+
+* Limitations of Kernel Methods [Slide]()
+	* This property might not be a good thing
+	* Kernel methods are affine transformations of the training outputs
+	* This limits the rperesentation that we can learn
+
+* Deep GP's
+	* Not marginal GP's because they have finite restrictions in the norm
+	* This prevents the onset of the CLT
+
+* Subsequent work [Slide]()
+	* CNN's also converge to GP's
+	* Neural Tangent Kernel considers not what just happens for the initial distribution of the NN, but also what happens when we apply gradient descent
+
+### The Natural Neural Tangent Kernel
+
+[Slides]()
+[Paper]()
+
+* Background
+	* Vectrorize the output of the NN's into an n x k vector
+	* we know that the application that we have done will handle 1D output
+	* All theoretical results apply to multi-outputs
+	* We know that NN outputs are a function of the parameters which in turn are a function of time (think evolution of gradient descent)
+* Natural GD
+	* appealing because it has convergence, covariance, and invariance under reparameterization
+	* Fisher Information Matrix allows GD to take the curvature of the distribution space into account
+		* Small changes in parameters can effect the training dynamics
+		* Inverse Fisher allows us to take into account this space's information geometry
+* Concatenated Fisher Information
+	* we can condition the FIM on a single data point x
+
+* Training dynamics under natural gradient descent
+	* Natural Nerual Tangent Kernel includes the fisher information matrix which includes the distribition geometry into account
+
+* Assumptions
+	1. Network overparameterization
+	2. Positive definiteness
+	* Implications
+
+* Computing the NTK yields an interesting result
+* Bound on prediction discrepancy [Slide]()
+* Empirical results
+	* Symthetic data [Slide]()
+	* Theoreitcal bound is meant to be tight
+	* The values increase further away from data -- see tails of the plot
+	* Comparing the predictive distribution -- see slides
+* Future Direction
+	* Approximate inference
+	* scaling to larger datasets
+	* Classification tasks
+	* Generalization analysis
+
+### On Estimating Epistemic Uncertainty
+
+* There is huge interest in the intersection between Neural Networks and Bayesian Believers
+* epistemic estimation is REALLY important for areas with high risk 
+	* bayesian or not there is a really great potential to healthcare and autonomous driving
+* Type of Uncertainty [Slides]()
+	* Epistemic uncertainty "how much do I believe this coin is fair?"
+		* models' belief after seeing the population
+		* reduces when we have more data
+	* Aleatoric Uncertainty - "What's the nest coin flip outcome?"
+		* Individual experiment outcome
+		* non-reducible
+	* Distribution Shift - "Am I still flipping the same coin?"
+		* Indicating a change of the underlying quantity of interesting
+
+* Quick intro to BNN's [Slide]()
+	* instead of learning point updates, let's put a distribution in place here over the parameters
+	* in practice $p(w|D)$ is intractable
+		* Find an approximation q(W) \approx P(W|D)$
+	
+* Weight space uncertainty is less interesting
+	* in many cases NN's weights are NOT scientific parameters we're interested in
+	* symmetries/invariance in parameterization
+		* exmaples like swapping nodes and scaling of weights, we're still approximating the same function
+
+* This introduces vagueness [Slide]()
+	* sample weights from the Q distribution
+	* folklore belief for function-space (or output-space) uncertainty:
+	* "Epistemic uncertainty should be high when new input is less similar to observed inputs"
+	* **What do "high uncertainty" and "less similar" mean qualitatively?**
+		* This is typically "eye-balled", leaving it to be subjective by definition
+		* There is really no agreeable diescription of where and by how much it should be higher
+* Evaluating by comparing to references [Slide]()
+	* BNN's performance relies on a approximate posterior
+	* Evaluating inference:
+		* computes some distance metric between q(W) and p(W|D)
+	* Function space "reference posterior" for BNN regression:
+		* some hope in function space
+		* wide BNN has GP limit (under certain conditions)
+		* for regression problems $p_{GP}(f|D)$ is tractable
+
+### The big problem with meta-learning and how bayesians can fix it
+
+[Slides]()
+
+* How do we accomplish learning from scratch or from _very_ small amount of data
+	* Modeling image formation
+		* geometry of the image
+		* SIFT features, HOG features, etc.
+		* Fine tuning from ImageNet features
+		* Domain adaptation from other painters
+	* Fewer human priors as we move down the list above
+* Can we explicitly **learn priors from previous experience**?
+
+* Brief Overview
+	* Given 1 example of 5 classes :
+		* classify new examples
+* How does meta-learning work?
+	* One approach : parameterize learner by a neural network
+	* Another approach : embed optimization into the learning process
+	* The Bayesian perspective : learn priors of a Bayesian model that we can use for posterior inference
+
+* The problem 
+	* How we construct tasks 
+	* What if label order is consistent?
+		* A single functional can solve all the tasks
+		* The network can simply learn to classify inputs, irrespective of the data distribution
+
+* Meta-training to "close the box"
+	* If you tell the robot the task goal, the robot can **ignore** the trials
+	* another example : pose estimation and object position
+		* memorize the post and orientation of the meta-training set
+		* at meta-test time, without knowing the canonical orientation, we don't be able to accurate predict the orientation
+
+* What can we do about this?
+	* If we had a proper bayesiaan meta-learning algorithm that was learning a proper posterior, we might not have this problem
+	* However, I'm not sure if we have the tools to create a proper meta-learning algorithm
+	* If the tasks are mutually excluse, a single function cannot solve all the tasks (due to label shufflinf, etc.)
+	* If tasks are _non-mutually exclusive_, a single function can solve all tasks
+		* multiple solutions to the meta-learning problem
+
+* Meta-regularization
+	* Control the information flow such that we can do zero-shot learning from the data
+		* minimize the meta-training loss and the information contained within the parameters of the model
+		* regularizing the weights forces the model to use information from the data as opposed
+	* Can combine this with a favorite meta-learning algorithm
+
+* Does meta-regularization lead to better generalization?
+	* arbitrary distribution over $\theta$ that doesn't depend on the meta-training data
+
+* Meta-world benchmark
+
+### High Dimensional Bayesian optimization using low-dimensional feature spaces
+
+[Slides]()
+
+* Motivation
+	* Experimental design problems that can be cast a a global optimization over some parameter space
+	* optimizing on non-linear projections
+
+### Function Space Priors in Bayesian Deep Learning
+	* WHy do we care about function space priors?
+	* Lots of testing methods for bayesian approaches
+		* see slides
+	* But these all have non-Bayesian approaches that are competitive 
+	* Three X's
+		* Exploration
+		* Explanation
+		* Extrapolation
+		* These cases all depend crucially on having good priors that reflect thr structure of the underlying distribution
+	* Compositional GP Kernels
+		* GP's are distributions over functions parameterized by kernels.
+		* Primitive Kernels	
+		* Composite kernels
+			* taking products of kernels
+				* This can express things like periodic structure that gradually changes over time
+			* No need to specify structure in advanced and can be inferred online during training
+* Structured Priors and Deep Learning
+	* Demonstrates the power and flexibility of function space priors
+	* Problems
+		* Requires a discrete search over the space of kernels for each candidate structure
+		* Need to re-fit the kernel hyperparameters
+* Differentiable Compositional Kernel Learning for Gaussian Processes
+	* Neural Kernel Network
+		* represents a kernel
+		* inputs are 2 input locations
+		* output is the value between them
+	
+### Try depth instead of weight correlations
+
+* Challenge the assumption
+	* ASsumptions that the approximate posterior that we use to model our BNN, ought to have correlations between the weights
+	* Mean-field assumption that our weight distributions are independent of eachother because we're avoiding intractability
+	* This is less true as our neural network gets much deeper
+
+* Why might our approximate posterior need to have correlation between weights?
+	* Maybe the true posterior does?
+	* A lot of intuitions we have come from this small interpretable single layer 4 neuron model
+		* What we think is that alot of these effects disappear as we get deeper and deeper networks
+
+* With depth, we can induce rich correlation over our output distribution with mean-field weights
+	* one way to do this is to have covariance between $\theta_{1}$ and $\theta_{2}$
+	* As we get a deep network, we can get richer covariance structures
+	* 2 inputs and 2 outputs with a simple weight layer w
+		* assuming linearity
+		* mean-field approximation
+	* Lesson from the linear case
+		* 3+ mean-field layers can approximate one full-covariance layer
+		* More layers allow a richer approximation
+	* Measuring the price of this mean-field approximation in NN's that _do_ have non-linearities
+		* HMC true posterior
+		* fit a full-covariance gaussian
+		* fit a diagonal covariance gaussian
+		* measure the difference between them, and it should give us an understanding of how costly the extra assumption of diagonality is
+	* Measuring the 'price' of the mean-field approximation [Slide]()
+		* hold parameters model throughout this testing
+* What are the implications here?
+	* Rely less on UCI evaluation with a single hidden layer
+	* More research into **other** problems with Mean-Field Variational Inference
+		* E.g. sampling properties of high-dimensional gaussian ("Radial BNN's")
+	* Less research into **structured covariance variational inference**
+
+
+
+## Inset workshop name
+
+### Intuitive Physics for Robotic Manipulation of Liquids
+
+[Slides]()
+[Poster]()
+
+* Interaction with liquids happens every day
+	* Specific containers and specialised tools to manipulate these liquids
+	* We can approximate the way these things will behave
+	* The shape of the continaer has causal influence over the way that liquids interact with it
+	* Viscosity of the liquid has intersting causal properties
+* Thinking about this from a robotics perspective
+	* Some of the things very natural to us are hard for robots
+		* the complex properties of liquids makes this hard for robots
+* What is it that we, as humans, do to help this manipulation
+	* CogSci theories
+		1. We have some approx simulation in our heads that enable these predictions
+		2. People have shown that we can invert this simulator in our head and make predictions about properties in our heads
+		3. Different types of interactions can give us different cues about viscosity
+	* We need some sort fo fast approxiate like thsi for embedding in robots
+	* We don't need exteme accuracy but rather representing these objects in a more approximate and efficient way
+* Intuition as approcimate simluation
+	* NVIDIA Flex
+		* Position based dynamics 
+		* As with any simulation we use, we have a reality gap
+			* This is discrepancy between observation in the real world and simulation environments
+		* Sources of error
+			* model approximation -- not much we can do here
+			* parameterization -- we have to set the parameters of the model and without correct settings we'll get variance in our predictions
+		* Sim2real discrepancy is what we're trying to track in this
+* Two stage process
+	1. Estimate parameters & learn to pour
+		* we want generative models to enable adaptatoin to dynamics of the environment
+		* even though it's the same experiment, we want to minimize spillage, but at the same time we want it to spill a bit because it's informative
+* Learning how to pour
+	* How to use the sim here
+		* action and observation spaces are as follows
+		* count the number of particles that fall outside of the container
+		* measure the spillage with a scale, and noramlize such that we have a % spillage to compare between the two domains
+		* Find the relative distance between source and target container while measuring how fast it's being filled
+	* The way we do this is to model this as a Gaussian Process
+		* pour N times (37 in paper though 15 should be enough)
+		* learning combinations of velocity and relative spillage
+		* after learning this we transfer it right to the robot
+	* Approximate fluid simulation is useful
+		* geometry of the container causes high spillage!
+		* initialization of policy with simulation works best
+* To stir or not to stir
+	* calibration to properties of the liquid through perception
+	* The way we calibrate is to perform, in a synchronous way
+	* Cohesion models the best the change in viscosity in the real world
+		* the condition is the thing that is being modeled
+		* simulator cannot model adhesion
+			* these characteristics cannot be simulated
+			* is there a way we can model this friction coefficient that might be present in specific liquids?
+
+### Perception and action from generative models of physics
+
+[Slides]()
+
+* Goal of this research is to study generative models of physics from a cognitive science perpsective
+	* Hemholtzian idea of perception as inverse optics
+	* Some uderlying true state of the world
+		* but we don't have access ot that
+		* we only have access to retinal images
+		* there is some lawful set there
+			* can we invert this image, knowing what we know from optics, to derive information about the world
+	* The world changes over time and gives rise to a sequence of images that we see
+		* these changes happen in lawful ways such as dynamics
+			* We don't want to treat these observations as IID
+			* We can use this to constrain our inferences
+			* Perception is constrained by dynamics
+		* People's judgements about the slant of a ramp given the visual state of the ramp
+			* as our perception of the ramp changes, if affects how we perceive the world
+* What are these dynamics in the world and how do we capture that?
+	* Intuitive Physics ENgine
+		* The generative models we have in our heads are based on object baed representation
+			* Some probability distribution presents a range of world state
+			* This gives us a range of possible ways the world might unfold
+				* We run out model forward and count up the number of blocks
+		* Important features
+			* object based
+				* shows object based importance in early human development
+			* probabilistic model
+				* Not just one possible future, but  range that we can make predictions over
+			* We don't need a veridical model of physics but one good enough to action plan
+			* This physics engine should favor speed and efficiency over precision
+			* MOdel is generalizable in that we don't need to learn separate physics models for all situations
+		* How do we do this?
+			* Predict - have a generative model of the world, ask what happens next, run out the model and observe
+			* Probabilistic framework unlocks a lot of additional capabilities for perception
+			* Perceive causality -- remove A from simulation
+			* Make plans and choose actions based on these model run outs
+* Physics in the loop of perception
+	* Perceiving what is in the world
+		* seeing occluded objects [Papers]()
+		* seeing surprising events [Papers]()
+	* Understanding actions in the world
+* Seeing Occluded objects with generative models in the loop
+	* If we have a set of objects that have cloth draped over them, we can infer what object might be under that cover
+	* We need some sort of generative model that allows us to internally ask "what would this look like with a cloth over it?"
+	* See slides for how to model this occlusion phenomenon
+		* use dynamics and physics of cloth to find a draped cloth geometry
+		* Inference with Bayesian Optimization is key here
+		* Understanding _How_ that cloth might drape is important for understanding what something occluded with cloth might look like
+* Seeing Surpriving Events like an infant
+	* Detecting violations of expected dynamics
+	* Permenance
+		* objects can't teleport
+	* Solidity
+	* COntinuity
+		* when objects violate these properties of how objects work, then they can update their model of the world
+* What do we need to build into an agent such that it can percieve the world but then update their understanding of the world according to some surprise factor
+	* Perceive violations of these principle drives learning
+
+* ADEPT Model [Slide]()
+	* Given an image - we first extract object information
+		* approximate de-renderer
+		* this object has attributes has understanding of position, velocity, etc.
+			* shape information is thrown away
+	* propose object masks
+		* feed through renderer gets object properties
+	* Internal scene representation -> physics observations
+		* objects are moving at certain velocity and objects interact, they don't move through eachother
+	* We want to match the above observations against a "ground truth"
+		* this isn't matching in pixel space, but rather matching wrt objects
+		* we also have to gracefully deal with unexpected events
+			* disappears and we want to handle it by saying this is something weird that happened, but this is my new normal and I no longer need to track it
+	* Measuring Surprise
+		* violation of expectations (from psychology)
+		* creation of a bunch of physics based violation types
+			* these match to infant understanding principles
+* Infants don't see non-physical events
+	* this allows us to constrain our space of potential evaluation
+	* objects in shapenet
+* Alternate Theory 
+	* Bootstrap these princples above
+	* Can we learn this from enough data?
+
+* Rapid trial and error (repuposing of objects)
+	* example of a stake and a tent
+		* rule out branch, pinecone
+		* pick rock
+	* finding representations of the properties of these objects is inherent to planning in these situations
+	* this seems to be a core feature for people
+	* PHYRE benchmark
+		* Focused on model-free RL from balanced datasets
+		* learn generative model of the dynamics of the envornment
+	* Visual foresight for learning to push objects with tools
+		* from vision required many samples + demonstrations
+* SSUP Framework
+	* sample, simulate, update
+		1. Prior
+		2. Internal simulator
+		3. Learning mechanism
+* Conclusions
+	* Causal models of dynamics are important for perception and action
+	* Types of representations & dynamics are crucial
+		* object-based, approximate world models
+	* Just generative models is not enough -- requires additional information
+
+### 
+
+* Neural Netwoks and CONVNETS are super dense
+	* we're grabbing much of background context, etc that don't necessarily matter
+* Hierarchical compositionality
+	* Way fewer parameters
+		* the whole model was quite interpretable ane debuggable
+	* each unit was a node in a graph -- allowing representations of images in graphs
+	* inference was done in a very hacky way
+
+* AI Today
+	* AI for simulation
+	* Simulation needs a lot more learning involved
+	* Open Problems
+		* 3D Envornments / Scenes
+		* 3D Objects
+		* Activities
+		* Behavior
+	* Scalability, realism, diversity : Learn how to simulate!
+	* Scene composition
+		* making this a little more scalable
+		* In gaming, worlds are build using sort of probabilistic 
+* Meta-SIM
+
+### Learning spacial invariant object properties
+
+* Cross-bite challenge 
+	* Building Machine That Learn and Think Like People
+* Unsupervised Object Tracking
+	* Training (no annotations!)
+		* find donstruction of videos in terms of moving objects
+	* Testing
+		* new set of images from the same distribution and eval performance same as supervised learning
+	
+	* Sequential Attend, Infer, Repeat (SQAIR) [Paper]()
+		* Unsupervised object tracking 
+			* Variational autoencoder
+			* trained by maximizing the ELBO
+				* hopes to learn the dynamics of the objects
+	* Spatially Invariant, Label-Free Object Tracking (SILOT)
+		* new architecture
+		* includes features to help it scale up
+		* allows objects to condition and coordinate on eachother
+			* we can sidestep the require sequential structure
