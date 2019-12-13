@@ -1360,3 +1360,104 @@ The question being asked "Can data be encypted and still be used to train models
 			* This can be applied to different instances in that it's much more like a bayes net but the same parameters can be used in many spaces
 	* another really important hypothesis is that the changes in dsitribution are mostly localized if we're presented information
 	* Things preserved across changes in distribution have to be grounded in that they're stable and robust to stationarity
+
+## Mapping Emotions: Discovering Structure in Mesoscale Electrical Brain Recordings 
+
+[Slides]()
+
+* Brain is an organize that integrated bio-information with electricity
+	* working on integrating across discplines to get better models of brain functions
+
+* Causality???
+	* If we understand how the brain does what it does, we can reverse engineer it and use that to understand it better
+	* Can we turn on and off other areas of the brain
+	* We come to this conclusion around causality because human beings have observed the earht other and over again in many contexts and test these assumptions using models and test these assumptions and map them back to our models
+		* This is important for neuroscience
+			* Many of the manipulations of the brain cause it to not function how it does naturally
+				* It might make more sense to observe the system over and over again
+				* We can test these models
+					* If that's the case, the human body is 98 degrees farenheit
+	* Depression (DSM)
+		* depressed mood
+		* diminished interest
+		* increase or decrease in appetite
+		* hypersomnia or insomnia
+	* Is MDD prevention a viable therapeutic strategy?
+		* Imagine a disease case where someone has a heart attack of failure
+			* make that heart pump more normally
+			* Idea is to make a diseased heart and make it function more normally
+			* One of the things that has the greatest impact on the system of the heart was aging
+				* measured variables in lifestyle that might help predict heart attack later on in life
+	* Emotions at latent networks
+		* The idea is that we use fMRI to look at changes in bloodflow in the brain
+			* Using these changes as a proxy for brain activation
+			* Taking healthy controls, or students
+			* Put them in a scanner and let them watch movies while inducing emotions
+				* Use ML to see what emotional patterns were induced
+			* After about 20 mins they tap the students and ask how they were feeling
+			* This suggests we're able to liberate the emotion from the patients' brain without self-reporting
+* Assumptions
+	* Assumption 1: Emotional encoding at the second timescale
+		* This is important because people have classically thought about controlling variables and repeatedly observe a system
+		* Useful for studying vision, motor function, sensory systems, etc.
+			* This system might be built to do something _very_ different than emotional systems
+		* When we have a system to process emotions, we want something that has information resonance at a slower timescale than moving arms, and legs, etc.
+		* Emotions are encoded at the timescale of seconds
+	* Assmption 2 : Emergent Properties
+		* We have a cell property and it traverses a neuron and checmical information is sent down the axxon
+			* hard to think about emergent properties of these systems
+			* a seizure is an emergent property of the brain
+				* wouldn't generate this phenomenon without more than 4 cells
+		* The system is working together in an integration fashion to create these properties
+		* THINK SLEEP
+		* LOcal field potentials can be used to measure certain properties of the system
+		* LFP coherence (functional connectivity)
+		* sycnhrony or coherence
+			* we can infer directionality in a circuit
+		* Coupling between cell firing and LFP activity
+	* Assumption 3 : Local Field Potentials reflects the activity of populations of neurons (emergent features)
+		* Trying to find things that generalize across brains, species, and inviduals
+	* Latent Network Model
+		* Each layer is useful for one of things we wanted to do
+			* Each of us had to believe one layer of this model
+		* Information across frequency and information that is leading or lagging
+		* 6000 things that we could measure and quantify in an animals brains
+		* Phase offset
+	* Acquiring brain network behavior
+
+## Agency and Automation
+
+[Slides]()
+
+* Hype and sensationalism drive some of the interest but there is a substory there around automation
+	* Fei Fei Li - write in NYT that enthusiasm for AI is preventing us from reckoning our immersion into it...
+	* Michael Jordan
+		* Need well thought out interactions with humans and computers
+* These are not new 
+* We have a 60 year old design challenge to find an optmiality between divisions of labor and automation
+	* Automation and user control
+		* Waht si the appropriate balance here?
+		* Challenges of automation
+			* Automated methods may be biased or innacurate
+			* These concequences can be quite damanging in the real world
+			* Loss of critical engagement and domain expertise
+		* We lack a global view as humans and over-weight local information
+	* Balancing automation and control can be done through building models of capabilites, actions, and controls around the tasks that we perform
+* 3 Examples
+	1. Exploratory Data Visualization
+		* incorporate tasks that the user is trying to achieve into the design of the visualization of the data
+		* See slides for multi-verse analysis of the topics that might be present in these documents
+		* What makes a visualization good?
+			* Task specific and subjective references
+			* Foundational issues in perception that we can build upon
+		* Shows the long standing results in psychophysics in how our perceptual system can quickly decode visual types of information
+		* Common exploration pitfalls
+			* Overlooking data quality issues
+			* Fixating on specific relationships
+			* Many other biases...
+		*Data Voyager
+			* examples in slides
+			* We want to suppoer systematic considerations of the data
+			* Model user's search frontier, optimize for related chart specification, seeded by the user's current docus
+			* Candidate charts pruned and ranked using a formal model of design constraints
+		* 
