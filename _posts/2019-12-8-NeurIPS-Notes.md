@@ -1709,6 +1709,8 @@ The question being asked "Can data be encypted and still be used to train models
 	
 ### Try depth instead of weight correlations
 
+[Slides]()
+
 * Challenge the assumption
 	* ASsumptions that the approximate posterior that we use to model our BNN, ought to have correlations between the weights
 	* Mean-field assumption that our weight distributions are independent of eachother because we're avoiding intractability
@@ -1741,9 +1743,126 @@ The question being asked "Can data be encypted and still be used to train models
 		* E.g. sampling properties of high-dimensional gaussian ("Radial BNN's")
 	* Less research into **structured covariance variational inference**
 
+### Bayesian Nueral Network Priors
 
+[Slides]()
 
-## Inset workshop name
+* In bayesian statistics, priors are meant to represent our knowledge about the domain
+* Mapping domain knowledge to neural networks is hard
+* Controlled Directed Effect
+	* Measure sensitivity of an outcome vaiarble to changes in a set of variables while all other factors are held fixed
+* Types of CDE Priors : Monotonicity and Invariance
+	* Need to translate domainknowledge into expectations about CDEs for transition x -> x'
+* Guiding Functions
+	* One way to think about input transoformations at every point x \in R, pick a direction \Deltax \in R^{D}
+ to push x
+	* think of this guiding functions
+
+* Translating the CE into a prior
+	* CDE is expensive to compute, but can apprixmate it using gradients, and ignore scale
+	* Define an error function for local invariance and monotonicity
+	* Ipose a gaussian prior over this Error function above for a BNN
+		* can be used for mini-batch variational inference
+
+* Contribution is proposing a framework for applying these priors above
+	* toy examples
+		* in 1D - sampling from a NN - assuming independent gaussian priors for each weight -- the functions depend a lot on 
+		* important to understand this is a local constraint
+	* We can impose a prior that it increases with
+* Consider invariance case instead of monotonic
+	* 2D manifold where the values of f and g are equal	
+		* not clear if we should be following f or g
+			* predictions are independent of changes in g
+				* significantly reduces error
+* Invariance priors on COMPAS
+	* First trained model g(x) to predict defendant's race, then trained a second model f(x) to predic recidivism w/ local invariance to g(x)
+		* without loss of accuracy, we can close the gap between false negative and false positive rates
+	* Thresholding schemes 
+
+* This si a building block for translating domain knowledge into a prior
+
+### Deep Generative Models for Biological Sequences
+
+[Slides]()
+
+* Predicting the effect of human genetic variation from sequences alone
+* Problems we saw in a number of areas dealing with the language of biological data
+
+* genotype to phenotype
+	* if we want to change the phenotype, we want to understand the interaction of the environment
+	* we also want to design biological sequences
+* 10 billion people
+	* > 1000 billion genomes
+	* Important to understand models and analysis we have are based in the 80's and 90's
+	* Potential sequences that are functional
+		* potential sequences that are functional are much much larger than that
+	* we might want to predict this in expectation
+* Why do we need better prediction and design in biology
+	* uncertainty for medical decision making
+	* molecular biology that impacts human health
+	* predicting how pathogens will mutate
+	* synthetic biology for designing theripeutic impact
+* What does this sequence look like under constraint?
+	* don't even have benchmark datasets ready for people to play with these environments
+	* main thing to get across that the estimation of uncertainty really matters
+* Can't we just measure the effects of all genetic variation
+	* mutation effect prediction is hard
+		* mutation effect prediction lacks
+			* sparsity sampling
+			* noisy
+			* changing 1 position in the DNA, it's not just thinking about that position but all of it's impacts and confounders
+		* propr art: 
+			* compute what's conserved across evolution
+				* sequence alignment and preservation
+				* the way way we regard these sequences are the result of billions of experiments run on the human species
+				* not accurate to look at one column because of dependency on positions
+				* capturing the dependence between sequences
+					* using pariwise factors are powerful
+						* psuedo likelihood because we can't calculate the partition function
+			* capture these complex dependencies
+				* we can't keep adding terms to likelihood models
+				* mutation prediction with a variational autoencoder
+					* infer a generative model of the family
+				* estimate how probably sequences are
+			* A **doubly variational autoencoder** on decoder weights prevents overfitting
+		* biological constraints included in the model
+			* latent variables are generated for each sequence in alignment
+			* showing that the latent space seems to be capturing some structure [slide]()
+		* we want to predict genetic variation
+			* how are we going to know if we're right?
+			* DeepSequence captures mutation effects better than state of the art
+	* But P(X) has been dependent on alignments...
+		* "alignments" used by every branch of biology, genetics, clinical decisions -- these are all methods from ~ 20 years ago
+		* all heuristics
+		* challenge is to build models that don't depend on these alignments
+			* alignment uncertainty
+			* insertions and deletions
+		* Reinterpret our methods in terms of structured noise distributions
+		* New Seq2Seq regression model : intuition
+			* conditioned on the initial sequence X, predict sequence Y
+				* can change letters in X and have the capacity to delete them
+				* developed and explored simple seq2seq model
+					* used categorical distribution over nucleotides, etc.
+				* sample W from the prior over variables-size
+	* This generalizes past algorithms and models
+		* Hierachical latent alignment HMM
+			* Sample latent x from a population
+		* properties that make it really easy to use in BNN methods
+	* This is an unsolved problem for HMM's which have been used in biological sequencing
+		* marginal is a smooth function of x and \theta which allows for automatic differentiation
+		* inference method is SGD
+	* Inference methods
+		* alignment HMM on the encoder side 
+	* Results [Slide]()
+
+* Summary [Slide]()
+	* have done this on several families of protiens 
+	* ALignment uncertainty Example
+	* Latent representation from PCA models reflect the underlying biolog of VDJ recombination
+	* Flu Virus evolution [Slide]()
+		* We can see the evolution across the latent space
+		* we might be able to predict sequences
+
 
 ### Intuitive Physics for Robotic Manipulation of Liquids
 
@@ -1905,6 +2024,7 @@ The question being asked "Can data be encypted and still be used to train models
 		* object-based, approximate world models
 	* Just generative models is not enough -- requires additional information
 
+
 ### 
 
 * Neural Netwoks and CONVNETS are super dense
@@ -1949,3 +2069,507 @@ The question being asked "Can data be encypted and still be used to train models
 		* includes features to help it scale up
 		* allows objects to condition and coordinate on eachother
 			* we can sidestep the require sequential structure
+
+##  Artificial and Biological Reinforcement Learning
+
+### Jeff Clune 
+
+* Let's let machine learning figure out the catastrphic forgetting problem
+	* Framing the problem up as a meta-learning problem
+	* This is called "meta-training"
+	* Once this training is done, we take the meta-vector and evaluate on all T tasks that have been learned
+* Online aware meta-learning [Paper]()
+	* doesn't suffer from catastrphic forgetting
+	* learns to induce a sparsity in it's representation
+		* activates fewer neurons -- ie. most of them
+	* Gets a lot right, but it's still ultimately subjective to SGD
+		* hard problem of finding representation once SGD gets applied to it
+	* We allow control over SGD "neuromodulation"
+		* directly modulated activations
+* ANML (Neuralmodulated Meta-Learning Algorithm)
+	* neuromodulatory network can gate the DNN that will also gate the backward pass
+		* selective activation
+		* selective plasticity
+* Omniglot, following OML
+	* each character type is a class/task
+	* differentiate through 600 tasks 
+		* evaluate on all 600 tasks -- this is _WAY_ too unstable for today's SGD methods (like 9000 steps)
+	* Learn sequentially on one class in the inner loop
+
+* Continual Learning is Hard
+	* Normal deep learning
+		* IID sampling (no catastrophic forgetting)
+		* multiple passes through data
+	* Sequential Learning
+*ANML might be leading to an overall solution to catastrophic forgetting
+
+
+### Human Learning and Decision Making
+
+* Repeated Decisions with Imperfectly Known Consequences
+	* Brain science -- they frame this as a multi-bandit problem
+
+* Experimental Setup
+	* four arm bandit tasks
+	* 4 conditions
+
+
+## Context and Compositionality  in Biological and Artifical Systems
+
+### Deep Understanding : The next challenge for AI
+
+* Deep Understanding vs Shallow Understanding
+	* Responding (frequently) in behaviorally appropriate ways without really getting the overal picture
+		* look up Eliza
+			* reveals the gulliability gap
+	* Keyword matches are used all the way through to 2014
+		* Goostman (won some version of the Turing test)
+		* Doesn't represent real progress
+	* GPT-2 seems fluid
+		* long way from early generations
+		* not actually coherent
+		* Often plausible for a few sentences of text of surrealist fiction, where there are no facts of the matter
+	* Prediction at the world level != prediction at the world level
+	* "Local coherency; global gibberish" - Dan Brickley
+	* Adversarial NLI : A new benchmark for Natural Language Understanding
+		* State of the art models learn to exploit spurious correlations in the data -- we see this in the visual perception field as well
+* What is deep understanding?
+	* Deep Understanding is being able to 
+		* construct an internal model of what is said/depicted in a story/article/movie/etc
+		* perform every day inferences about what is left unsaid 
+	* "What do I think of Western civilization? I think it would be a very good idea."
+
+* Arguably the closes to deep understanding of the oft-misaligned CYC
+	* Can make nuanced inferences about character motivations
+	* But : system doesn't have a natural langauge front end (you cna't just feed Romeo & Juliet in)
+	* Relies on human experts to encode each problem
+	* there are also serious issues of coverage, sealing with uncertainty, etc.
+	* MOve this out of it's domain, it would fail completely
+		* in some interesting ways it's the closest thing we have
+
+* Shallow prediction vs deep parser
+	* there are lots of tools out there that are useful
+		* lots of coverage issues
+		* parse sentence into units and do symbolic computation
+
+* How might we get to deeper understanding : Two ways of thinking about that moving forward
+
+1. Benchmarks don't encourage out-of-the-box thinking
+2. Benchmarks can and are often easily gamed
+3. The Kaggle Effect
+	 * optimizing for a single metric leads to tradeoffs and shortcuts which make you over specialized
+3. Benchmarks take a lot of time to develop
+4. Benchmarks are prepackaged; humans experience rarely is 
+	* kids don't get to download datasets and test
+5. We shouldn't, in princple, expect any single benchmark to suffice
+	* no one thing should be measured because the mind is not one thing
+	* intelligence is clearly multidimensional
+	* involves _manY_ vectors
+
+* Advice to young scholars
+	* don't just look to what the ML community is publishing
+	* lots of extent data in other fields involving the brain that might be useful
+	* plenty of work suggesting other challenges as well
+
+* Children's over-regularization errors
+	* 1992
+	* widely modeled throughout the 90s
+	* lots of people modeled this data, didn't need to be on kaggle, but people tried to figure it out
+	* not packaged nearly and nicely -- we need to go find this data for our use
+	* All models out there cheated relative to what a child does
+		* list of stems in past tense forms as data but kids don't have this available to them directly
+		* They're able to map grammar structures without the spoonfeeding of the field
+
+* Marcus et al 1990
+	* couldn't use transitional probabilities because of the way they structured the grammar
+	* data is still there, not in benchmark form
+	* kids only had 2 minutes of data
+
+* Infant Learning Rule
+	* many models proposed in 1999
+
+* Adult generalization of inflection to foreign phenomenon
+	* Hebrew speakers could generalize to sounds in English though they'd never seen it before
+
+* Universally quantified 1:1 mapping
+	* All these are examples of free generaliation of universally
+
+* Even today there are challenges in learning UQOTMS in systems that lack operations ovre variables
+* Only now is the importance of this issue started to become recognized
+	* OOD generalization
+
+* Comprehension challenge
+
+	* Toward a benchmark for Dynamic Understanding
+		* develop internal models about what is happening 
+		* Distinguished from static understanding
+			* conventional knowledge about what happens in general/generic/ordinary undertanding
+			* dynamic understanding is keeping track over time in some situation
+
+	* Caveats
+		* Not claiming sufficiency capturing all aspects of NLU
+		* Not claiming this is the only way to improve NLU benchmarks
+	* We do think that _too few existing tasks_ look directly at dynamic understanding
+
+	* Two for static understanding
+	* Four for dynamic understanding
+	* The dix tasks are illustrative not exhaustive
+
+	* Static task 1 : Conventional knowledge
+		* tests understanding of every dat factual knowledge
+			* eg. the part of a fish that gives it's body rigidity is...
+	* Static task 2  : transformations
+		* tests understanding of processes and actions that are either plausible or implausible
+			* Making a salad out of a polyester shirt
+	* Dynamic Task 2 : Atypical Consequences
+		* What happens when something unusual happens
+	* Dynamic Task 3 : Entity Tracking
+		* A reader must keep track of entities in written text but this could also be applied in the computer vision side of the world
+	* Dynamic Task 4 : QUantity Tracking
+	
+* Pilot
+	* setup:	
+		* 40 question answer pairs per task (after removing instances containing errors), via crowdsourcing;
+	* Future Evaluations : Recurrent entity networks
+		* not fully compatible as it's geared around specific tasks
+
+* Deep Understanding is hard
+	* We shouldn't confuse progress on superficial understanding for real progress
+
+* We can keep building things into the systems that give the innate properties (such as Convolution in CNN's)
+
+### Understanding Neural Processes : Beyond WHere and When, to How
+
+[Slides]()
+
+* Using brain imaging to study all kinds of cognitive processes in the brain
+	* reflection bring frustration in that more information has been discovered such as where in the brain or when in the brain is the neural activity
+		* less concentration on the "how" -- this is a bit obvious as it's easier to use these techniques to ask where and when
+
+* Once we understand the brain, what will be the form of the answer?
+	* Design principles used wide in the brain
+		* will vary in levels of detail -- and we will surely have a description of how the brain computes
+	* Whether we might be on the verge of a time when we can take a new approach to studying the question of "how" in the brain
+	* Recent dramatic progress in the NN community where we're gone from computers being blind, deaf, and dumb
+		* We can now do many of these functions on machines
+	* Are we at a point where we can now take advantage of these NN models for things like vision and language and use them as hypoethesis about how to brain does these same things.
+
+* Predicting fMRI output given people reading words
+	* hand designed vector embedding by co-occurence with 25 verbs
+		* predicting where in the brain we would find neural activity as a function of the input word stimulus
+	* this studies where in the brain
+
+* Gustatory cortex activity is associated with activity related to co-occurences of words with words like "eat"
+	* suggestions that the semantics of words are often grounded in parts of the brains who's functions are affiliated with those words
+	* saying "peach" caused activation in certain parts of human brains
+	* Our analysis is not asnwering the question "how"
+
+* We can look at "when"
+	* What information si encoded in space and time in the MEG video being shown
+	* Is the encoding of the semantics a function of time or is it a discrete process?
+	* Trained ~ 1,000,000 classifiers to predict activation in certain brain regions -- the classifier was "decoding" the activity into words
+		* most didn't predict anything
+		* some did
+			* during the first 50 ms there was nothing to decode
+			* next 50ms perceptual features could be decoded
+				* we could get gross features of the line drawing as well
+			* 200 ms, we have a semantic feature
+			* 250 ms, is it hollow?
+			* 400 ms even more
+	* This is the kind of analysis that we can do on the `When and Where` details
+
+* At 50ms time intervals how accurately can we decode words from activity patterns captured through fMRI
+	* decodability of feature "wordlength" (peak decodability 100-150ms)
+	* this information doesn't first appear "here" and then move
+		* it can be decoded simultaneously
+		* there's a synchrony that occurs between these disparate parts of the brain at the same time
+			* This allows us to look at when
+	* Maybe these 6 regions work together to figure this out?
+		* maybe not; maybe something else
+
+* How does the brain compute nueral representations?
+	* Paradigm for studying "how"
+		* stimulus input to both models and the brain - compare the learned mappings - and measure the output of both systems
+		* our program is an example of "how"
+			* if we have 10 models, we can ask other questions like "does it allow us to explain, predict, the observed neural activity than the previous model?"
+	* AN example of what this paradigm implies
+		* each point on the slide is a hypothesis, the model obvs being the hypothesis
+			* the more accurate the model is at recognizing the objects in this image
+				* the better it is at predicting the neural activity in humans
+				* correlation between the two models' performance
+	* CNN IT Alignment (Yamins et al 2014) [Paper]()
+		* CNN v4 alignment
+			* penultimate layer -- both predict more accurately than the output layer
+
+* How? : Language Processing
+	* Same concept as the CNN example above, this work was done using computation language models
+		* BERT
+		* ELMo
+		* etc.
+	* MEG scanner and showed the patients a new word every 500ms
+		* Sentence mean MEG activity
+		* 184 different sentences in passive and active voice
+		* Used the above language models above and for every sentence they constructed each prefix of the sentence and fed it into the model
+			* linear regression used to predict the neural activity
+			* predicted the 500ms neural activity
+	* Which of these models works best/
+		* brain actibity prediction accuracy*
+			* [Paper]()?
+		* if we consider these models as hypothesis we can now rank them
+
+* Will this paradigm really work? referencing the alignment approach
+	* these studies have empirical evidence
+	* Is this helpful?
+	* Limits:	
+		* mismatch between sequential computer processing vs. oscillatory, parallel neural activity
+		* there's a mismatch of constant activity in deep nets vs spiking in the brain
+		* mismatch in what we're even measuring using these experiments
+			* bloog oxygen, fluctuations, etc. and actual neural activity
+	* Important questions:
+		1. Does observed neural activity represent neural data representations, or _processes that alter_ neural representations? (e.g. predictive coding : activity reflects energy being expended to update representations)
+			* word by word neural activity while reading - reading word number 4 doesn't mean we can decode the first word
+				* we can't find it in the neural activity - we could when it appeared on the screen
+					* is this measuring a delta or the representation of the stimulus?
+		2. What are brains truly doing/
+		3. How does context influence?
+		4. Should we care if we model only part of it? (BERT doesn't model word _perception_)
+		5. If we can't interpret representations in deep nets, does it help explain brain activity in terms of these?
+	* Alisnging activity bween DNNs and neural activity
+		* we can write down computation hypothesis and try to align these
+
+### Towards Compositional Understanding of the world by agent-based deep learning
+
+[Slides]()
+
+* Semantic defn -- connected to language in that somehow through language we communicate a representation of the world through these high level variables
+	* this is closely associated to the idea that we might be able to find these
+* Another connection one is trying to make is through that of agency -- we are agents that act on the world and we cause changes in the world which induces distributional shifts
+* We need to figure out the OOD generalization problem
+	* is reality compositional in that i can build a symbolic approximation of certain properties of objects such as roundness for wheels and balls and redness for heat, etc.
+* Compositionality is usually associated with linguistics	
+* distributed represetations already exist in the idea of DL -- and we can think of this compositionally
+	* this has been intuiitively understood since the 80's but now we can see why these forms of compositionality bring us up with exponential advantages
+* Compositionality works because some assumption about the world can be exploited
+	* assumption is that I can learn about these features somewhat independently
+		* glasses independent of if that person is wearing shoes or not 
+			* we don't need to see all combinations of these things to generalize
+* Systematic generalization
+* Dynamically recombining representations of objects
+	* even when new combinations have 0 probability under training distribution
+		* science fiction scenarios
+		* Driving in an unknown city
+		* attempting to exploit the regularity that is in the world
+
+* Closure
+	* Expressions in novel contexts
+	* Assessing systematic generalization of CLEVR models (ARXIV) [Paper]()
+	* Matching referring expressions (see slides)
+		* qualifier (brown cube)
+	* 7 Tests
+		* see slides
+	* Current SoTA
+		* Struggles on extension to CLEVR
+* Contrasting with the Symbolic AI Program
+* Choices that are happening within the mind aren't an active process
+	* This system 1 computation in that it is intuitive and performs a selection of things that are relative to the situation
+	* This is a reason why we need to put together the disiderata of the two fields of Symbolic and DNN approaches
+* Building block for conscious processing is attention
+	* focus on one or a few elements at a time
+	* content based soft-attention is concenient, can brkprop to learn where to atend
+	* attention is an internal action
+* Attention is also a key to something also very important 
+	* memory
+	* credit assignment
+	* vanishing gradients come up in training NN's
+	* unreasonable to assume brains are doing anything like BBTT
+	* Alternative to this introduces at the last NeurIPS
+		* exploting memory -- and we get this effect in things like transformers
+	* Credit assignment so we don't make the same mistake multiple times
+	* Sparse Attentive Backtracking
+		* dynamically building a graph that can relate the past to the present through many steps
+		* On the fly we can create connections to the past and the present
+	* eliminating the exponential loss of gradients problem
+* Attention really forces NN's to develop a form of representation for indirect references
+	* why is this coming up?
+	* attention mechanisms
+		* there are many inputs "fighting" for attention and the module that receives the weighted sum and it sin't able to understand which modules contributed to the weights
+	* this allows us to think of NN"s as set transformation machines
+
+* Global Workspace Theory
+	* Baars++ 1988, Dehaene 2003++
+	* bottleneck of sonscious processing
+	* selected item in broadcast stored in short-term memory
+
+* Long term goal is to have ane nvironment where learning agents are faced with gradually more difficult tasks
+	* where humans are in the loop, helping the agents to figure out how it works and communicate with humans
+
+* Affordances, options, exploration & controllable factors
+	* affordances : concepts / aspects of the environment which can be changed by the agent
+	* temporal abstractions : options, super-actions, macros, or prcedures, which can be more complext procedures
+	* controllable factors
+		* jointly learn a set of (policy, factor) such that the policy can control the factor and maximize the mutual information between policues (Bengio et al 2017) [Paper]()
+
+* Consciousness Prior : 
+	* high level variables have a joint distribution, and are not independent which we can manipulate with language
+	* graph that represents the joint is a sparse factor graph
+		* each of the factors in a factor graph corrrespond to a dependency between a group of variables
+		* it's making a statement that links these 3 variables
+			* each statement as one possible sentence in natural language.
+	* What's the connection?
+		* inference in a graphical model such as this allows us to exploit the sparsity of the graph and we sould visit the the nodes in this graph and it would require we only look at a few neighbors
+			* selecting these variables from a large set, at lteast the in
+	* The brain is performing inference on this factor graph
+
+* What **causes** changes in distributions
+	* the changes in these distributions are about agents doing things and causing these shifts in the world
+	* actions are localized in space and time
+		* these changes could be explained by just a few variables in the right model
+			* videos -- pixels at timesteps, we're dead in the water
+	* consequences of an intervention on few causes or mechanisms
+
+* How to factorize a joint distribution means uncovering this cause and effect structure
+	* Bengio et al arxiv : 1901.10912
+	* We can recover from a change in distribution faster
+
+* Disentangling the causes:
+	* A meta-transwer objective for learning to disentangle causal mechanisms
+
+* Doing inference on the Intervention
+	* Learning causal models from unknown interventions
+		* learning small causal graphs, avoid exponential explosions of # of fraphs by parameterizing factorized distributions over graphs
+	* Inference over intervention
+
+
+### Composition is the core driver of the human language system
+
+[Slides]()
+
+* The human language network
+	* This workshop, but more generally, what people call language seems way beyond what language actually is
+* stable structure that spans across people and all brains
+* A stronger response to sentences than lists of unconnected words
+* Why is the sentence the preferred stimulus
+	* structure
+
+* What features of linguistic simuli and what associated computations drive neural responses in the human language system?
+* Abstract structure
+	* domain general syntactic processnig
+	* some argue about key hierarchical structure
+	* share that all computations behind language processing are highly abstract
+	* Overlapping structures in numberical cognition and language and music and language
+	* data suggest that this region of our brain is used as much when solving math as when looking at a blank screen
+		* effectively not at all
+	* Spacial and mentalization
+	* All of these aspects don't engage regions that handle language for us
+	* When processing computer langauges -- we had people read snippets of code the critical condition is code comprehension
+		* understanding coding problems DID NOT elicit a response in the language network
+	* Rules out this abstract syntactical structural processor
+	* Puts a damper on modeling language in a really abstract way
+* Meaningful event / event comprehension
+	* can this representation and activation be linked to sound or story, etc.
+	* presented participants with sentences and pictures of certain events and asked them to perform hard tasks
+	* semantic conditions elicit a non-trivial amount of repsonse but still lower than the sentence condition
+	* Language regions may engage in processing non-verbal representations
+		* evidence of people with brain damage that language cortex isn't required for abstract concept mangement, or some such
+		* what features are necessary and sufficient to elicit neural responses in face-selective cells / brain areas?
+	* Motivation - vision research
+* Syntactic frame
+	* language specific meaning-independent syntactic processing
+	* what is a syntactic frame?: word order, function words, functional morphology
+	* sentences elicit the strongest response, word list is 2 or more times lower
+	* jabberwonky is even lower
+	* a syntactic frame on it's own elicits a low response in the language specific cortex
+* Syntactic frame + meaning
+	* Grammatrical word order / word-order-based, prediction
+	* combinatorially (semantic + syntactic) of words / composition
+	* Reasons to facor composition as the core driver :
+		* combinability of words in the nearby context seems to be a true universal property of our lingual systems
+			1. compositional
+	* Destroying word order while preserving local combinability
+		* colors for no reason than to show manipulations
+		* made local word swaps
+* Estimating local combinabiliy:
+	* using PMI - does a reasonable job of measuring how dependent two words are on eachother
+	* this measures a little bit more bias toward semantics because it weights down certain words
+	* fMRI Results
+		* one of many examples where I wasn't predicting the results and the results blew my mind
+		* the response doesn't drop _AT ALL_ with the swapping of the words
+	* has been reproduced multiple times
+* Locality
+	* Is it important?
+	* Prior reasons to suspect that it is:
+		1. the language network doesn't care about structure above clause/sentence level;
+		2. most dependencies in natural language are local (Futrell et al 2015)
+* Destroying word order and minimizing (local) combinabiity
+	* shuffling this causes a drop in the results that coincides with random word order list
+* "Local coherence, global gibberish"
+	* human language system is all about local sentence coherence
+	* span where humans can track is ~ 6 to 7 words
+	* 6 words is the beginning of how much activation correlates given any length of input, it seems like it's the lower bound
+* Take home message
+	* Linguistic composition is the overall driver of the language system
+	* 
+
+## Robotics Workshop
+
+### Challenges in Robot Learning
+
+* Automatic adaptation in robotics --> Learning
+* Practical constraints --> data efficiency
+* Models are useful for data-efficient learning in robotics
+* 3 Models
+	1. Probabilistic models
+		* fast RL
+	2. Hierarchical Models
+	3. Physically meaningful models
+		* encode real world constaints to help move learning along
+
+* Probabilistic Models
+	* PILCO Framework : 
+		* Probabilistic model for transitiion function
+			* system identification
+		* Compute a long term state evolution
+		* Policy improvement
+		* Apply controller
+* Why probabilistic models? 
+
+[Slide]()
+
+	* we need to find functions that allow us to capture the uncertainty about the world
+		* How do we plan and make decisions using the output of a regression model?
+		* Instead of picking a single function, we can posit a distribution over all functions
+			* I'm much more robust to modeling any of those functions that are within the bounds of the function
+
+* Hierarchical Problems
+	* Generalize knowledge from knwon tasks to new (related tasks)
+	* Re-use experience gathered so far to generalize learning to new dynamics
+	* Separate global and task specific properties
+	* Shared global parameters
+	* GP captures global properties of the dynamics
+		* latent variables $h_{p}$
+		* Variational inference
+	* Modified cart-pole
+		* modify length and weight of the pendulum
+
+* Data efficiency and interpretability
+	* can we use model sfrom physics to encode more structure into the problems
+	* Starting point is lagrangian mechanics
+	* Lagrangian : encodes "type" of physics
+		* helps us talk about symmetries and conservation laws
+	* Hamilton's principle
+		* Learn L instead of learning the dynamics directly
+	* Euler-Lagrange Equations
+		* How do we discretize these things?
+		* Naively, the errors build up and it becomes completely unphysical
+		* Variational Integrators
+			* preserve the physics as they discretize the space
+			* momentum preserving
+			* symplectic
+			* bounded energy behavior
+		* Discretize it in a way that preserves the physics
+	* Variational Integrator Networks [Paper]() [Slide]()
+		* Write down the parameterized Lagrangian
+		* Derive explicit variational integrator
+		* Define the network architecture
+			* "just a whole big network"
+	
