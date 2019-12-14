@@ -1597,7 +1597,7 @@ The question being asked "Can data be encypted and still be used to train models
 * Quick intro to BNN's [Slide]()
 	* instead of learning point updates, let's put a distribution in place here over the parameters
 	* in practice $p(w|D)$ is intractable
-		* Find an approximation q(W) \approx P(W|D)$
+		* Find an approximation $q(W) \approx P(W|D)$
 	
 * Weight space uncertainty is less interesting
 	* in many cases NN's weights are NOT scientific parameters we're interested in
@@ -1680,22 +1680,23 @@ The question being asked "Can data be encypted and still be used to train models
 	* optimizing on non-linear projections
 
 ### Function Space Priors in Bayesian Deep Learning
-	* WHy do we care about function space priors?
-	* Lots of testing methods for bayesian approaches
-		* see slides
-	* But these all have non-Bayesian approaches that are competitive 
-	* Three X's
-		* Exploration
-		* Explanation
-		* Extrapolation
-		* These cases all depend crucially on having good priors that reflect thr structure of the underlying distribution
-	* Compositional GP Kernels
-		* GP's are distributions over functions parameterized by kernels.
-		* Primitive Kernels	
-		* Composite kernels
-			* taking products of kernels
-				* This can express things like periodic structure that gradually changes over time
-			* No need to specify structure in advanced and can be inferred online during training
+
+* Why do we care about function space priors?
+* Lots of testing methods for bayesian approaches
+	* see slides
+* But these all have non-Bayesian approaches that are competitive 
+* Three X's
+	* Exploration
+	* Explanation
+	* Extrapolation
+	* These cases all depend crucially on having good priors that reflect thr structure of the underlying distribution
+* Compositional GP Kernels
+	* GP's are distributions over functions parameterized by kernels.
+	* Primitive Kernels	
+	* Composite kernels
+		* taking products of kernels
+			* This can express things like periodic structure that gradually changes over time
+		* No need to specify structure in advanced and can be inferred online during training
 * Structured Priors and Deep Learning
 	* Demonstrates the power and flexibility of function space priors
 	* Problems
