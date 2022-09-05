@@ -1,7 +1,8 @@
 ---
-title: "About"
+title: "Ed Henry"
+image: profile.jpg
 about:
-  template: jolla
+  template: solana
   links:
     - icon: twitter
       text: Twitter
@@ -15,4 +16,16 @@ about:
 
 ---
 
-About this blog
+Ed Henry currently a Staff Research Scientist and Distinguished Member of Technical Staff at [Dell Technologies](https://www.dell.com) working at the intersection of Machine Learning and data center infrastructure technologies.
+
+## Research Interests
+
+- Causality
+- Sequence Transduction
+- Natural Language Processing
+
+## Experience
+
+## Teaching
+
+## Conference Talks

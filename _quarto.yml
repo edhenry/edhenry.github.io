@@ -3,7 +3,28 @@ project:
   output-dir: ./docs
 
 website:
-  title: "edhenry.github.io"
+  page-navigation: true
+  search: true
+  # title: "Ed Henry"
+  navbar:
+    # background: dark
+    # logo: quarto.png
+    logo-alt: ""
+    title: false
+    collapse-below: lg
+    left:
+      - text: "About"
+        href: about.qmd
+      - text: "Software"
+        href: software.qmd
+      - text: "Blog"
+        href: index.qmd
+    right:
+      - about.qmd
+      - icon: github
+        href: https://github.com/edhenry
+      - icon: twitter
+        href: https://twitter.com/edhenry_
   page-footer:
     # left: |
 
@@ -16,20 +37,13 @@ website:
         aria-label: GitHub
       - icon: twitter
         href: https://twitter.com/edhenry_
-  navbar:
-    right:
-      - about.qmd
-      - icon: github
-        href: https://github.com/edhenry
-      - icon: twitter
-        href: https://twitter.com/edhenry_
 format:
   html:
     theme:
       light:
         - cosmo
         # - custom.scss
-      dark: [cosmo, theme-dark.css]
+      dark: [slate, theme-dark.css]
     # # css: styles.css
     toc: true
     # code-tools: true

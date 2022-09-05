@@ -1,5 +1,5 @@
 ---
-title: "edhenry.github.io"
+title: "Ed's Blog"
 listing:
   contents: posts
   sort: "date desc"

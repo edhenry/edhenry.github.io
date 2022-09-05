@@ -2,16 +2,51 @@
   {
     "objectID": "about.html",
     "href": "about.html",
-    "title": "About",
+    "title": "Ed Henry",
     "section": "",
-    "text": "About this blog"
+    "text": "Ed Henry currently a Staff Research Scientist and Distinguished Member of Technical Staff at Dell Technologies working at the intersection of Machine Learning and data center infrastructure technologies."
+  },
+  {
+    "objectID": "about.html#research-interests",
+    "href": "about.html#research-interests",
+    "title": "Ed Henry",
+    "section": "Research Interests",
+    "text": "Research Interests\n\nCausality\nSequence Transduction\nNatural Language Processing"
+  },
+  {
+    "objectID": "about.html#experience",
+    "href": "about.html#experience",
+    "title": "Ed Henry",
+    "section": "Experience",
+    "text": "Experience"
+  },
+  {
+    "objectID": "about.html#teaching",
+    "href": "about.html#teaching",
+    "title": "Ed Henry",
+    "section": "Teaching",
+    "text": "Teaching"
+  },
+  {
+    "objectID": "about.html#conference-talks",
+    "href": "about.html#conference-talks",
+    "title": "Ed Henry",
+    "section": "Conference Talks",
+    "text": "Conference Talks"
   },
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "edhenry.github.io",
+    "title": "Ed’s Blog",
     "section": "",
     "text": "conferences\n\n\nneurips\n\n\nmachine learning\n\n\nai\n\n\n\n\n\n\n\n\n\n\n\nDec 8, 2019\n\n\nEd Henry\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nmachine learning\n\n\nartificial intelligence\n\n\n\n\n\n\n\n\n\n\n\nApr 18, 2019\n\n\nEd Henry\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\nmachine learning\n\n\nartificial intelligence\n\n\n\n\n\n\n\n\n\n\n\nJun 18, 2018\n\n\nEd Henry\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nmachine learning\n\n\n\n\n\n\n\n\n\n\n\nJun 1, 2017\n\n\nEd Henry\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\npython\n\n\nprogramming\n\n\nalgorithms\n\n\n\n\n\n\n\n\n\n\n\nJan 16, 2017\n\n\nEd Henry\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\npython\n\n\nprogramming search\n\n\nalgorithms\n\n\n\n\n\n\n\n\n\n\n\nJan 6, 2017\n\n\nEd Henry\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\npython\n\n\nprogramming\n\n\nobject oriented\n\n\n\n\n\n\n\n\n\n\n\nDec 22, 2016\n\n\nEd Henry\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\nmachine learning\n\n\nartificial intelligence\n\n\nnetworking\n\n\nnetflow\n\n\nembeddings\n\n\n\n\n\n\n\n\n\n\n\nDec 21, 2016\n\n\nEd Henry\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\npython\n\n\nprogramming\n\n\nobject oriented\n\n\n\n\n\n\n\n\n\n\n\nDec 21, 2016\n\n\nEd Henry\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ndata structures\n\n\nalgorithms\n\n\npython\n\n\n\n\n\n\n\n\n\n\n\nDec 12, 2016\n\n\nEd Henry\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nconferences\n\n\nneurips\n\n\nmachine learning\n\n\nai\n\n\n\n\n\n\n\n\n\n\n\nDec 12, 2016\n\n\nEd Henry\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "software.html",
+    "href": "software.html",
+    "title": "Software",
+    "section": "",
+    "text": "Software I’ve authored."
   },
   {
     "objectID": "posts/flow2vec/index.html",

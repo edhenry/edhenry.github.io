@@ -1,12 +1,4 @@
 ---
-title: "Summer of Machine Learning 2017"
-author: "Ed Henry"
-date: "2017-06-01"
-categories: [machine learning]
----
-
-
----
 layout:     post
 title:      Summer of Machine Learning
 author:     Ed Henry
