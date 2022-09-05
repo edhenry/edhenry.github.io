@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Ed Henry">
+<meta name="dcterms.date" content="2019-04-18">
+
+<title>edhenry.github.io - Machine Learning and Artificial Intelligence</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">edhenry.github.io</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/edhenry"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/edhenry_"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div class="quarto-toggle-container">
+                  <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+              </div>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Machine Learning and Artificial Intelligence</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">machine learning</div>
+                <div class="quarto-category">artificial intelligence</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Ed Henry </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">April 18, 2019</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#machine-learning-and-artificial-intelligence" id="toc-machine-learning-and-artificial-intelligence" class="nav-link active" data-scroll-target="#machine-learning-and-artificial-intelligence">Machine Learning and Artificial Intelligence</a>
+  <ul class="collapse">
+  <li><a href="#definitions" id="toc-definitions" class="nav-link" data-scroll-target="#definitions">Definitions</a>
+  <ul class="collapse">
+  <li><a href="#machine" id="toc-machine" class="nav-link" data-scroll-target="#machine">Machine</a></li>
+  <li><a href="#learning" id="toc-learning" class="nav-link" data-scroll-target="#learning">Learning</a></li>
+  </ul></li>
+  <li><a href="#machine-learning" id="toc-machine-learning" class="nav-link" data-scroll-target="#machine-learning">Machine Learning</a></li>
+  <li><a href="#artificial-intelligence" id="toc-artificial-intelligence" class="nav-link" data-scroll-target="#artificial-intelligence">Artificial Intelligence</a>
+  <ul class="collapse">
+  <li><a href="#artificial" id="toc-artificial" class="nav-link" data-scroll-target="#artificial">Artificial</a></li>
+  <li><a href="#intelligence" id="toc-intelligence" class="nav-link" data-scroll-target="#intelligence">Intelligence</a></li>
+  </ul></li>
+  <li><a href="#artificial-intelligence-1" id="toc-artificial-intelligence-1" class="nav-link" data-scroll-target="#artificial-intelligence-1">Artificial Intelligence</a></li>
+  <li><a href="#normalizing-nomenclature" id="toc-normalizing-nomenclature" class="nav-link" data-scroll-target="#normalizing-nomenclature">Normalizing nomenclature</a>
+  <ul class="collapse">
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="machine-learning-and-artificial-intelligence" class="level1">
+<h1>Machine Learning and Artificial Intelligence</h1>
+<p>There is a seemingly common thread right now in the tech industry around the confluence of terminology that can be used when addressing the broader practice of studying and applying machine learning to interesting problems. For some value of interesting.</p>
+<p>First I want to start with a history of the term <code>artificial intelligence</code>. The term was coined by John McCarthy for the famous conference at Dartmouth that was held in 1956, hosted by that of Marvin Minksy, and Claude Shannon, as well. The conference’s aim was to study the idea that every aspect of learning or other feature of intelligence can, in principle, be so precisely described that a machine can be made to simulate it. Said differently the goal of the conference was to investigate the plausibility of a machine being able to emulate, at least at first perceptual, problems that were previously reserved for the domain of humans.</p>
+<section id="definitions" class="level2">
+<h2 class="anchored" data-anchor-id="definitions">Definitions</h2>
+<p>I want to start this post with some definitions from some of the major literature in the field to normalize what is meant when using different words and phrases to describe the application of science to quantify and/or qualify some dataset.</p>
+<p>The first term I will address is Machine Learning and I will decompose the phrase into its constituent components. Both machine, and learning.</p>
+<section id="machine" class="level3">
+<h3 class="anchored" data-anchor-id="machine">Machine</h3>
+<p>Depending on your choice of common English dictionaries the definition of the word machine can vary. We will utilize the Oxford Dictionary which defines the term <a href="https://en.oxforddictionaries.com/definition/machine">machine</a> as follows:</p>
+<blockquote class="blockquote">
+<p>An apparatus using mechanical power and having several parts, each with a definite function and together performing a particular task.</p>
+</blockquote>
+<p>The definition fits that of a modern computer. Most modern consumer computers follow the <a href="https://en.wikipedia.org/wiki/Von_Neumann_architecture">Von Neumann architecture</a> in that there are disparate components working together to perform a particular task. Mainly a Central Processing Unit, and a Memory Unit that work in orchestra to take as input some value, and produce another value as output. This is the definition that I will apply to the word machine.</p>
+<div id="fig-von-neumann-arch" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="./images/510px-Von_Neumann_Architecture.svg.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure 1: Von Neumann Architecture <a href="https://en.wikipedia.org/wiki/Von_Neumann_architecture">Source</a></figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="learning" class="level3">
+<h3 class="anchored" data-anchor-id="learning">Learning</h3>
+<p>We will also appeal to the Oxford Dictionary for the definition of the term <a href="https://en.oxforddictionaries.com/definition/learning">learning</a>.</p>
+<blockquote class="blockquote">
+<p>The acquisition of knowledge or skills through study, experience, or being taught.</p>
+</blockquote>
+<p>This definition is in line with something that is intuitive but can sometimes become lost in the noise of the every day higher level interactions we’re having with the world around us. We are, in real time, learning on many levels of abstraction that are presented to us through out cognitive faculties. Consciously learning the fundamental theory of algebra is a seemingly active exercise in which we study material to learn the theorem and how to apply it. However separate from that conscious learning, we are also subconsciously learning from many inputs we are receiving. Suppose we decide to stop studying our material on algebra and instead decide that we want to go for a jog. As we begin our journey things are going smoothly and when we aren’t paying attention we stumble on an obstruction in the middle of the pathway. As we stumble our brain is subconsciously using many inputs from our sensors contained within our system called the human body to right our trajectory to ensure we don’t fall. Using a seemingly more concrete example would be a gymnast performing a routine that they have repeatedly practiced until they are satisfied. A similar analogy could be made for the increase and decrease in requirement of oxygen within the body as we are burning more energy throughout the process of exercise. As our heart rate increases our respiration rate increases to compensate for the increase in oxygen required for metabolism.</p>
+</section>
+</section>
+<section id="machine-learning" class="level2">
+<h2 class="anchored" data-anchor-id="machine-learning">Machine Learning</h2>
+<p>I want to formalize the definition of machine learning in the way that the research and industry tend to apply them.</p>
+<p>I think about it in terms of Tom Mitchell’s definition, in his book <a href="https://www.amazon.com/Learning-McGraw-Hill-International-Editions-Computer/dp/0071154671/ref=asap_bc?ie=UTF8">Machine Learning</a>, which offers a formal definition in the bounds by which science and engineering can work.</p>
+<blockquote class="blockquote">
+<p>A computer program is said to <strong>learn</strong> from <em>experience</em> <strong>E</strong> with respect to some class of <em>task</em> <strong>T</strong> and <em>performance</em> measure <strong>P</strong>, if its performance measure <strong>P</strong> at task <strong>T</strong> as measured by <strong>P</strong>, improves with experience.</p>
+</blockquote>
+<p>This definition also captures the fundamental areas of research and industry application that exist within machine learning.</p>
+<p>Above, when referencing emulation of tasks that are normally performed by other systems that exist in the world, I mean that these systems can be a product of biological or human engineering efforts. There are many tasks that biological systems, such as humans and animals, perform which can be emulated using this process called machine learning. Actions that we perform such as recognizing objects around us, to understanding the approximate trajectory of an object, such as a ball, and being able to intercept that ball to catch it. Along with other processes such as understanding what someone is saying through the combination of speech and gesture recognition while communicating.</p>
+<p>There are also other, external to the human psyche, tasks that we can use machine learning for as well. We may lack the biological sensors to measure many of the systems around us but we can build sensors for these systems and then use machine learning to have computers “learn” about these systems. Systems like the weather, astronomical objects, search engines, etc.</p>
+</section>
+<section id="artificial-intelligence" class="level2">
+<h2 class="anchored" data-anchor-id="artificial-intelligence">Artificial Intelligence</h2>
+<p>Now I want to address the term artificial intelligence in the same way that I had addressed machine learning. By decomposing it into its constituent words, defining them, and attempting to define what the combination of the two terms, means.</p>
+<section id="artificial" class="level3">
+<h3 class="anchored" data-anchor-id="artificial">Artificial</h3>
+<p>The term <a href="https://en.oxforddictionaries.com/definition/artificial">artificial</a> is defined by the Oxford Dictionary as follows:</p>
+<blockquote class="blockquote">
+<p>Made or produced by human beings rather than occurring naturally, especially as a copy of something natural.</p>
+</blockquote>
+<p>This term is a bit more broad in its definition in that many of the objects we see around us are an <code>artificial</code> representation of something naturally occurring. Things like artificial flowers, or artificial limbs that enable individuals perform tasks that might otherwise not be possible. The key interpretation here is the fact that it is the creation of something that seemingly isn’t naturally occurring. Notwithstanding the logical argument that could be made that there is some hierarchical interpretation to the idea of something being created by something that was created naturally, humans, ergo whatever was created could be interpreted as something naturally occurring.</p>
+</section>
+<section id="intelligence" class="level3">
+<h3 class="anchored" data-anchor-id="intelligence">Intelligence</h3>
+<p>Now we come to a seemingly ill-defined term that exist in the world of science and engineering. That of <code>intelligence</code>. When we look at the Oxford definition of the word we can see just how general the interpretation is:</p>
+<blockquote class="blockquote">
+<p>The ability to acquire and apply knowledge and skills.</p>
+</blockquote>
+<p>The ability to apply knowledge and skills is interestingly broad in its definition. As with the logical argument that could be made above about what really <em>is</em> artificial and what isn’t, a similar logical argument could be made in that if we create a machine that embodies some sort of skills or abilities that we as humans have acquired, are we creating an intelligent system? Or is the system itself required to acquire the referenced <code>knowledge</code> and <code>skills</code>. We might have to go one rabbit hole deeper in order to make this definition a bit more concrete.</p>
+<p>Knowledge is defined as:</p>
+<blockquote class="blockquote">
+<p>Facts, information, and skills acquired through experience or education; the theoretical or practical understanding of a subject.</p>
+</blockquote>
+<p>Yet again we’re up against the wall with some of the lingual abstractions present in this definition. <code>Facts</code>, <code>information</code>, <code>skills</code>, <code>experience</code>, <code>education</code>, etc. all contain some sort of implicit definitions in which we tend to take for granted. Rather than looking into the definitions and etymologies of words used to describe a phenomenon that we are observing, we can appeal to a more rigorous definition of what intelligence may be. <span class="citation" data-cites="Legg2007-ea">Legg and Hutter (<a href="#ref-Legg2007-ea" role="doc-biblioref">2007</a>)</span> provide a working definition of <code>machine intelligence</code>.</p>
+<p>Legg and Hutter start with an analysis of 70 or so definitions of <code>intelligence</code> from different areas of academia including researchers in artificial intelligence and psychologists. There are a few salient definitions from both backgrounds that I would like to reference.</p>
+<blockquote class="blockquote">
+<p>“Intelligence is a general factor that runs through all types of performance.” A. Jensen</p>
+</blockquote>
+<p>I quite like this definition because it affords us a general interpretation in that many of the systems that we build, deploy, and label as <code>intelligent</code> can logically satisfy this definition. All systems have performance measures used to justify whether or not that system is able to perform better than previously, due to some mechanism contributing to the idea. There are also others that are seemingly more philosophically intriguing as well:</p>
+<blockquote class="blockquote">
+<p>“The capacity for knowledge, and knowledge possessed.” V. A. C. Henmon</p>
+</blockquote>
+<p>This eludes to the idea that there is some form of consciousness that needs to exist, a self awareness of ones own capacity for knowledge. This is less concrete in the way of mathematical definition, but I do enjoy at least entertaining the idea if for nothing more than thought exercise.</p>
+<p><span class="citation" data-cites="Legg2007-ea">Legg and Hutter (<a href="#ref-Legg2007-ea" role="doc-biblioref">2007</a>)</span> distill these definitions down to something more general as their definition seems to capture many of the special case interpretations of the 70 odd quotes:</p>
+<blockquote class="blockquote">
+<p>“Intelligence measures an agent’s ability to achieve goals in a wide range of environments.” S. Legg and M. Hutter</p>
+</blockquote>
+<p>As they note in their paper this definition has implicit in it many of the abilities an agent should have to define it as <code>intelligent</code>, abilities such as learning, adapting, and understanding.</p>
+</section>
+</section>
+<section id="artificial-intelligence-1" class="level2">
+<h2 class="anchored" data-anchor-id="artificial-intelligence-1">Artificial Intelligence</h2>
+<p>Now that we’ve defined <code>artificial</code> and <code>intelligence</code>, we can define what the two words mean together. It is an agent that doesn’t occur naturally that can some how achieve goals in a wide range of environments.</p>
+<p>There is a more formal definition as is defined in <span class="citation" data-cites="Legg2007-ea">Legg and Hutter (<a href="#ref-Legg2007-ea" role="doc-biblioref">2007</a>)</span>. That is left to the reader for investigation. For now we will leverage just the general linguistic definition of the term intelligence.</p>
+<p>There are what seem to be direct lines that can be drawn between artificial intelligence and reinforcement learning in that both definitions and the latter’s frameworks encompass the process of training an agent on a given environment to improve its performance over time to achieve whatever goals have been defined, and depending on the area of research there is also the research into the transferability of these agents between many different environments. Whether it be an already trained agent being exposed to a new environment or whether a particular methodology is applicable to more than one environment.</p>
+</section>
+<section id="normalizing-nomenclature" class="level2">
+<h2 class="anchored" data-anchor-id="normalizing-nomenclature">Normalizing nomenclature</h2>
+<p>This leads me back to the reason for this writing. It is an attempt to normalize the nomenclature that we as an industry use when addressing the application of these technologies to problem spaces. There are many ways that these terms can become muddied and conflated and I want to ensure we’re all speaking the same language as we make the efforts to apply these technologies in new and interesting ways.</p>
+<section id="example" class="level3">
+<h3 class="anchored" data-anchor-id="example">Example</h3>
+<p>I also want to provide a concrete example of where these definitions can be used in our specific problem space of technology systems. Depending on the scale at which we are analyzing a given system, one could be analyzing a single computational device that is part of a larger cluster of computational devices that are meant to distribute computational operations or storing state in a persistent manner. In respective parlance, distributed systems and databases.</p>
+<p>When reasoning about the application of machine learning to systems such as these, there are many aspects of the system that we can attempt to model using methodologies that fall firmly in the <code>machine learning</code> definition. A relatively simple example would be the application of some form of novelty detection with respect to the operation of the system. When collecting sensor data at times when the system is considered in <code>steady-state</code> operation, or nothing is currently <code>wrong</code> with the system, we can use novelty detection techniques to model either the data that has been collected itself, or the data generating distribution that we assume our data set has been produced from. Commonly referred to methodologies used to perform this are the application of autoencoders which can learn to reconstruct an input given some compressed representation of that input, or something like a variational autoencoder which attempts to model the parameters of the data generating distribution that produced our dataset that we’re analyzing.</p>
+<p>Where we can cross the line into the area of <code>artificial intelligence</code> is when we start to use models to affect change on the system that we are reasoning about. When we think about this from a particular perspective of infrastructure operations, it would be the assumption that a system that is <code>artificially intelligent</code> would be able to modify the configuration of a given distributed system to improve the operation of that system. This definition is more in line with that of <code>reinforcement learning</code>, that I haven’t covered in this post. This will be covered in later posts.</p>
+<p>This may become part of a multi-post series in an effort to combat the “buzzwordyness”, for lack of a better term, of the industry side of the applications of these methodologies, and I will update posts accordingly.</p>
+<p>More to come…</p>
+</section>
+</section>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<!-- ---
+nocite: |
+  @*
+--- -->
+<div id="ref-Legg2007-ea" class="csl-entry" role="doc-biblioentry">
+Legg, and Hutter. 2007. <span>“A Collection of Definitions of Intelligence.”</span> <em>Frontiers Artificial Intelligence Appl.</em>
+</div>
+</div>
+<p><a href="https://arxiv.org/abs/0706.3639">1 - A Collection of Definitions of Intelligence</a> * <a href="http://arxiv.org/abs/cs/0605024">2 - A Formal Measure of Machine Intelligence</a> * <a href="http://www.vetta.org/documents/ui_ai50_poster.pdf">3 - A Formal Measure of Machine Intelligence (Poster)</a> * <a href="https://courses.cs.washington.edu/courses/csep590/06au/projects/history-ai.pdf">4 - The History of Artificial Intelligence</a> * <a href="http://www-formal.stanford.edu/jmc/history/dartmouth/dartmouth.html">5 - A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence</a></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } 
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">
+        <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+</ul>
+      </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/edhenry">
+      <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/edhenry_">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>

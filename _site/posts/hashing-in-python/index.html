@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Ed Henry">
+<meta name="dcterms.date" content="2016-12-22">
+
+<title>edhenry.github.io - Hashing in Python</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">edhenry.github.io</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/edhenry"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/edhenry_"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Hashing in Python</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">python</div>
+                <div class="quarto-category">programming</div>
+                <div class="quarto-category">object oriented</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Ed Henry </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">December 22, 2016</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="hashing" class="level2">
+<h2 class="anchored" data-anchor-id="hashing">Hashing</h2>
+<p>Hashing can be useful in speeding up the search process for a specific item that is part of a larger collection of items. Depending on the implementation of the hashing algorithm, this can turn the computational complexity of our search algorithm from <span class="math inline">\(O(n)\)</span> to <span class="math inline">\(O(1)\)</span>. We do this by building a specific data structure, which we’ll dive into next.</p>
+<section id="hash-table" class="level4">
+<h4 class="anchored" data-anchor-id="hash-table">Hash Table</h4>
+<p>A hash table is a collection of items, stored in such a way as to make it easier to find them later. The table consists of <strong>slots</strong> that hold items and are named by a specific integer value, starting with 0.</p>
+<p>Example of a hash table (sorry for the poor formatting because markdown :</p>
+<table class="table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">0</th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;">4</th>
+<th style="text-align: center;">5</th>
+<th style="text-align: center;">6</th>
+<th style="text-align: center;">7</th>
+<th style="text-align: center;">8</th>
+<th style="text-align: center;">9</th>
+<th style="text-align: center;">10</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">None</td>
+<td style="text-align: center;">None</td>
+<td style="text-align: center;">None</td>
+<td style="text-align: center;">None</td>
+<td style="text-align: center;">None</td>
+<td style="text-align: center;">None</td>
+<td style="text-align: center;">None</td>
+<td style="text-align: center;">None</td>
+<td style="text-align: center;">None</td>
+<td style="text-align: center;">None</td>
+<td style="text-align: center;">None</td>
+</tr>
+</tbody>
+</table>
+<p>Each entry in this hash table, is currently set to a value of <code>None</code>.</p>
+<p>A hash function is used when mapping values into the slots available within a Hash table. The hash function typically takes, as input, an item from a collection, and will return an integer in the range of slot names, between <span class="math inline">\(0\)</span> and <span class="math inline">\(m-1\)</span>. There are many different hash functions, but the first we can discuss is the “remainder method” hash function.</p>
+</section>
+<section id="remainder-hash-function" class="level4">
+<h4 class="anchored" data-anchor-id="remainder-hash-function">Remainder Hash Function</h4>
+<p>The remainder hash function takes an item from a collection, divides it by the table size, returning the remainder of it’s hash value. Typically modulo arithmetic is present in some form for all hash functions, as the result must be in the range of the total number of slots within the table.</p>
+<p>Assuming we have a set of integer items <span class="math inline">\(\{25,54,34,67,75,21,77,31\}\)</span>, we can use our hash function to find slots for our values, accordingly.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>items <span class="op">=</span> [<span class="dv">25</span>,<span class="dv">54</span>,<span class="dv">34</span>,<span class="dv">67</span>,<span class="dv">75</span>,<span class="dv">21</span>,<span class="dv">77</span>,<span class="dv">31</span>]</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="bu">hash</span>(item_list, table_size):</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    hash_table <span class="op">=</span> <span class="bu">dict</span>([(i,<span class="va">None</span>) <span class="cf">for</span> i,x <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">range</span>(table_size))])</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> item <span class="kw">in</span> item_list:</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        i <span class="op">=</span> item <span class="op">%</span> table_size</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"The hash for </span><span class="sc">%s</span><span class="st"> is </span><span class="sc">%s</span><span class="st">"</span> <span class="op">%</span> (item, i))</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        hash_table[i] <span class="op">=</span> item</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hash_table</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Execute the hash function</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Create table with 11 entries to match example above</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>hash_table <span class="op">=</span> <span class="bu">hash</span>(items, <span class="dv">11</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the resulting hash table</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(hash_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>The hash for 25 is 3
+The hash for 54 is 10
+The hash for 34 is 1
+The hash for 67 is 1
+The hash for 75 is 9
+The hash for 21 is 10
+The hash for 77 is 0
+The hash for 31 is 9
+{0: 77, 1: 67, 2: None, 3: 25, 4: None, 5: None, 6: None, 7: None, 8: None, 9: 31, 10: 21}</code></pre>
+<p>Once the hash values have been computed, we inset each item into the hash table at the designated position(s). We can now see that there are entries with corresponding hash values stored in a python dictionary. This is obviously a very simple implementation of a hash table.</p>
+<p>There is something interesting to note here, though, when working through using a simple hashing algorithm like the remainder method. We have items, in our case integers, which hash to the same value. Specifically, we can see that there are 2 items that hash to each of the 1, 9, and 10 slots. These are what are known as <strong>collisions</strong>.</p>
+<p>Clearly these collisions can cause problems, as out of the 8 initial items that we’d started with, we only have 5 items actually stored in our hash table. This leads us into the next section we’ll discuss, and that is hash functions that can help alleviate this collision problem.</p>
+</section>
+<section id="hash-functions" class="level3">
+<h3 class="anchored" data-anchor-id="hash-functions">Hash Functions</h3>
+<p>Hash functions that map, perfectly, every item into it’s own unique slot in a hash table is known as a <strong>perfect hash function</strong>. If we knew the collection of items and that it would never change, it’s possible to construct a perfect hash function specific to this collection, but we know that the dynamics of the real world tend to not allow something so simple.</p>
+<p>Dynamically growing the hash table size so each possible item in the item range can be accomodated is one way to construct a perfect hash function. This guarantees each item will have it’s own slot. But this isn’t feasible, as something as simple as tracking social security numbers would require over one billion slots within the hash table. And if we’re only tracking a small subset of the full set of social security numbers, this would become horribly inefficient with respect to hardware resources available within the machine our code is running on.</p>
+<p>With the goal of constructing a hash function that will minimize the number of collisions, has low computational complexity, and evenly distributes our items within the hash table, we can take a look at some common ways to extend this remainder method.</p>
+<section id="folding-method" class="level4">
+<h4 class="anchored" data-anchor-id="folding-method">Folding Method</h4>
+<p>The folding method for hashing an item begins by diving the item into equal size pieces (though the last piece may not be of equal size to the rest). These pieces are then added together to create the resulting hash value. A good example of this is a phone number,such as 456-555-1234. We can break each pair of integers up into groups of 2, add them up, and use that resulting value as an input to our hashing function.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> stringify(item_list):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Method to convert integer values into array of component integers</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    string_items <span class="op">=</span> []</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="bu">len</span>(item_list) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> item <span class="kw">in</span> item_list:</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>            chars <span class="op">=</span> [<span class="bu">int</span>(c) <span class="cf">for</span> c <span class="kw">in</span> <span class="bu">str</span>(item)]</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        item_list.remove(item)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        string_items.append(chars)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> string_items</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> folding_hash(item_list):</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">    Quick hack at a folding hash algorithm</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">    '''</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    hashes <span class="op">=</span> []</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="bu">len</span>(item_list) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        hash_val <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> item <span class="kw">in</span> item_list:</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> <span class="bu">len</span>(item) <span class="op">&gt;</span> <span class="dv">1</span>:</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>                str_1 <span class="op">=</span> <span class="bu">str</span>(item[<span class="dv">0</span>])</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>                str_2 <span class="op">=</span> <span class="bu">str</span>(item[<span class="dv">1</span>])</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>                str_concat <span class="op">=</span> str_1 <span class="op">+</span> str_2</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>                bifold <span class="op">=</span> <span class="bu">int</span>(str_concat)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>                hash_val <span class="op">+=</span> bifold</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>                item.pop(<span class="dv">0</span>)</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>                item.pop(<span class="dv">0</span>)</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> <span class="bu">len</span>(item) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>                    hash_val <span class="op">+=</span> item[<span class="dv">0</span>]</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>:</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">pass</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>            hashes.append(hash_val)</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> hashes</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Example phone numbers</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>phone_number <span class="op">=</span> [<span class="dv">4565551234</span>, <span class="dv">4565557714</span>, <span class="dv">9871542544</span>, <span class="dv">4365554601</span>]</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="co"># String/Character-fy the phone numbers</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>str_pn <span class="op">=</span> stringify(phone_number)</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Hash the phone numbers</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>folded_hash <span class="op">=</span> folding_hash(str_pn)</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Input values into hash table</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>folding_hash_table <span class="op">=</span> <span class="bu">hash</span>(folded_hash, <span class="dv">11</span>)</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the results</span></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(folding_hash_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>The hash for 210 is 1
+The hash for 502 is 7
+The hash for 758 is 10
+The hash for 969 is 1
+{0: None, 1: 969, 2: None, 3: None, 4: None, 5: None, 6: None, 7: 502, 8: None, 9: None, 10: 758}</code></pre>
+</section>
+<section id="ordinal-hash" class="level4">
+<h4 class="anchored" data-anchor-id="ordinal-hash">Ordinal Hash</h4>
+<p>When dealing with strings, we can use the ordinal values of the constituent characters of a given word, to create a hash.</p>
+<p>It’s important to notice, however, that anagrams can produce hash collisions, as shown below.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ord_hash(string, table_size):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    hash_val <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> position <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(string)):</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        hash_val <span class="op">=</span> hash_val <span class="op">+</span> <span class="bu">ord</span>(string[position])</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hash_val <span class="op">%</span> table_size</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ord_hash(<span class="st">"cat"</span>, <span class="dv">11</span>))</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ord_hash(<span class="st">"tac"</span>, <span class="dv">11</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>4
+4</code></pre>
+</section>
+<section id="weighted-ordinal-hashing" class="level4">
+<h4 class="anchored" data-anchor-id="weighted-ordinal-hashing">Weighted ordinal hashing</h4>
+<p>In the case above, just using ordinal values can cause hash collisions. We can actually use the positional structure of the word to as a set of weights for generating a given hash. As seen below.</p>
+<p>A simple multiplication by the positional value of each character will cause anagrams to evaluate to different hash values.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> weighted_ord_hash(string, table_size):</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    hash_val <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> position <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(string)):</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        hash_val <span class="op">=</span> hash_val <span class="op">+</span> (<span class="bu">ord</span>(string[position]) <span class="op">*</span> position)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hash_val <span class="op">%</span> table_size</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># ord_hash</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ord_hash(<span class="st">"cat"</span>, <span class="dv">11</span>))</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># weighted_ord_hash</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(weighted_ord_hash(<span class="st">"tac"</span>, <span class="dv">11</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>4
+9</code></pre>
+</section>
+</section>
+</section>
+<section id="collision-resolution" class="level2">
+<h2 class="anchored" data-anchor-id="collision-resolution">Collision Resolution</h2>
+<p>When there are hash collisions, like we’ve seen previously, it’s important to understand ways that we can alleviate the collisions.</p>
+<p>One simple way to handle the collision, should there already be an entry in our hash table with the same hash value, is to search sequentially through all slots near the original hash, for an empty slot. This may require us to circularly traverse the entire hash table to allow us to cover all possible slots. This process is known as <strong>open addressing</strong> and the technique within this process that we’re using is called <strong>linear probing</strong>.</p>
+<p>In the following code examples, we’ll reuse the simple remainder method hash function that we’ve defined above. Along with the original set of integers we were hashing, as there were some collisions that occured.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>items <span class="op">=</span> [<span class="dv">25</span>,<span class="dv">54</span>,<span class="dv">34</span>,<span class="dv">67</span>,<span class="dv">75</span>,<span class="dv">21</span>,<span class="dv">77</span>,<span class="dv">31</span>]</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Execute the hash function</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create table with 11 entries to match example above</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>hash_table <span class="op">=</span> <span class="bu">hash</span>(items, <span class="dv">11</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the resulting hash table</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(hash_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>The hash for 25 is 3
+The hash for 54 is 10
+The hash for 34 is 1
+The hash for 67 is 1
+The hash for 75 is 9
+The hash for 21 is 10
+The hash for 77 is 0
+The hash for 31 is 9
+{0: 77, 1: 67, 2: None, 3: 25, 4: None, 5: None, 6: None, 7: None, 8: None, 9: 31, 10: 21}</code></pre>
+<p>We can see there were multiple collisions within this dataset. Specifically hashes of 1, 9, and 10. And we can see in the resulting table that only the last computed hashes are stored in the respective table slots.</p>
+<p>Below we’ll implement an <code>lp_hash</code> function that will perform linear probing over the slots available within the table for any collisions that occur.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>items <span class="op">=</span> [<span class="dv">25</span>,<span class="dv">54</span>,<span class="dv">34</span>,<span class="dv">67</span>,<span class="dv">75</span>,<span class="dv">21</span>,<span class="dv">77</span>,<span class="dv">31</span>]</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rehash(oldhash, table_size):</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (oldhash<span class="op">+</span><span class="dv">1</span>) <span class="op">%</span> table_size</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> lp_hash(item_list, table_size):</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    lp_hash_table <span class="op">=</span> <span class="bu">dict</span>([(i,<span class="va">None</span>) <span class="cf">for</span> i,x <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">range</span>(table_size))])</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> item <span class="kw">in</span> item_list:</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>        i <span class="op">=</span> item <span class="op">%</span> table_size</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"</span><span class="sc">%s</span><span class="st"> hashed == </span><span class="sc">%s</span><span class="st"> </span><span class="ch">\n</span><span class="st">"</span> <span class="op">%</span>(item, i))</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> lp_hash_table[i] <span class="op">==</span> <span class="va">None</span>:</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>            lp_hash_table[i] <span class="op">=</span> item</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> lp_hash_table[i] <span class="op">!=</span> <span class="va">None</span>:</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Collision, attempting linear probe </span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>            next_slot <span class="op">=</span> rehash(i, table_size)</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Setting next slot to </span><span class="sc">%s</span><span class="st"> </span><span class="ch">\n</span><span class="st">"</span> <span class="op">%</span> next_slot)</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> lp_hash_table[next_slot] <span class="op">!=</span> <span class="va">None</span>:</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>                next_slot <span class="op">=</span> rehash(next_slot, <span class="bu">len</span>(lp_hash_table.keys()))</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>                <span class="bu">print</span>(<span class="st">"Next slot was not empty, trying next slot </span><span class="sc">%s</span><span class="st"> </span><span class="ch">\n</span><span class="st">"</span> <span class="op">%</span> next_slot)</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> lp_hash_table[next_slot] <span class="op">==</span> <span class="va">None</span>:</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>                lp_hash_table[next_slot] <span class="op">=</span> item</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> lp_hash_table</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lp_hash(items, <span class="dv">11</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>25 hashed == 3 
+
+54 hashed == 10 
+
+34 hashed == 1 
+
+67 hashed == 1 
+
+Collision, attempting linear probe 
+
+Setting next slot to 2 
+
+75 hashed == 9 
+
+21 hashed == 10 
+
+Collision, attempting linear probe 
+
+Setting next slot to 0 
+
+77 hashed == 0 
+
+Collision, attempting linear probe 
+
+Setting next slot to 1 
+
+Next slot was not empty, trying next slot 2 
+
+Next slot was not empty, trying next slot 3 
+
+Next slot was not empty, trying next slot 4 
+
+31 hashed == 9 
+
+Collision, attempting linear probe 
+
+Setting next slot to 10 
+
+Next slot was not empty, trying next slot 0 
+
+Next slot was not empty, trying next slot 1 
+
+Next slot was not empty, trying next slot 2 
+
+Next slot was not empty, trying next slot 3 
+
+Next slot was not empty, trying next slot 4 
+
+Next slot was not empty, trying next slot 5 
+
+{0: 21, 1: 34, 2: 67, 3: 25, 4: 77, 5: 31, 6: None, 7: None, 8: None, 9: 75, 10: 54}</code></pre>
+<p>Used a little more interestingly, we can use the weighted ordinal hash function that we’ve defined above, combined with the lp_hash function that we’ve just defined, to store string(s) for later lookup.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>animal_items <span class="op">=</span> [<span class="st">"cat"</span>, <span class="st">"dog"</span>, <span class="st">"goat"</span>, </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>         <span class="st">"chicken"</span>, <span class="st">"pig"</span>, <span class="st">"horse"</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"ostrich"</span>, <span class="st">"lion"</span>, <span class="st">"puma"</span>]</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rehash(oldhash, table_size):</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (oldhash<span class="op">+</span><span class="dv">1</span>) <span class="op">%</span> table_size</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> weighted_ord_hash(string, table_size):</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    hash_val <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> position <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(string)):</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>        hash_val <span class="op">=</span> hash_val <span class="op">+</span> (<span class="bu">ord</span>(string[position]) <span class="op">*</span> position)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hash_val <span class="op">%</span> table_size</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> lp_hash(item_list, table_size):</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    lp_hash_table <span class="op">=</span> <span class="bu">dict</span>([(i,<span class="va">None</span>) <span class="cf">for</span> i,x <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">range</span>(table_size))])</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> item <span class="kw">in</span> item_list:</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>        i <span class="op">=</span> weighted_ord_hash(item, table_size)</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"</span><span class="sc">%s</span><span class="st"> hashed == </span><span class="sc">%s</span><span class="st"> </span><span class="ch">\n</span><span class="st">"</span> <span class="op">%</span>(item, i))</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> lp_hash_table[i] <span class="op">==</span> <span class="va">None</span>:</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>            lp_hash_table[i] <span class="op">=</span> item</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> lp_hash_table[i] <span class="op">!=</span> <span class="va">None</span>:</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Collision, attempting linear probe </span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>            next_slot <span class="op">=</span> rehash(i, table_size)</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Setting next slot to </span><span class="sc">%s</span><span class="st"> </span><span class="ch">\n</span><span class="st">"</span> <span class="op">%</span> next_slot)</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> lp_hash_table[next_slot] <span class="op">!=</span> <span class="va">None</span>:</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>                next_slot <span class="op">=</span> rehash(next_slot, <span class="bu">len</span>(lp_hash_table.keys()))</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>                <span class="bu">print</span>(<span class="st">"Next slot was not empty, trying next slot </span><span class="sc">%s</span><span class="st"> </span><span class="ch">\n</span><span class="st">"</span> <span class="op">%</span> next_slot)</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> lp_hash_table[next_slot] <span class="op">==</span> <span class="va">None</span>:</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>                lp_hash_table[next_slot] <span class="op">=</span> item</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> lp_hash_table</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lp_hash(animal_items, <span class="dv">11</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>cat hashed == 10 
+
+dog hashed == 9 
+
+goat hashed == 4 
+
+chicken hashed == 4 
+
+Collision, attempting linear probe 
+
+Setting next slot to 5 
+
+pig hashed == 3 
+
+horse hashed == 10 
+
+Collision, attempting linear probe 
+
+Setting next slot to 0 
+
+ostrich hashed == 6 
+
+lion hashed == 8 
+
+puma hashed == 10 
+
+Collision, attempting linear probe 
+
+Setting next slot to 0 
+
+Next slot was not empty, trying next slot 1 
+
+{0: 'horse', 1: 'puma', 2: None, 3: 'pig', 4: 'goat', 5: 'chicken', 6: 'ostrich', 7: None, 8: 'lion', 9: 'dog', 10: 'cat'}</code></pre>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<ul>
+<li>http://interactivepython.org/courselib/static/pythonds/SortSearch/Hashing.html#tbl-hashvalues1</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

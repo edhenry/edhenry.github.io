@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A place for me to keep notes about what I know that hopefully someone else finds useful">
+
+    <title>Breadth First Search in Python - Ed Henry's Blog</title>
+
+    <link rel="canonical" href="http://localhost:4000/2017/01/06/Breadth-First-Search/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/clean-blog.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Ed Henry&apos;s Blog" />
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ed Henry's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                
+				
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+				
+                
+				
+                <li>
+                    <a href="/contact/">Contact</a>
+                </li>
+				
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header" style="background-image: url('/img/galaxy.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Breadth First Search in Python</h1>
+                    
+                    <span class="meta">Posted by Ed Henry on January 6, 2017</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+				<h4 id="breadth-first-search">Breadth First Search</h4>
+
+<p>In this notebook / blog post we will explore breadth first search, which is an algorithm for searching a given graph for the lowest cost path to a goal state \(G\).</p>
+
+<p>The <em>cost</em> is intentionally abstract as it can be defined as whatever you’d like it to be, whether it be the least amount of vertices traversed to get to \(G\) or whether it be the lowest sum of the weights of edges between a given state and the goal state, \(G\).</p>
+
+<p>Some quick notational and fundamental review of the definition of a graph is below :</p>
+
+<ul>
+  <li>Vertex
+    <ul>
+      <li>End state, also called a node, of a given path through a graph \(G\)</li>
+      <li>Can also house additional information known as a <em>payload</em></li>
+    </ul>
+  </li>
+  <li>Edge
+    <ul>
+      <li>Also called an arc, the element that connects two vertices within a graph</li>
+      <li>Can be either one way or two way; one way = <strong>directed graph</strong> or <strong>digraph</strong></li>
+    </ul>
+  </li>
+  <li>Weight
+    <ul>
+      <li>A value assigned to an edge to denote “cost” of traversing that edge between two vertices</li>
+    </ul>
+  </li>
+</ul>
+
+<p>With these definitions we can formally define as a graph, \(G\) where \(G = (V,E)\).</p>
+
+<p>\(V\) is a set of vertices and \(E\) is a set of edges, respectively.</p>
+
+<p>Each edge is a tuple \((v,w)\) where \(w,v \in V\), adding \(w\) as a third component to represent the weight of that vertex.</p>
+
+<ul>
+  <li>Path
+    <ul>
+      <li>A sequence of edges that connect two vertices.</li>
+      <li>Formally defined as \(\{w_{1},w_{2},...,w_{n}\}\) such that \((w_{i},w_{i+1}) \in E \ \ \ \forall 1 \le i \le n-1\)</li>
+    </ul>
+  </li>
+</ul>
+
+<p>There are great libraries that provide Graph ADT’s, but in this example we’ll implement a Graph class ourselves. It will be useful in understanding a graph and how we can use it.</p>
+
+<p>We’ll define two classes to support this effort, a <code class="language-plaintext highlighter-rouge">Vertex</code> class, which will represent a given vertex being added to the graph, and a <code class="language-plaintext highlighter-rouge">Graph</code> class which holds the master list of vertices.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Vertex</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="c1"># unique ID for vertex
+</span>        <span class="bp">self</span><span class="p">.</span><span class="nb">id</span> <span class="o">=</span> <span class="n">key</span>
+        <span class="c1"># dict of connected nodes
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">connected_to</span> <span class="o">=</span> <span class="p">{}</span>
+    
+    <span class="k">def</span> <span class="nf">add_neighbor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">neighbor</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="c1"># Add an entry to the connected_to dict with a given
+</span>        <span class="c1"># weight 
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">connected_to</span><span class="p">[</span><span class="n">neighbor</span><span class="p">]</span> <span class="o">=</span> <span class="n">weight</span>
+        
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># override __str__ for printing
+</span>        <span class="k">return</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="nb">id</span><span class="p">)</span> <span class="o">+</span> <span class="s">' connected to: '</span> <span class="o">+</span> <span class="nb">str</span><span class="p">([</span><span class="n">x</span><span class="p">.</span><span class="nb">id</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">connected_to</span><span class="p">]))</span>
+    
+    <span class="k">def</span> <span class="nf">get_connections</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># return keys from connected_to dict
+</span>        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">connected_to</span><span class="p">.</span><span class="n">keys</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="nf">get_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># return vertex id's
+</span>        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="nb">id</span>
+    
+    <span class="k">def</span> <span class="nf">get_weight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># return weights of edges connected to vertex
+</span>        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">connected_to</span><span class="p">[</span><span class="n">neighbor</span><span class="p">]</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Graph</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># dictionary of vertices
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">vertices_list</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># vertex count
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">num_vertices</span> <span class="o">=</span> <span class="mi">0</span>
+        
+    <span class="k">def</span> <span class="nf">add_vertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="c1"># increment counter when adding vertex
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">num_vertices</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">num_vertices</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">new_vertex</span> <span class="o">=</span> <span class="n">Vertex</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">vertices_list</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_vertex</span>
+        <span class="k">return</span> <span class="n">new_vertex</span>
+    
+    <span class="k">def</span> <span class="nf">get_vertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="c1"># check if vertex exists, return if True
+</span>        <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">vertices_list</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">vertices_list</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        
+    <span class="k">def</span> <span class="nf">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="c1"># override __contains__ to list all vertices in Graph object
+</span>        <span class="k">return</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">vertices_list</span>
+    
+    <span class="k">def</span> <span class="nf">add_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">cost</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="c1"># add edge to graph; s = start node; e = end node
+</span>        <span class="k">if</span> <span class="n">s</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">vertices_list</span><span class="p">:</span>
+            <span class="n">nv</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">add_vertex</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">f</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">vertices_list</span><span class="p">:</span>
+            <span class="n">nv</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">add_vertex</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">vertices_list</span><span class="p">[</span><span class="n">s</span><span class="p">].</span><span class="n">add_neighbor</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">vertices_list</span><span class="p">[</span><span class="n">f</span><span class="p">],</span> <span class="n">cost</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">get_vertices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># return keys of vertices in Graph
+</span>        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">vertices_list</span><span class="p">.</span><span class="n">keys</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># override __iter__ to return iterable of vertices
+</span>        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">vertices_list</span><span class="p">.</span><span class="n">values</span><span class="p">())</span>
+    
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">node_names</span> <span class="o">=</span> <span class="p">[</span><span class="s">"A"</span><span class="p">,</span> <span class="s">"B"</span><span class="p">,</span> <span class="s">"C"</span><span class="p">,</span>
+              <span class="s">"D"</span><span class="p">,</span> <span class="s">"E"</span><span class="p">,</span> <span class="s">"F"</span><span class="p">,</span>
+              <span class="s">"G"</span><span class="p">]</span>
+<span class="c1"># Instantiate graph object and add vertices
+</span><span class="n">g</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">node_names</span><span class="p">:</span>
+    <span class="n">g</span><span class="p">.</span><span class="n">add_vertex</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># add a bunch of edges between vertices
+</span><span class="n">g</span><span class="p">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s">'A'</span><span class="p">,</span><span class="s">'B'</span><span class="p">)</span>
+<span class="n">g</span><span class="p">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s">'B'</span><span class="p">,</span><span class="s">'C'</span><span class="p">)</span>
+<span class="n">g</span><span class="p">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s">'C'</span><span class="p">,</span><span class="s">'E'</span><span class="p">)</span>
+<span class="n">g</span><span class="p">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s">'E'</span><span class="p">,</span><span class="s">'D'</span><span class="p">)</span>
+<span class="n">g</span><span class="p">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s">'D'</span><span class="p">,</span><span class="s">'B'</span><span class="p">)</span>
+<span class="n">g</span><span class="p">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s">'E'</span><span class="p">,</span><span class="s">'F'</span><span class="p">)</span>
+<span class="n">g</span><span class="p">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s">'B'</span><span class="p">,</span><span class="s">'E'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">g</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">v</span><span class="p">.</span><span class="n">get_connections</span><span class="p">():</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"(%s, %s)"</span> <span class="o">%</span> <span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">get_id</span><span class="p">(),</span> <span class="n">w</span><span class="p">.</span><span class="n">get_id</span><span class="p">()))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(A, B)
+(C, E)
+(B, E)
+(B, C)
+(E, F)
+(E, D)
+(D, B)
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># list our vertices
+</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">node_names</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">g</span><span class="p">.</span><span class="n">get_vertex</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>A connected to: ['B']
+B connected to: ['E', 'C']
+C connected to: ['E']
+D connected to: ['B']
+E connected to: ['F', 'D']
+F connected to: []
+G connected to: []
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span>
+
+<span class="k">def</span> <span class="nf">breadth_first_search</span><span class="p">(</span><span class="n">starting_node</span><span class="p">,</span> <span class="n">goal_node</span><span class="p">):</span>
+    <span class="n">visited_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">([</span><span class="n">starting_node</span><span class="p">])</span>
+    
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">queue</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">queue</span><span class="p">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">visited_nodes</span><span class="p">:</span>
+            <span class="k">continue</span>
+        
+        <span class="n">visited_nodes</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">node</span><span class="p">.</span><span class="n">get_id</span> <span class="o">==</span> <span class="n">goal_node</span><span class="p">.</span><span class="n">get_id</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">node</span><span class="p">.</span><span class="n">connected_to</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited_nodes</span><span class="p">:</span>
+                <span class="n">queue</span><span class="p">.</span><span class="n">appendleft</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">False</span>        
+</code></pre></div></div>
+
+<p>Using the <code class="language-plaintext highlighter-rouge">breadth_first_search</code> implementation that we’ve written, above, we can then ask the graph is there exists a path between multiple nodes. Our function will return a <code class="language-plaintext highlighter-rouge">True</code> or a <code class="language-plaintext highlighter-rouge">False</code> accordingly.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">breadth_first_search</span><span class="p">(</span><span class="n">g</span><span class="p">.</span><span class="n">get_vertex</span><span class="p">(</span><span class="s">'A'</span><span class="p">),</span> <span class="n">g</span><span class="p">.</span><span class="n">get_vertex</span><span class="p">(</span><span class="s">'G'</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>False
+</code></pre></div></div>
+
+<p>Past creating our own Vertex and Graph objects that we can use to assemble our own graphs, we can use libraries like NetworkX to create graphs and implement algorithms, like breadth first search, over them.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="n">nx</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+
+<span class="n">edges</span> <span class="o">=</span> <span class="p">[(</span><span class="s">'A'</span><span class="p">,</span><span class="s">'B'</span><span class="p">),(</span><span class="s">'B'</span><span class="p">,</span><span class="s">'C'</span><span class="p">),(</span><span class="s">'C'</span><span class="p">,</span><span class="s">'E'</span><span class="p">),</span>
+         <span class="p">(</span><span class="s">'E'</span><span class="p">,</span><span class="s">'D'</span><span class="p">),(</span><span class="s">'D'</span><span class="p">,</span><span class="s">'B'</span><span class="p">),(</span><span class="s">'E'</span><span class="p">,</span><span class="s">'F'</span><span class="p">),</span>
+         <span class="p">(</span><span class="s">'B'</span><span class="p">,</span><span class="s">'E'</span><span class="p">)]</span>
+
+<span class="n">networkx_graph</span> <span class="o">=</span> <span class="n">nx</span><span class="p">.</span><span class="n">Graph</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">node_names</span><span class="p">:</span>
+    <span class="n">networkx_graph</span><span class="p">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+<span class="n">networkx_graph</span><span class="p">.</span><span class="n">add_edges_from</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+
+<span class="n">nx</span><span class="p">.</span><span class="n">draw_networkx</span><span class="p">(</span><span class="n">networkx_graph</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/img/output_10_1.png" alt="png" /></p>
+
+<p>But the library also has the added ability to generate random graphs for us. In this case, the <code class="language-plaintext highlighter-rouge">dense_gnm_random_graph()</code> will generate a random graph of \(G_{n,m}\) where \(n\) is the node count and \(m\) are the number of edges randomly distributed throughout the graph.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">networkx_graph_1</span> <span class="o">=</span> <span class="n">nx</span><span class="p">.</span><span class="n">dense_gnm_random_graph</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">nx</span><span class="p">.</span><span class="n">draw_networkx</span><span class="p">(</span><span class="n">networkx_graph_1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/img/output_12_0.png" alt="png" /></p>
+
+<p>The networkx library tends to return iterators for each object within the graph context, such as the graph iteself, or the nodes within a graph or the neighbors of a particular node within the graph. This is useful because traversal algorithms such as breadth first search tend to operator in an iterative manner.</p>
+
+<p><code class="language-plaintext highlighter-rouge">nodes</code> returns an iterable for the nodes in a graph</p>
+
+<p><code class="language-plaintext highlighter-rouge">all_neighbors</code> returns an interable for all neighbors of a passed in graph and specific node</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># quick hack to traverse the iterables returned
+</span><span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nx</span><span class="p">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">networkx_graph_1</span><span class="p">):</span>
+    <span class="n">neighbors</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="n">nx</span><span class="p">.</span><span class="n">all_neighbors</span><span class="p">(</span><span class="n">networkx_graph_1</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="n">neighbors</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">neighbor</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Node %s has neighbors : %s"</span> <span class="o">%</span> <span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">neighbors</span><span class="p">))</span>   
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Node 0 has neighbors : [3]
+Node 1 has neighbors : []
+Node 2 has neighbors : [4, 6]
+Node 3 has neighbors : [0, 9, 5]
+Node 4 has neighbors : [9, 2]
+Node 5 has neighbors : [3]
+Node 6 has neighbors : [8, 2]
+Node 7 has neighbors : [8, 9]
+Node 8 has neighbors : [9, 6, 7]
+Node 9 has neighbors : [8, 3, 4, 7]
+</code></pre></div></div>
+
+<p>Or just because, here’s a list comprehension that can do the same thing, that actually shows off a bit of Python’s nested list comprehension functionality. It is possible to also push the <code class="language-plaintext highlighter-rouge">print</code> function into the list comprehension below, but it only works in Python 3+ and but is not considered pythonic – so I’m only leaving it to return the nested arrays that a list comprehension normally would.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[[</span><span class="n">neighbor</span> <span class="k">for</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="n">nx</span><span class="p">.</span><span class="n">all_neighbors</span><span class="p">(</span><span class="n">networkx_graph_1</span><span class="p">,</span> <span class="n">node</span><span class="p">)]</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nx</span><span class="p">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">networkx_graph_1</span><span class="p">)]</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[[3],
+ [],
+ [4, 6],
+ [0, 9, 5],
+ [9, 2],
+ [3],
+ [8, 2],
+ [8, 9],
+ [9, 6, 7],
+ [8, 3, 4, 7]]
+</code></pre></div></div>
+
+<p>The networkx library also includes many, many algorithm implementations already so we can utilize their built-in <code class="language-plaintext highlighter-rouge">breadth_first_search</code> algorithm, as we see below. We’re able to print a traversal of the graph starting at <code class="language-plaintext highlighter-rouge">node 0</code> and print the entire path taken through the graph.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">nx</span><span class="p">.</span><span class="n">bfs_edges</span><span class="p">(</span><span class="n">networkx_graph_1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[(0, 3), (3, 9), (3, 5), (9, 8), (9, 4), (9, 7), (8, 6), (4, 2)]
+</code></pre></div></div>
+
+<p>Much like we see above, the networkx library also has a built-in depth first search algorithm that will traverse the graph and return an unordered list of tuples of edges that are traversed. I will save a depth first search implementation over our custom Graph object for future posts.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">nx</span><span class="p">.</span><span class="n">dfs_edges</span><span class="p">(</span><span class="n">networkx_graph_1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[(0, 3), (3, 9), (9, 8), (8, 6), (6, 2), (2, 4), (8, 7), (3, 5)]
+</code></pre></div></div>
+
+<h5 id="references">References</h5>
+
+<p><a href="https://interactivepython.org/courselib/static/pythonds/index.html">Problem Solving with Algorithms and Data Structures</a></p>
+
+<p><a href="http://networkx.readthedocs.io/en/networkx-1.11/index.html">NetworkX Documentation</a></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+</code></pre></div></div>
+
+
+                <hr>
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/12/21/Netflow-flow2vec/" data-toggle="tooltip" data-placement="top" title="Netflow and word2vec -> flow2vec">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/01/16/Algorithms-Toolbox-Week-2/" data-toggle="tooltip" data-placement="top" title="Algorithmic Toolbox - Week 2">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</article>
+
+<hr>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://twitter.com/EdHenry_">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="https://github.com/edhenry">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="mailto:edward.m.henry@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; Ed Henry 2021</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/clean-blog.min.js "></script>
+
+
+    
+
+
+</body>
+
+</html>

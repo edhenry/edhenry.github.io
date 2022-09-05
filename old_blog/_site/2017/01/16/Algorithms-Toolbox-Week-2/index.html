@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A place for me to keep notes about what I know that hopefully someone else finds useful">
+
+    <title>Algorithmic Toolbox - Week 2 - Ed Henry's Blog</title>
+
+    <link rel="canonical" href="http://localhost:4000/2017/01/16/Algorithms-Toolbox-Week-2/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/clean-blog.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Ed Henry&apos;s Blog" />
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ed Henry's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                
+				
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+				
+                
+				
+                <li>
+                    <a href="/contact/">Contact</a>
+                </li>
+				
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header" style="background-image: url('/img/galaxy.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Algorithmic Toolbox - Week 2</h1>
+                    
+                    <span class="meta">Posted by Ed Henry on January 16, 2017</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+				<h3 id="quick-intro">Quick Intro</h3>
+
+<p>As a refresher, I’ve started working through the <a href="https://www.coursera.org/learn/algorithmic-toolbox">Algorithmic Toolbox</a> course offered on <a href="https://www.coursera.org/">Coursera</a>. It’s been a while since I’ve reviewed a lot of the basic algorithms and data structures fundamentals, so I figured I would work through the course to grease the bearings again, so to speak.</p>
+
+<p>That said, this is a notebook that covers some of the concepts and programming assignments in Week 2 of the course. I will try to post most of the stuff I review and examples I work through for anyone who may find it interesting and useful.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">timeit</span>
+
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+</code></pre></div></div>
+
+<h4 id="bigo-notation">BigO Notation</h4>
+
+<p>When working with algorithms, it’s typical to measure their “time” as, not a function of how long it takes an algorithm to run according to a wall clock, but rather as a function of the size of the input of the algorithm. This is called the <strong>rate of growth</strong> of of the running time.</p>
+
+<p>When utilizing BigO notation we can distill the “most important” parts and cast out the less important parts. We can see this by looking at the <code class="language-plaintext highlighter-rouge">ex_run_time</code> function we’ve defined below. This imaginary algorithm runtime, \(6n^{2}+100n+300\), takes as many machine instruction to execute. Again, this is an example.</p>
+
+<p>In the example below, we’ve defined two functions that calculate this imaginary runtime according to a user defined input size. We’re going to use this illustration to show that the upper bound on this execution time for this algorithm is defined by the \(n^2\) portion of the imaginary runtime of \(6n_2 + 100n + 300\).</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">ex_run_time</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="n">rt</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+         <span class="n">rt</span><span class="p">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">coef</span><span class="o">*</span><span class="p">(</span><span class="n">i</span><span class="o">**</span><span class="mi">2</span><span class="p">))))</span>
+    <span class="k">return</span> <span class="n">rt</span>
+
+<span class="k">def</span> <span class="nf">decomp_run_time</span><span class="p">(</span><span class="n">coef_a</span><span class="p">,</span> <span class="n">coef_b</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="n">rt</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">rt</span><span class="p">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="p">((</span><span class="n">coef_a</span><span class="o">*</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="n">coef_b</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">rt</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ex_rt</span> <span class="o">=</span> <span class="n">ex_run_time</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">decomp_rt</span> <span class="o">=</span> <span class="n">decomp_run_time</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">line1_plt</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ex_rt</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'Line 1'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">line2_plt</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">decomp_rt</span><span class="p">,</span> <span class="s">'b'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'Line 2'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">legend</span><span class="p">([</span><span class="s">'100n + 300'</span><span class="p">,</span><span class="s">'6n^2'</span><span class="p">],</span> <span class="n">loc</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/img/output_4_0.png" alt="png" /></p>
+
+<p>Looking at the graph above, we can see that the runtime of the \(6n^2\) portion of the runtime dominates the total runtime of the algorithm, overall. Using this assumption, when working with BigO notation, we can drop the \(100n+300\) portion of the runtime complexity, as we’re working against the squared element of the overall runtime. Looking at the graph, we also see that the runtime complexity for the \(n^2\) term of our algorithm intersects the line for the other terms, as well. But the safe assumption here is that this algorithm’s complexity will be overall dominated by the squared term, in any reasonable size input.</p>
+
+<p>We can even scale the coefficients of the imaginary complexity to prove that this intersection won’t shift much and we’ll still be bounded by the squared term.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">scaled_ex_rt</span> <span class="o">=</span> <span class="n">ex_run_time</span><span class="p">(</span><span class="mf">0.6</span><span class="p">,</span> <span class="mi">2500</span><span class="p">)</span>
+<span class="n">scaled_decomp_rt</span> <span class="o">=</span> <span class="n">decomp_run_time</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">2500</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">_scaled_line1_plt</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">scaled_ex_rt</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'Line 1'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">_scaled_line2_plt</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">scaled_decomp_rt</span><span class="p">,</span> <span class="s">'b'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'Line 2'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">legend</span><span class="p">([</span><span class="s">'1000n + 3000'</span><span class="p">,</span><span class="s">'0.6n^2'</span><span class="p">],</span> <span class="n">loc</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/img/output_7_0.png" alt="png" /></p>
+
+<p>Checking out the graph above, we see that the size of the input was able to be scaled pretty considerably. But we can also see that around the input size of 1650, we still end up losing our to the squared term in the runtime of out algorithm. Using this logic, for general purposes, for any reasonable input we can use define the runtime complexity of this algorithm as \(n^2\).</p>
+
+<h4 id="generator-methods">Generator methods</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">generate_seq</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+    <span class="s">'''
+    Generate a sequence of integers useful in testing the functions below
+    '''</span>
+    
+    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">random_integers</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="n">stop</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
+        
+</code></pre></div></div>
+
+<h4 id="programming-assignments">Programming Assignments</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">calc_fib</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="s">'''
+    Task : Given n, find the last digit of the nth Fibonacci number F_n
+    
+    Input : Single integer n
+    
+    Constraints : 0 \ge n \ge 10**7
+    
+    Output : Last digit of F_n
+    
+    '''</span>
+    <span class="n">int_a</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">int_b</span> <span class="o">=</span> <span class="mi">1</span>
+    
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">n</span>
+    
+    <span class="k">elif</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">45</span><span class="p">:</span>
+        <span class="n">fib_int</span> <span class="o">=</span> <span class="n">calc_fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">calc_fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fib_int</span>
+    
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"%s is out of range. Please try an integer between 0 and 45."</span> <span class="o">%</span> <span class="n">n</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%%</span><span class="n">time</span> 
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">generate_seq</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2000</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">calc_fib</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU times: user 10 ms, sys: 0 ns, total: 10 ms
+Wall time: 1.52 ms
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">get_fibonacci_last_digit</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="s">'''
+    Task : Given n, find the last digit of the nth Fibonacci number F_n
+    
+    Input : Single integer n
+    
+    Constraints : 0 \ge n \ge 10**7
+    
+    Output : Last digit of F_n
+    
+    '''</span>
+    <span class="n">fib_array</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">fib_array</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">fib_array</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">7</span><span class="p">:</span>
+        <span class="n">counter</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">fib_array</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="n">n</span><span class="p">]:</span>
+            <span class="n">fib_array</span><span class="p">[</span><span class="n">counter</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">fib_array</span><span class="p">[</span><span class="n">counter</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">%</span> <span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">fib_array</span><span class="p">[</span><span class="n">counter</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">%</span> <span class="mi">10</span><span class="p">))</span>
+            <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">fib_array</span><span class="p">[</span><span class="n">counter</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">%</span> <span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">fib_array</span><span class="p">[</span><span class="n">counter</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">%</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"%s is out of range. Please try an integer between 0 and 10,000,000."</span> <span class="o">%</span> <span class="n">n</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">time</span>
+<span class="k">print</span><span class="p">(</span><span class="n">get_fibonacci_last_digit</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">get_fibonacci_last_digit</span><span class="p">(</span><span class="mi">331</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">get_fibonacci_last_digit</span><span class="p">(</span><span class="mi">327305</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU times: user 0 ns, sys: 0 ns, total: 0 ns
+Wall time: 18.8 µs
+2
+9
+5
+</code></pre></div></div>
+
+<h4 id="greatest-common-divisor">Greatest common divisor</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">euclidean_gcd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">a</span>
+    <span class="n">a_prime</span> <span class="o">=</span> <span class="n">a</span> <span class="o">%</span> <span class="n">b</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">euclidean_gcd</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">a_prime</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%%</span><span class="n">time</span>
+<span class="k">print</span><span class="p">(</span><span class="n">euclidean_gcd</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="mi">35</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">euclidean_gcd</span><span class="p">(</span><span class="mi">28851538</span><span class="p">,</span> <span class="mi">1183019</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1
+17657
+CPU times: user 10 ms, sys: 0 ns, total: 10 ms
+Wall time: 981 µs
+</code></pre></div></div>
+
+<h4 id="least-common-multiple">Least common multiple</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">lcm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">a</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">a</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="p">))</span> <span class="ow">and</span> <span class="n">b</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">b</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">b</span><span class="p">)</span> <span class="o">//</span> <span class="n">euclidean_gcd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"something is wrong"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">time</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lcm</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lcm</span><span class="p">(</span><span class="mi">28851538</span><span class="p">,</span> <span class="mi">1183019</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CPU times: user 0 ns, sys: 0 ns, total: 0 ns
+Wall time: 15 µs
+24
+1933053046
+</code></pre></div></div>
+
+
+                <hr>
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/01/06/Breadth-First-Search/" data-toggle="tooltip" data-placement="top" title="Breadth First Search in Python">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/06/01/Summer-of-Machine-Learning/" data-toggle="tooltip" data-placement="top" title="Summer of Machine Learning">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</article>
+
+<hr>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://twitter.com/EdHenry_">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="https://github.com/edhenry">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="mailto:edward.m.henry@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; Ed Henry 2021</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/clean-blog.min.js "></script>
+
+
+    
+
+
+</body>
+
+</html>

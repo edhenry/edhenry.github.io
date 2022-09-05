@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A place for me to keep notes about what I know that hopefully someone else finds useful">
+
+    <title>ML in the Wild - Ed Henry's Blog</title>
+
+    <link rel="canonical" href="http://localhost:4000/2019/04/18/ML-in-the-wild/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/clean-blog.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Ed Henry&apos;s Blog" />
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ed Henry's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                
+				
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+				
+                
+				
+                <li>
+                    <a href="/contact/">Contact</a>
+                </li>
+				
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header" style="background-image: url('/img/galaxy.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>ML in the Wild</h1>
+                    
+                    <span class="meta">Posted by Ed Henry on April 18, 2019</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+				<h1 id="machine-learning-in-the-wild">Machine Learning in the Wild</h1>
+
+<p>I won’t be covering anything purely technical in this post, but I wanted to get some thoughts out there on what it takes to bring Machine Learning into production,</p>
+
+<p>“Any sufficiently advanced technology is indistinguishable from magic.” - Arthur C. Clarke</p>
+
+<p>This quote rings true today as much as the day that it was written. Especially when it comes to Machine Learning. I work with customers every day who are curious what this new magic called Machine Learning(ML) is and how they can apply it to a problem they’re facing. There’s no denying that ML is something that we should all be paying attention to but as we start to wade into the waters of ML, and discussing the process of framing the problem, testing our hypotheses, and bringing a system through to production we need to understand that this requires a bit of a shift in our traditional engineering process. In this post we will outline the general process that I’ve followed while helping customers move from idea/MVP to production.</p>
+
+<h2 id="dont-start-with-machine-learning">Don’t start with Machine Learning</h2>
+
+<p>ML in undoubtedly changing the way we approach solving problems in the world today. More importantly, however, is knowing what problem it is that you’re trying to solve. Like many sciences and engineering discplines practitioners are looking to understand a problem domain in an effort to guide decision making processes. It’s this decision making process that is what we think about when approaching a problem. I want to highlight a few key questions one should ask about the problem at hand before rummaging through their toolboxes for an overpowered approach. Some of these key questions are as follows.</p>
+
+<ul>
+  <li>What decision are we trying to make?</li>
+  <li>Is there an existing decision making mechanism in place?</li>
+  <li>Are we trying to replace this decision making mechanism?</li>
+  <li>Who is this decision impacting?</li>
+  <li>What will the potential outcomes of this decision be?</li>
+  <li>What properties of the system am I trying to capture?</li>
+  <li>Do we have domain experts involved?</li>
+  <li>Do we have the <em>right</em> domain experts invoved?</li>
+</ul>
+
+<p>None of the questions I’ve provided have anything to do with Machine Learning directly. Rather, they’re asked to help guide the process of applying ML and measuring it’s utility in a given problem domain. These types of questions will help you scope the problem you’re working on and provide a certain acceptance criteria.</p>
+
+<h2 id="data-and-the-system-generating-it">Data and the system generating it</h2>
+
+<p>Once we have a thorough understanding of the problem that we’re trying to apply ML to, and we understand what decision it is that we’re trying to make / replace, we can start to investigate what data that system generates. Many of the customers I’ve worked with think about this process as <em>just</em> the ML oriented questions around the types of features, what types of random variables they are, what classes we may want to define for a supervised learning problem, etc. We also need to understand questions not directly related to the data generating system, itself. Questions around data collection, storage, access, governance, provenance, etc. Questions like :</p>
+
+<ul>
+  <li>How is the data being collected?</li>
+  <li>What steps are being taken to validate the data collection mechanisms?</li>
+  <li>How reliable are the measurements being collected?</li>
+  <li>Where is the data being persisted?</li>
+  <li>What controls are in place to manage access to this data?</li>
+  <li>How is this data being versioned?</li>
+</ul>
+
+<p>These questions will influence the success of your ML project, overall. Without data, we’re left without the ability to use this powerful new technology.</p>
+
+<h2 id="deliverying-production-grade-software">Deliverying Production Grade Software</h2>
+
+<p>The next step in the adoption of ML is understanding not just what software is, how to write it, and how to use an SCM system to manage releases, but one also needs to understand what running software in production entails. Anyone who has been part of the industry for any length of time in the last 5 to 7 years has heard the term DevOps before. This term is just a blend of the terms Development and Operations and the concept of blending the two words captures the idea of minimizing the distance between the two general concepts. What it means to be a developer on a production level system requires a thorough understanding of not only the code base, but the properties and characteristics of our production grade systems and what the upper and lower bounds are on the performance of our systems.</p>
+
+<p>You may have also heard the term <strong>machine learning engineer</strong> used within industry, as well. This new title and role is a result of the differences, yet seemingly similar, approaches needed to move from experimentation to production in ML systems. Some of the things to think about involve both the data acquisition, and machine learning (training and serving) pipelines.</p>
+
+<ul>
+  <li>What does testing look like for our pipelines, end to end?</li>
+  <li>How do we perform validation of performance of our system (not just the model)?</li>
+  <li>How can we provide tooling to measure for concept drift?</li>
+  <li>How can we qualify acceptable throughput of our system, end to end?</li>
+</ul>
+
+<h2 id="now-for-machine-learning">Now for Machine Learning</h2>
+
+<p>Now that we have a thorough understanding of the problem domain, use case, data generating system, and all of the software required to stand a system up in production we can start to loop back to the opening thoughts of this post. We need to understand what methods we might be able to use to describe the phenomenon that we’re trying to capture. Typically in Machine Learning by describe, we mean capturing the variance of the overall system in a way that we can use to ultimately make decisions.</p>
+
+<p>In order to understand how we can apply ML, in production, we need to understand everything outlined above because it will impact the choices we make from a modeling perspective. Anecdotally we don’t want to make the decision of using a non-parametric model in a given problem domain where the datasets might be growing rapidly. A concrete example of a use case that I’ve run into in this effect has been modeling data networking traffic characteristics. The rate at which data is generated and collected depends on the number of devices sending information over a network. With the types of connectivity we see today this can quickly become a show stopper from moving a model into production, especially if we have to layer feature engineering into the pipeline, on the fly, as well. A non-parametric model will quickly run out of resources in terms of computational and/or time, depending on the problem domain.</p>
+
+<p>Understanding the use case, the decisions we’re trying to make, what mechanisms are in place to collect and persist the data that our system is generating, and the software tooling and ecosystems required to put pipelines into production are imperative to providing a seamless experience of applying Machine Learning in the real world.</p>
+
+<h2 id="end-to-end-throughput">End-to-end Throughput</h2>
+
+<p>Last but not least after all of the steps outlined above are thoroughly understood we can start to provide the engineering guarantees we’re used to in the technology world. Anyone who has heard the term speeds and feeds understand that we’re talking about the end-to-end throughput of an entire tech stack, from start to finish. Once we are able to effectively measure all of the components of our ML system we can then identify bottle necks and work to alleviate them in a measureable and defensible way.</p>
+
+<p>Overall, deploying Machine Learning in production may start out as feeling orthogonal to the traditional software engineering methodologies, but once an organization works through a few proof of concept or minimum viable product efforts, they will then understand what it takes to provide a meaningful end-to-end experience for using this new magic called Machine Learning.</p>
+
+
+
+                <hr>
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/06/08/Machine-Learning-and-Artificial-Intelligence/" data-toggle="tooltip" data-placement="top" title="Machine Learning and Artificial Intelligence">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/12/08/NeurIPS-Notes/" data-toggle="tooltip" data-placement="top" title="Notes from my NeurIPS 2019 Attendance">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</article>
+
+<hr>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://twitter.com/EdHenry_">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="https://github.com/edhenry">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="mailto:edward.m.henry@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; Ed Henry 2021</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/clean-blog.min.js "></script>
+
+
+    
+
+
+</body>
+
+</html>

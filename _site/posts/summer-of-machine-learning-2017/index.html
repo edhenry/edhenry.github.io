@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Ed Henry">
+<meta name="dcterms.date" content="2017-06-01">
+
+<title>edhenry.github.io - Summer of Machine Learning 2017</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">edhenry.github.io</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/edhenry"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/edhenry_"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Summer of Machine Learning 2017</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">machine learning</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Ed Henry </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">June 1, 2017</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="disconnected" class="level1">
+<h1>Disconnected</h1>
+<p>Something has been bothering me over the last couple of years. As I’ve progressed in my career I subsequently feel as though I’ve almost entirely disconnected with what helped me launch this part of the career to begin with. Posting what I learn about online, in an effort to help bolster the amount of useful information that is available in the vast sea of garbage that is the internet.</p>
+<p><a href="https://twitter.com/chrisalbon">Chris Albon</a> recently posted on his <a href="https://chrisalbon.com/blog/summer_of_machine_learning.html">blog</a> about an effort he’s going to make this summer with respect to bettering himself both professionally and personally. This post really hit home for me because it’s something that I feel like I’ve wanted to do for quite some time now. But I always feel as though the stuff I may write about or the experiments that I may run somehow won’t be “up to snuff” with others in the machine learning world because I don’t have the proper pedigree of ivy league computer science education. This summer I am hoping to run these fears down, as I know I’ve produced many good works in my professional role, even though I couldn’t publicize them.</p>
+</section>
+<section id="community" class="level1">
+<h1>Community</h1>
+<p>There has also been quite the backlack on social media lately with respect to the requirement of a mathematical pedigree, see <a href="https://twitter.com/quantombone/status/866002986350149632">here</a>, <a href="https://twitter.com/math_rachel/status/866808228499275776">here</a>, and <a href="http://www.topbots.com/you-dont-need-phd-master-machine-deep-learning-data-science">here</a>, etc., in order to be effective in the understanding and application of machine learning. While I do believe that having a concrete understanding of the mathematics that underly much of the machine learning ideas and processes today, I don’t see it as an ultimately impossible field to get into if you have the drive and willingness to spend time staring at equations in hopes of maybe not understanding them, but rather getting to used to them, to paraphrase von Neumann.</p>
+<p>I’ve also recently enrolled in classes at the local community college in an effort to bolster my understanding of the mathematical landscape that is the underpinnings of the probability, statistics, linear algebra, calculus, etc. that are all required to get used to the tools and methods that are used in machine learning, and more specifically deep learning. I wasn’t able to afford college, and still cannot afford a large university’s tuition, when I was the typical age that most attend, but I’ve been fortunate enough to find myself, now, in a position to fund my own education and I am now doing just that. I used to think of this as a personal flaw, for quite some time, but now I see that it was truly one of the things in my life that helped me develop a certain drive that I believe was required to foster the skills to build a career in technology.</p>
+<p>I have a deep passion for communcation in general, as most of the career has been spent in the realm of information technology infrastructure, specifically in the areas of data networks and distributed systems, and I look to ideas in papers such as <a href="https://papers.nips.cc/paper/6042-learning-to-communicate-with-deep-multi-agent-reinforcement-learning.pdf">Learning to Communicate with Deep Multi-Agent Reinforcement Learning</a> as inspiration for ways that I may be able to apply this research to what I know and love, as well.</p>
+<p>I really just hope to continue fostering and building the communities required to make all of these amazing ideas and technologies flourish.</p>
+</section>
+<section id="summed-up" class="level1">
+<h1>Summed up</h1>
+<p>All of this said, I’m going to follow in Chris’ footsteps and work toward not only bettering myself, but also giving back as much as I can to the rest of the world in the same way that the people whom I’ve learned from, have. Chris set goals in his post, and I think I’ll try to do the same.</p>
+<ul>
+<li>Goals :
+<ul>
+<li>Work my way through, and complete the many false starts I’ve had with Christopher Bishop’s <a href="https://www.amazon.com/Pattern-Recognition-Learning-Information-Statistics/dp/0387310738">Pattern Rognition and Machine Learning</a></li>
+<li>Same goes for the <a href="https://www.amazon.com/Deep-Learning-Adaptive-Computation-Machine/dp/0262035618/ref=pd_lpo_sbs_14_t_0?_encoding=UTF8&amp;psc=1&amp;refRID=KRFJEVVCHZBXCW5QEYTT">Deep Learning</a> book from Goodfellow et. al.</li>
+<li>Contribute as much as I can of my system’s background to the community (I’ll start with the Docker containers I’ve built for reusability and reproducability here <a href="https://hub.docker.com/u/edhenry/">Docker Images</a>)</li>
+<li>I’ve lost 80 lbs since last year through running, but it’s time to switch it up, so I’ll start a Freeletics regimen for supplement while cutting back on running</li>
+</ul></li>
+</ul>
+<p>Chris had more specific goals than I do, but I am intentionally leaving mine less concrete as I want them to be able to change and grow with me as I re-integrate back into the community as a whole, whether it be the machine learning community, or the one that I hold closest today, IT infrastructure, to be as general as possible.</p>
+<p>I hope this post wasn’t received as too “cheesy”, for lack of a better word, but I do feel like I want to start giving back again after a 2+ year haitus.</p>
+<p>I kinda ripped off the formatting of your spreadsheet Chris, I really hope you don’t mind. Thank you for being the inspiration that has finally pushed me start something more meaningful for myself and the community.</p>
+<iframe style="width:100%; height:800px" src="https://docs.google.com/spreadsheets/d/1gbEoi7NP9czCGWbddzN8arYtdqtJZTKx3IsRm7CBkbM/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false">
+</iframe>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,41 @@
+project:
+  type: website
+  output-dir: ./docs
+
+website:
+  title: "edhenry.github.io"
+  page-footer:
+    # left: |
+
+    center:
+      - text: "About"
+        href: about.qmd
+    right:
+      - icon: github
+        href: https://github.com/edhenry
+        aria-label: GitHub
+      - icon: twitter
+        href: https://twitter.com/edhenry_
+  navbar:
+    right:
+      - about.qmd
+      - icon: github
+        href: https://github.com/edhenry
+      - icon: twitter
+        href: https://twitter.com/edhenry_
+format:
+  html:
+    theme:
+      light:
+        - cosmo
+        # - custom.scss
+      dark: [cosmo, theme-dark.css]
+    # # css: styles.css
+    toc: true
+    # code-tools: true
+    highlight-style: a11y-dark
+    # code-block-bg: "#d3d8df"
+    # code-block-border-left: "#041f58"
+    # code-block-border-left-size: "4px"
+    code-overflow: wrap
+    # code-block-bg-alpha: .8

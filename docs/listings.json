@@ -1,0 +1,16 @@
+[
+  {
+    "listing": "/index.html",
+    "items": [
+      "/posts/neurips-2019/index.html",
+      "/posts/machine-learning-and-ai/index.html",
+      "/posts/summer-of-machine-learning-2017/index.html",
+      "/posts/algorithmic-toolbox-week-2/index.html",
+      "/posts/bfs-in-python/index.html",
+      "/posts/hashing-in-python/index.html",
+      "/posts/first-class-functions-in-python/index.html",
+      "/posts/sequential-and-binary-search-in-python/index.html",
+      "/posts/neurips-2016/index.html"
+    ]
+  }
+]

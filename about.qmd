@@ -1,0 +1,18 @@
+---
+title: "About"
+about:
+  template: jolla
+  links:
+    - icon: twitter
+      text: Twitter
+      href: https://twitter.com/edhenry_
+    - icon: linkedin
+      text: LinkedIn
+      href: https://linkedin.com/ed-henry
+    - icon: github
+      text: Github
+      href: https://github.com/edhenry
+
+---
+
+About this blog
