@@ -1,7 +1,7 @@
 ---
 title: "Machine Learning and Artificial Intelligence"
 author: "Ed Henry"
-date: "2019-04-18"
+date: "2018-06-18"
 categories: [machine learning, artificial intelligence]
 bibliography: ./references.bib
 ---

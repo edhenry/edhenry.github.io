@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Ed Henry">
+<meta name="dcterms.date" content="2019-04-18">
+
+<title>edhenry.github.io - Machine Learning in the Wild</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">edhenry.github.io</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/edhenry"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/edhenry_"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div class="quarto-toggle-container">
+                  <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+              </div>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Machine Learning in the Wild</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">machine learning</div>
+                <div class="quarto-category">artificial intelligence</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Ed Henry </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">April 18, 2019</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#dont-start-with-machine-learning" id="toc-dont-start-with-machine-learning" class="nav-link active" data-scroll-target="#dont-start-with-machine-learning">Don’t start with Machine Learning</a></li>
+  <li><a href="#data-and-the-system-generating-it" id="toc-data-and-the-system-generating-it" class="nav-link" data-scroll-target="#data-and-the-system-generating-it">Data and the system generating it</a></li>
+  <li><a href="#deliverying-production-grade-software" id="toc-deliverying-production-grade-software" class="nav-link" data-scroll-target="#deliverying-production-grade-software">Deliverying Production Grade Software</a></li>
+  <li><a href="#now-for-machine-learning" id="toc-now-for-machine-learning" class="nav-link" data-scroll-target="#now-for-machine-learning">Now for Machine Learning</a></li>
+  <li><a href="#end-to-end-throughput" id="toc-end-to-end-throughput" class="nav-link" data-scroll-target="#end-to-end-throughput">End-to-end Throughput</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p>I won’t be covering anything purely technical in this post, but I wanted to get some thoughts out there on what it takes to bring Machine Learning into production,</p>
+<p>“Any sufficiently advanced technology is indistinguishable from magic.” - Arthur C. Clarke</p>
+<p>This quote rings true today as much as the day that it was written. Especially when it comes to Machine Learning. I work with customers every day who are curious what this new magic called Machine Learning(ML) is and how they can apply it to a problem they’re facing. There’s no denying that ML is something that we should all be paying attention to but as we start to wade into the waters of ML, and discussing the process of framing the problem, testing our hypotheses, and bringing a system through to production we need to understand that this requires a bit of a shift in our traditional engineering process. In this post we will outline the general process that I’ve followed while helping customers move from idea/MVP to production.</p>
+<section id="dont-start-with-machine-learning" class="level2">
+<h2 class="anchored" data-anchor-id="dont-start-with-machine-learning">Don’t start with Machine Learning</h2>
+<p>ML in undoubtedly changing the way we approach solving problems in the world today. More importantly, however, is knowing what problem it is that you’re trying to solve. Like many sciences and engineering discplines practitioners are looking to understand a problem domain in an effort to guide decision making processes. It’s this decision making process that is what we think about when approaching a problem. I want to highlight a few key questions one should ask about the problem at hand before rummaging through their toolboxes for an overpowered approach. Some of these key questions are as follows.</p>
+<ul>
+<li>What decision are we trying to make?</li>
+<li>Is there an existing decision making mechanism in place?</li>
+<li>Are we trying to replace this decision making mechanism?</li>
+<li>Who is this decision impacting?</li>
+<li>What will the potential outcomes of this decision be?</li>
+<li>What properties of the system am I trying to capture?</li>
+<li>Do we have domain experts involved?</li>
+<li>Do we have the <em>right</em> domain experts invoved?</li>
+</ul>
+<p>None of the questions I’ve provided have anything to do with Machine Learning directly. Rather, they’re asked to help guide the process of applying ML and measuring it’s utility in a given problem domain. These types of questions will help you scope the problem you’re working on and provide a certain acceptance criteria.</p>
+</section>
+<section id="data-and-the-system-generating-it" class="level2">
+<h2 class="anchored" data-anchor-id="data-and-the-system-generating-it">Data and the system generating it</h2>
+<p>Once we have a thorough understanding of the problem that we’re trying to apply ML to, and we understand what decision it is that we’re trying to make / replace, we can start to investigate what data that system generates. Many of the customers I’ve worked with think about this process as <em>just</em> the ML oriented questions around the types of features, what types of random variables they are, what classes we may want to define for a supervised learning problem, etc. We also need to understand questions not directly related to the data generating system, itself. Questions around data collection, storage, access, governance, provenance, etc. Questions like :</p>
+<ul>
+<li>How is the data being collected?</li>
+<li>What steps are being taken to validate the data collection mechanisms?</li>
+<li>How reliable are the measurements being collected?</li>
+<li>Where is the data being persisted?</li>
+<li>What controls are in place to manage access to this data?</li>
+<li>How is this data being versioned?</li>
+</ul>
+<p>These questions will influence the success of your ML project, overall. Without data, we’re left without the ability to use this powerful new technology.</p>
+</section>
+<section id="deliverying-production-grade-software" class="level2">
+<h2 class="anchored" data-anchor-id="deliverying-production-grade-software">Deliverying Production Grade Software</h2>
+<p>The next step in the adoption of ML is understanding not just what software is, how to write it, and how to use an SCM system to manage releases, but one also needs to understand what running software in production entails. Anyone who has been part of the industry for any length of time in the last 5 to 7 years has heard the term DevOps before. This term is just a blend of the terms Development and Operations and the concept of blending the two words captures the idea of minimizing the distance between the two general concepts. What it means to be a developer on a production level system requires a thorough understanding of not only the code base, but the properties and characteristics of our production grade systems and what the upper and lower bounds are on the performance of our systems.</p>
+<p>You may have also heard the term <strong>machine learning engineer</strong> used within industry, as well. This new title and role is a result of the differences, yet seemingly similar, approaches needed to move from experimentation to production in ML systems. Some of the things to think about involve both the data acquisition, and machine learning (training and serving) pipelines.</p>
+<ul>
+<li>What does testing look like for our pipelines, end to end?</li>
+<li>How do we perform validation of performance of our system (not just the model)?</li>
+<li>How can we provide tooling to measure for concept drift?</li>
+<li>How can we qualify acceptable throughput of our system, end to end?</li>
+</ul>
+</section>
+<section id="now-for-machine-learning" class="level2">
+<h2 class="anchored" data-anchor-id="now-for-machine-learning">Now for Machine Learning</h2>
+<p>Now that we have a thorough understanding of the problem domain, use case, data generating system, and all of the software required to stand a system up in production we can start to loop back to the opening thoughts of this post. We need to understand what methods we might be able to use to describe the phenomenon that we’re trying to capture. Typically in Machine Learning by describe, we mean capturing the variance of the overall system in a way that we can use to ultimately make decisions.</p>
+<p>In order to understand how we can apply ML, in production, we need to understand everything outlined above because it will impact the choices we make from a modeling perspective. Anecdotally we don’t want to make the decision of using a non-parametric model in a given problem domain where the datasets might be growing rapidly. A concrete example of a use case that I’ve run into in this effect has been modeling data networking traffic characteristics. The rate at which data is generated and collected depends on the number of devices sending information over a network. With the types of connectivity we see today this can quickly become a show stopper from moving a model into production, especially if we have to layer feature engineering into the pipeline, on the fly, as well. A non-parametric model will quickly run out of resources in terms of computational and/or time, depending on the problem domain.</p>
+<p>Understanding the use case, the decisions we’re trying to make, what mechanisms are in place to collect and persist the data that our system is generating, and the software tooling and ecosystems required to put pipelines into production are imperative to providing a seamless experience of applying Machine Learning in the real world.</p>
+</section>
+<section id="end-to-end-throughput" class="level2">
+<h2 class="anchored" data-anchor-id="end-to-end-throughput">End-to-end Throughput</h2>
+<p>Last but not least after all of the steps outlined above are thoroughly understood we can start to provide the engineering guarantees we’re used to in the technology world. Anyone who has heard the term speeds and feeds understand that we’re talking about the end-to-end throughput of an entire tech stack, from start to finish. Once we are able to effectively measure all of the components of our ML system we can then identify bottle necks and work to alleviate them in a measureable and defensible way.</p>
+<p>Overall, deploying Machine Learning in production may start out as feeling orthogonal to the traditional software engineering methodologies, but once an organization works through a few proof of concept or minimum viable product efforts, they will then understand what it takes to provide a meaningful end-to-end experience for using this new magic called Machine Learning.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } 
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">
+        <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+</ul>
+      </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/edhenry">
+      <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/edhenry_">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>
