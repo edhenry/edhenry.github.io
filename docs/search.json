@@ -544,5 +544,40 @@
     "title": "Ed Henry",
     "section": "Quotes",
     "text": "Quotes\n\nAny sufficiently advanced technology is indistinguishable from magic. - Arthur C. Clarke\n\n\nVery few things are true without any assumptions. - Yoshua Bengio"
+  },
+  {
+    "objectID": "notes/index.html",
+    "href": "notes/index.html",
+    "title": "Notes",
+    "section": "",
+    "text": "No matching items"
+  },
+  {
+    "objectID": "notes.html",
+    "href": "notes.html",
+    "title": "Notes",
+    "section": "",
+    "text": "Some notes on building Retrieval Augmented Generation Systems\n\n\n\n\n\n\n\ndeep learning\n\n\ntransformers\n\n\nRAG\n\n\nretrieval\n\n\ngenerative modeling\n\n\n\n\n\n\n\n\n\n\n\nJan 4, 2024\n\n\nEd Henry\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "notes/retrieval-augmented-generation/index.html",
+    "href": "notes/retrieval-augmented-generation/index.html",
+    "title": "Some notes on building Retrieval Augmented Generation Systems",
+    "section": "",
+    "text": "I’m not sure where or how to start the process of brain dumping everything I’ve learned over the last couple of months as I’ve designed, built, and deployed various Retrieval Augmented Generation systems."
+  },
+  {
+    "objectID": "notes/retrieval-augmented-generation/index.html#what-is-a-rag",
+    "href": "notes/retrieval-augmented-generation/index.html#what-is-a-rag",
+    "title": "Some notes on building Retrieval Augmented Generation Systems",
+    "section": "What is a RAG",
+    "text": "What is a RAG"
+  },
+  {
+    "objectID": "notes/retrieval-augmented-generation/index.html#what-is-retrieval-augmented-generation",
+    "href": "notes/retrieval-augmented-generation/index.html#what-is-retrieval-augmented-generation",
+    "title": "Some notes on building Retrieval Augmented Generation Systems",
+    "section": "What is Retrieval Augmented Generation?",
+    "text": "What is Retrieval Augmented Generation?"
   }
 ]

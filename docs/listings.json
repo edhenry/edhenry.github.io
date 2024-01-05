@@ -26,5 +26,15 @@
   {
     "listing": "/talks/talks.html",
     "items": []
+  },
+  {
+    "listing": "/notes/index.html",
+    "items": []
+  },
+  {
+    "listing": "/notes.html",
+    "items": [
+      "/notes/retrieval-augmented-generation/index.html"
+    ]
   }
 ]

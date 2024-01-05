@@ -1,0 +1,11 @@
+---
+title: "Some notes on building Retrieval Augmented Generation Systems"
+author: "Ed Henry"
+date: "2024-01-04"
+categories: [deep learning, transformers, RAG, retrieval, generative modeling]
+---
+
+I'm not sure where or how to start the process of brain dumping everything I've learned over the last couple of months as I've designed, built, and deployed various [Retrieval Augmented Generation](https://arxiv.org/abs/2312.10997) systems.
+
+## What is Retrieval Augmented Generation?
+
