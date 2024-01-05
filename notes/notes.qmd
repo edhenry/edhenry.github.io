@@ -1,5 +1,5 @@
 ---
-title: "Ed's Notes"
+title: "Notes"
 listing:
   contents: notes
   sort: "date desc"

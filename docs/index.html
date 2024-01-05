@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Ed’s Blog</title>
+<title>Ed Henry</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,12 +30,9 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
@@ -63,38 +60,7 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -111,7 +77,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" rel="" target="" aria-current="page">
+    <a class="nav-link" href="./about.qmd" rel="" target="">
  <span class="menu-text">Me</span></a>
   </li>  
   <li class="nav-item">
@@ -128,10 +94,8 @@ ul.task-list li input[type="checkbox"] {
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="./about.html" rel="" target="">
- <span class="menu-text">Ed Henry</span></a>
-  </li>  
+  <li class="dropdown-header">
+ <span class="menu-text">about.qmd</span></li>
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/edhenry" rel="" target=""><i class="bi bi-github" role="img">
 </i> 
@@ -151,496 +115,74 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page-left">
-      <h1 class="title">Ed’s Blog</h1>
-                      </div>
-  </div>
-    
-  
-  <div class="quarto-title-meta">
-
-      
-    
-      
-    </div>
-    
-  
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(11)</span></div><div class="category" data-category="ai">ai <span class="quarto-category-count">(2)</span></div><div class="category" data-category="algorithms">algorithms <span class="quarto-category-count">(3)</span></div><div class="category" data-category="artificial intelligence">artificial intelligence <span class="quarto-category-count">(3)</span></div><div class="category" data-category="conferences">conferences <span class="quarto-category-count">(2)</span></div><div class="category" data-category="data structures">data structures <span class="quarto-category-count">(1)</span></div><div class="category" data-category="embeddings">embeddings <span class="quarto-category-count">(1)</span></div><div class="category" data-category="machine learning">machine learning <span class="quarto-category-count">(6)</span></div><div class="category" data-category="netflow">netflow <span class="quarto-category-count">(1)</span></div><div class="category" data-category="networking">networking <span class="quarto-category-count">(1)</span></div><div class="category" data-category="neurips">neurips <span class="quarto-category-count">(2)</span></div><div class="category" data-category="object oriented">object oriented <span class="quarto-category-count">(2)</span></div><div class="category" data-category="programming">programming <span class="quarto-category-count">(3)</span></div><div class="category" data-category="programming search">programming search <span class="quarto-category-count">(1)</span></div><div class="category" data-category="python">python <span class="quarto-category-count">(5)</span></div></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+  <ul>
+  <li><a href="#research-interests" id="toc-research-interests" class="nav-link active" data-scroll-target="#research-interests">Research Interests</a></li>
+  <li><a href="#quotes" id="toc-quotes" class="nav-link" data-scroll-target="#quotes">Quotes</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+<div class="quarto-about-solana column-body">
+  <div class="about-entity">
+    <div class="entity-contents">
+      <header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Ed Henry</h1>
+</div>
+<div class="quarto-title-meta">
+  </div>
+</header> <div class="about-links">
+  <a href="https://twitter.com/edhenry_" class="about-link" rel="" target="">
+    <i class="bi bi-twitter"></i>
+     <span class="about-link-text">Twitter</span>
+  </a>
+  <a href="https://linkedin.com/ed-henry" class="about-link" rel="" target="">
+    <i class="bi bi-linkedin"></i>
+     <span class="about-link-text">LinkedIn</span>
+  </a>
+  <a href="https://github.com/edhenry" class="about-link" rel="" target="">
+    <i class="bi bi-github"></i>
+     <span class="about-link-text">Github</span>
+  </a>
+</div>
+      <div class="about-contents"><main class="content" id="quarto-document-content">
+
+<p>Ed Henry currently a Distinguished Scientist at <a href="https://www.dell.com">Dell Technologies</a> working on building AI products.</p>
+<section id="research-interests" class="level2">
+<h2 data-anchor-id="research-interests">Research Interests</h2>
+<ul>
+<li>Natural Language Processing</li>
+<li>Novelty Detection</li>
+<li>Causality</li>
+<li>Deep Learning</li>
+<li>Distributed Systems</li>
+<li>Networks</li>
+</ul>
+</section>
+<section id="quotes" class="level2">
+<h2 data-anchor-id="quotes">Quotes</h2>
+<blockquote class="blockquote">
+<p>Any sufficiently advanced technology is indistinguishable from magic. - Arthur C. Clarke</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Very few things are true without any assumptions. - Yoshua Bengio</p>
+</blockquote>
 
 
-
-
-
-
-
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="conferences,neurips,machine learning,ai" data-listing-date-sort="1575763200000" data-listing-file-modified-sort="1704350147602" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="99">
-<div class="thumbnail">
-<p><a href="./posts/neurips-2019/index.html"> <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div> </a></p>
-</div>
-<div class="body">
-<a href="./posts/neurips-2019/index.html">
-<h3 class="no-anchor listing-title">
-Notes from NeurIPS 2019
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('conferences'); return false;">
-conferences
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('neurips'); return false;">
-neurips
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('machine learning'); return false;">
-machine learning
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('ai'); return false;">
-ai
-</div>
-</div>
-<a href="./posts/neurips-2019/index.html">
-<div class="listing-description">
-<strong><em>DISCLAIMER : THESE ARE RUNNING NOTES FROM MY CONFERENCE ATTENDANCE, I MAY OR MAY NOT COME BACK TO UPDATE THESE NOTES PLEASE USE AT YOUR OWN RISK</em></strong>
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/neurips-2019/index.html">
-<div class="listing-date">
-Dec 8, 2019
-</div>
-<div class="listing-author">
-Ed Henry
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="machine learning,artificial intelligence" data-listing-date-sort="1555545600000" data-listing-file-modified-sort="1704350147602" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7">
-<div class="thumbnail">
-<p><a href="./posts/machine-learning-in-the-wild/index.html"> <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div> </a></p>
-</div>
-<div class="body">
-<a href="./posts/machine-learning-in-the-wild/index.html">
-<h3 class="no-anchor listing-title">
-Machine Learning in the Wild
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('machine learning'); return false;">
-machine learning
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('artificial intelligence'); return false;">
-artificial intelligence
-</div>
-</div>
-<a href="./posts/machine-learning-in-the-wild/index.html">
-<div class="listing-description">
-I won’t be covering anything purely technical in this post, but I wanted to get some thoughts out there on what it takes to bring Machine Learning into production,
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/machine-learning-in-the-wild/index.html">
-<div class="listing-date">
-Apr 18, 2019
-</div>
-<div class="listing-author">
-Ed Henry
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="machine learning,artificial intelligence" data-listing-date-sort="1529280000000" data-listing-file-modified-sort="1704350147602" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12">
-<div class="thumbnail">
-<p><a href="./posts/machine-learning-and-ai/index.html"> <p class="card-img-top"><img src="posts/machine-learning-and-ai/images/510px-Von_Neumann_Architecture.svg.png"  class="thumbnail-image card-img"/></p> </a></p>
-</div>
-<div class="body">
-<a href="./posts/machine-learning-and-ai/index.html">
-<h3 class="no-anchor listing-title">
-Machine Learning and Artificial Intelligence
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('machine learning'); return false;">
-machine learning
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('artificial intelligence'); return false;">
-artificial intelligence
-</div>
-</div>
-<a href="./posts/machine-learning-and-ai/index.html">
-<div class="listing-description">
-There is a seemingly common thread right now in the tech industry around the…
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/machine-learning-and-ai/index.html">
-<div class="listing-date">
-Jun 18, 2018
-</div>
-<div class="listing-author">
-Ed Henry
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-categories="machine learning" data-listing-date-sort="1496275200000" data-listing-file-modified-sort="1704350147602" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5">
-<div class="thumbnail">
-<p><a href="./posts/summer-of-machine-learning-2017/index.html"> <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div> </a></p>
-</div>
-<div class="body">
-<a href="./posts/summer-of-machine-learning-2017/index.html">
-<h3 class="no-anchor listing-title">
-Summer of Machine Learning 2017
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('machine learning'); return false;">
-machine learning
-</div>
-</div>
-<a href="./posts/summer-of-machine-learning-2017/index.html">
-<div class="listing-description">
-Something has been bothering me over the last couple of years. As I’ve progressed in my career I subsequently feel as though I’ve almost entirely disconnected with what…
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/summer-of-machine-learning-2017/index.html">
-<div class="listing-date">
-Jun 1, 2017
-</div>
-<div class="listing-author">
-Ed Henry
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="4" data-categories="python,programming,algorithms" data-listing-date-sort="1484524800000" data-listing-file-modified-sort="1704350147598" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
-<div class="thumbnail">
-<p><a href="./posts/algorithmic-toolbox-week-2/index.html"> <p class="card-img-top"><img src="posts/algorithmic-toolbox-week-2/images/output_4_0.png"  class="thumbnail-image card-img"/></p> </a></p>
-</div>
-<div class="body">
-<a href="./posts/algorithmic-toolbox-week-2/index.html">
-<h3 class="no-anchor listing-title">
-Algorithmic Toolbox - Week 2
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('python'); return false;">
-python
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('programming'); return false;">
-programming
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('algorithms'); return false;">
-algorithms
-</div>
-</div>
-<a href="./posts/algorithmic-toolbox-week-2/index.html">
-<div class="listing-description">
-As a refresher, I’ve started working through the Algorithmic Toolbox course offered on Coursera. It’s been a while since I’ve reviewed a lot of the basic algorithms and data structures fundamentals, so I…
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/algorithmic-toolbox-week-2/index.html">
-<div class="listing-date">
-Jan 16, 2017
-</div>
-<div class="listing-author">
-Ed Henry
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="5" data-categories="python,programming search,algorithms" data-listing-date-sort="1483660800000" data-listing-file-modified-sort="1704350147602" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10">
-<div class="thumbnail">
-<p><a href="./posts/bfs-in-python/index.html"> <p class="card-img-top"><img src="posts/bfs-in-python/images/output_10_1.png"  class="thumbnail-image card-img"/></p> </a></p>
-</div>
-<div class="body">
-<a href="./posts/bfs-in-python/index.html">
-<h3 class="no-anchor listing-title">
-Breadth First Search in Python
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('python'); return false;">
-python
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('programming search'); return false;">
-programming search
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('algorithms'); return false;">
-algorithms
-</div>
-</div>
-<a href="./posts/bfs-in-python/index.html">
-<div class="listing-description">
-In this notebook / blog post we will explore breadth first search, which is an algorithm for searching a given graph for the lowest cost path to a goal state <span class="math inline">\(G\)</span>.
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/bfs-in-python/index.html">
-<div class="listing-date">
-Jan 6, 2017
-</div>
-<div class="listing-author">
-Ed Henry
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="6" data-categories="python,programming,object oriented" data-listing-date-sort="1482364800000" data-listing-file-modified-sort="1704350147602" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16">
-<div class="thumbnail">
-<p><a href="./posts/hashing-in-python/index.html"> <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div> </a></p>
-</div>
-<div class="body">
-<a href="./posts/hashing-in-python/index.html">
-<h3 class="no-anchor listing-title">
-Hashing in Python
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('python'); return false;">
-python
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('programming'); return false;">
-programming
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('object oriented'); return false;">
-object oriented
-</div>
-</div>
-<a href="./posts/hashing-in-python/index.html">
-<div class="listing-description">
-Hashing can be useful in speeding up the search process for a specific item…<span class="math inline"></span><span class="math inline"></span>
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/hashing-in-python/index.html">
-<div class="listing-date">
-Dec 22, 2016
-</div>
-<div class="listing-author">
-Ed Henry
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="7" data-categories="python,programming,object oriented" data-listing-date-sort="1482278400000" data-listing-file-modified-sort="1704350147602" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
-<div class="thumbnail">
-<p><a href="./posts/first-class-functions-in-python/index.html"> <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div> </a></p>
-</div>
-<div class="body">
-<a href="./posts/first-class-functions-in-python/index.html">
-<h3 class="no-anchor listing-title">
-First Class Functions in Python
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('python'); return false;">
-python
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('programming'); return false;">
-programming
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('object oriented'); return false;">
-object oriented
-</div>
-</div>
-<a href="./posts/first-class-functions-in-python/index.html">
-<div class="listing-description">
-Typically first class functions are defined as a programming entity that can be :
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/first-class-functions-in-python/index.html">
-<div class="listing-date">
-Dec 21, 2016
-</div>
-<div class="listing-author">
-Ed Henry
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="8" data-categories="machine learning,artificial intelligence,networking,netflow,embeddings" data-listing-date-sort="1482278400000" data-listing-file-modified-sort="1704350147602" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="27">
-<div class="thumbnail">
-<p><a href="./posts/flow2vec/index.html"> <p class="card-img-top"><img src="posts/flow2vec/images/flow_window_5.jpg"  class="thumbnail-image card-img"/></p> </a></p>
-</div>
-<div class="body">
-<a href="./posts/flow2vec/index.html">
-<h3 class="no-anchor listing-title">
-NetFlow and word2vec -&gt; flow2vec
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('machine learning'); return false;">
-machine learning
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('artificial intelligence'); return false;">
-artificial intelligence
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('networking'); return false;">
-networking
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('netflow'); return false;">
-netflow
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('embeddings'); return false;">
-embeddings
-</div>
-</div>
-<a href="./posts/flow2vec/index.html">
-<div class="listing-description">
-Please note that as of 09/2022 I am in the process of converting this post into a reproducible notebook. Please check back soon!
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/flow2vec/index.html">
-<div class="listing-date">
-Dec 21, 2016
-</div>
-<div class="listing-author">
-Ed Henry
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="9" data-categories="data structures,algorithms,python" data-listing-date-sort="1481500800000" data-listing-file-modified-sort="1704350147602" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9">
-<div class="thumbnail">
-<p><a href="./posts/sequential-and-binary-search-in-python/index.html"> <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div> </a></p>
-</div>
-<div class="body">
-<a href="./posts/sequential-and-binary-search-in-python/index.html">
-<h3 class="no-anchor listing-title">
-Sequential and Binary Search in Python
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('data structures'); return false;">
-data structures
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('algorithms'); return false;">
-algorithms
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('python'); return false;">
-python
-</div>
-</div>
-<a href="./posts/sequential-and-binary-search-in-python/index.html">
-<div class="listing-description">
-This notebook will include…
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/sequential-and-binary-search-in-python/index.html">
-<div class="listing-date">
-Dec 12, 2016
-</div>
-<div class="listing-author">
-Ed Henry
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="10" data-categories="conferences,neurips,machine learning,ai" data-listing-date-sort="1481500800000" data-listing-file-modified-sort="1704350147602" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
-<div class="thumbnail">
-<p><a href="./posts/neurips-2016/index.html"> <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div> </a></p>
-</div>
-<div class="body">
-<a href="./posts/neurips-2016/index.html">
-<h3 class="no-anchor listing-title">
-NeurIPS 2016
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('conferences'); return false;">
-conferences
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('neurips'); return false;">
-neurips
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('machine learning'); return false;">
-machine learning
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('ai'); return false;">
-ai
-</div>
-</div>
-<a href="./posts/neurips-2016/index.html">
-<div class="listing-description">
-This year’s NIPS conference had record attendance at over 6000 people! As opposed to when I attended last year in Montreal, this was an, almost, two fold…
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/neurips-2016/index.html">
-<div class="listing-date">
-Dec 12, 2016
-</div>
-<div class="listing-author">
-Ed Henry
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div></main> <!-- /main -->
+</section>
+</main></div>
+    </div>
+    <img src="profile.jpg" class="about-image
+  rounded " style="width: 15em;">
+  </div>
+</div>
+ <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -776,13 +318,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   } else {
     toggleColorMode(false);
   }
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
   const isCodeAnnotation = (el) => {
     for (const clz of el.classList) {
       if (clz.startsWith('code-annotation-')) {                     
@@ -998,7 +533,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <div class="nav-footer-center">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
-    <a class="nav-link" href="./about.html">About</a>
+    <a class="nav-link" href="./about.qmd">About</a>
   </li>  
 </ul>
     </div>

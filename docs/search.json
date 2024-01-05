@@ -37,9 +37,9 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Ed’s Blog",
+    "title": "Ed Henry",
     "section": "",
-    "text": "Notes from NeurIPS 2019\n\n\n\n\n\n\n\nconferences\n\n\nneurips\n\n\nmachine learning\n\n\nai\n\n\n\n\n\n\n\n\n\n\n\nDec 8, 2019\n\n\nEd Henry\n\n\n\n\n\n\n  \n\n\n\n\nMachine Learning in the Wild\n\n\n\n\n\n\n\nmachine learning\n\n\nartificial intelligence\n\n\n\n\n\n\n\n\n\n\n\nApr 18, 2019\n\n\nEd Henry\n\n\n\n\n\n\n  \n\n\n\n\nMachine Learning and Artificial Intelligence\n\n\n\n\n\n\n\nmachine learning\n\n\nartificial intelligence\n\n\n\n\n\n\n\n\n\n\n\nJun 18, 2018\n\n\nEd Henry\n\n\n\n\n\n\n  \n\n\n\n\nSummer of Machine Learning 2017\n\n\n\n\n\n\n\nmachine learning\n\n\n\n\n\n\n\n\n\n\n\nJun 1, 2017\n\n\nEd Henry\n\n\n\n\n\n\n  \n\n\n\n\nAlgorithmic Toolbox - Week 2\n\n\n\n\n\n\n\npython\n\n\nprogramming\n\n\nalgorithms\n\n\n\n\n\n\n\n\n\n\n\nJan 16, 2017\n\n\nEd Henry\n\n\n\n\n\n\n  \n\n\n\n\nBreadth First Search in Python\n\n\n\n\n\n\n\npython\n\n\nprogramming search\n\n\nalgorithms\n\n\n\n\n\n\n\n\n\n\n\nJan 6, 2017\n\n\nEd Henry\n\n\n\n\n\n\n  \n\n\n\n\nHashing in Python\n\n\n\n\n\n\n\npython\n\n\nprogramming\n\n\nobject oriented\n\n\n\n\n\n\n\n\n\n\n\nDec 22, 2016\n\n\nEd Henry\n\n\n\n\n\n\n  \n\n\n\n\nFirst Class Functions in Python\n\n\n\n\n\n\n\npython\n\n\nprogramming\n\n\nobject oriented\n\n\n\n\n\n\n\n\n\n\n\nDec 21, 2016\n\n\nEd Henry\n\n\n\n\n\n\n  \n\n\n\n\nNetFlow and word2vec -&gt; flow2vec\n\n\n\n\n\n\n\nmachine learning\n\n\nartificial intelligence\n\n\nnetworking\n\n\nnetflow\n\n\nembeddings\n\n\n\n\n\n\n\n\n\n\n\nDec 21, 2016\n\n\nEd Henry\n\n\n\n\n\n\n  \n\n\n\n\nSequential and Binary Search in Python\n\n\n\n\n\n\n\ndata structures\n\n\nalgorithms\n\n\npython\n\n\n\n\n\n\n\n\n\n\n\nDec 12, 2016\n\n\nEd Henry\n\n\n\n\n\n\n  \n\n\n\n\nNeurIPS 2016\n\n\n\n\n\n\n\nconferences\n\n\nneurips\n\n\nmachine learning\n\n\nai\n\n\n\n\n\n\n\n\n\n\n\nDec 12, 2016\n\n\nEd Henry\n\n\n\n\n\n\nNo matching items"
+    "text": "Ed Henry currently a Distinguished Scientist at Dell Technologies working on building AI products."
   },
   {
     "objectID": "software.html",
@@ -485,7 +485,7 @@
   {
     "objectID": "notes/notes.html",
     "href": "notes/notes.html",
-    "title": "Ed’s Notes",
+    "title": "Notes",
     "section": "",
     "text": "No matching items"
   },
@@ -502,5 +502,47 @@
     "title": "Talks",
     "section": "",
     "text": "No matching items"
+  },
+  {
+    "objectID": "index.html#research-interests",
+    "href": "index.html#research-interests",
+    "title": "Ed Henry",
+    "section": "Research Interests",
+    "text": "Research Interests\n\nNatural Language Processing\nNovelty Detection\nCausality\nDeep Learning\nDistributed Systems\nNetworks"
+  },
+  {
+    "objectID": "index.html#experience",
+    "href": "index.html#experience",
+    "title": "Ed Henry",
+    "section": "Experience",
+    "text": "Experience"
+  },
+  {
+    "objectID": "index.html#teaching",
+    "href": "index.html#teaching",
+    "title": "Ed Henry",
+    "section": "Teaching",
+    "text": "Teaching"
+  },
+  {
+    "objectID": "index.html#conference-talks",
+    "href": "index.html#conference-talks",
+    "title": "Ed Henry",
+    "section": "Conference Talks",
+    "text": "Conference Talks"
+  },
+  {
+    "objectID": "index.html#patents",
+    "href": "index.html#patents",
+    "title": "Ed Henry",
+    "section": "Patents",
+    "text": "Patents"
+  },
+  {
+    "objectID": "index.html#quotes",
+    "href": "index.html#quotes",
+    "title": "Ed Henry",
+    "section": "Quotes",
+    "text": "Quotes\n\nAny sufficiently advanced technology is indistinguishable from magic. - Arthur C. Clarke\n\n\nVery few things are true without any assumptions. - Yoshua Bengio"
   }
 ]

@@ -1,14 +1,36 @@
 ---
-title: "Ed's Blog"
-listing:
-  contents: posts
-  sort: "date desc"
-  type: default
-  categories: true
-  sort-ui: false
-  filter-ui: false
-page-layout: full
-title-block-banner: true
+title: "Ed Henry"
+image: profile.jpg
+about:
+  template: solana
+  links:
+    - icon: twitter
+      text: Twitter
+      href: https://twitter.com/edhenry_
+    - icon: linkedin
+      text: LinkedIn
+      href: https://linkedin.com/ed-henry
+    - icon: github
+      text: Github
+      href: https://github.com/edhenry
+
 ---
 
+Ed Henry currently a Distinguished Scientist at [Dell Technologies](https://www.dell.com) working on building AI products.
 
+## Research Interests
+
+- Natural Language Processing
+- Novelty Detection
+- Causality
+- Deep Learning
+- Distributed Systems
+- Networks
+
+## Quotes
+
+> Any sufficiently advanced technology is indistinguishable from magic.
+>                                                    - Arthur C. Clarke
+
+> Very few things are true without any assumptions.
+>                                   - Yoshua Bengio

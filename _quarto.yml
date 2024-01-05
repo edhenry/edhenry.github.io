@@ -14,7 +14,7 @@ website:
     collapse-below: lg
     left:
       - text: "Me"
-        href: index.qmd
+        href: about.qmd
       - text: "Projects"
         href: projects/projects.qmd
       - text: "Talks"
