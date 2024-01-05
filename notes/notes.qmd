@@ -1,0 +1,12 @@
+---
+title: "Ed's Notes"
+listing:
+  contents: notes
+  sort: "date desc"
+  type: default
+  categories: true
+  sort-ui: false
+  filter-ui: false
+page-layout: full
+title-block-banner: true
+---

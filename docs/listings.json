@@ -9,10 +9,22 @@
       "/posts/algorithmic-toolbox-week-2/index.html",
       "/posts/bfs-in-python/index.html",
       "/posts/hashing-in-python/index.html",
-      "/posts/flow2vec/index.html",
       "/posts/first-class-functions-in-python/index.html",
+      "/posts/flow2vec/index.html",
       "/posts/sequential-and-binary-search-in-python/index.html",
       "/posts/neurips-2016/index.html"
     ]
+  },
+  {
+    "listing": "/notes/notes.html",
+    "items": []
+  },
+  {
+    "listing": "/projects/projects.html",
+    "items": []
+  },
+  {
+    "listing": "/talks/talks.html",
+    "items": []
   }
 ]

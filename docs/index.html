@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.0.37">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -11,10 +11,15 @@
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
 </style>
 
 
@@ -54,7 +59,8 @@ ul.task-list{list-style: none;}
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 <script>
@@ -87,6 +93,7 @@ ul.task-list{list-style: none;}
   })
   </script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
@@ -97,40 +104,48 @@ ul.task-list{list-style: none;}
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html">About</a>
+    <a class="nav-link active" href="./index.html" rel="" target="" aria-current="page">
+ <span class="menu-text">Me</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./software.html">Software</a>
+    <a class="nav-link" href="./projects/projects.html" rel="" target="">
+ <span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page">Blog</a>
+    <a class="nav-link" href="./talks/talks.html" rel="" target="">
+ <span class="menu-text">Talks</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./notes/notes.html" rel="" target="">
+ <span class="menu-text">Notes</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html">Ed Henry</a>
+    <a class="nav-link" href="./about.html" rel="" target="">
+ <span class="menu-text">Ed Henry</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/edhenry"><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/edhenry" rel="" target=""><i class="bi bi-github" role="img">
 </i> 
- </a>
+ <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/edhenry_"><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com/edhenry_" rel="" target=""><i class="bi bi-twitter" role="img">
 </i> 
- </a>
+ <span class="menu-text"></span></a>
   </li>  
 </ul>
-              <div class="quarto-toggle-container">
-                  <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-              </div>
-              <div id="quarto-search" class="" title="Search"></div>
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
@@ -147,6 +162,7 @@ ul.task-list{list-style: none;}
   <div class="quarto-title-meta">
 
       
+    
       
     </div>
     
@@ -169,13 +185,9 @@ ul.task-list{list-style: none;}
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="conferences,neurips,machine learning,ai" data-listing-date-sort="1575792000000" data-listing-file-modified-sort="1662358137942" data-listing-reading-time-sort="98.03">
+<div class="quarto-post image-right" data-index="0" data-categories="conferences,neurips,machine learning,ai" data-listing-date-sort="1575763200000" data-listing-file-modified-sort="1704350147602" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="99">
 <div class="thumbnail">
-<a href="./posts/neurips-2019/index.html">
-<div class="thumbnail-image">
-
-</div>
-</a><p><a href="./posts/neurips-2019/index.html"></a></p>
+<p><a href="./posts/neurips-2019/index.html"> <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div> </a></p>
 </div>
 <div class="body">
 <a href="./posts/neurips-2019/index.html">
@@ -217,13 +229,9 @@ Ed Henry
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="machine learning,artificial intelligence" data-listing-date-sort="1555570800000" data-listing-file-modified-sort="1662396379416" data-listing-reading-time-sort="6.28">
+<div class="quarto-post image-right" data-index="1" data-categories="machine learning,artificial intelligence" data-listing-date-sort="1555545600000" data-listing-file-modified-sort="1704350147602" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7">
 <div class="thumbnail">
-<a href="./posts/machine-learning-in-the-wild/index.html">
-<div class="thumbnail-image">
-
-</div>
-</a><p><a href="./posts/machine-learning-in-the-wild/index.html"></a></p>
+<p><a href="./posts/machine-learning-in-the-wild/index.html"> <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div> </a></p>
 </div>
 <div class="body">
 <a href="./posts/machine-learning-in-the-wild/index.html">
@@ -259,9 +267,9 @@ Ed Henry
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="machine learning,artificial intelligence" data-listing-date-sort="1529305200000" data-listing-file-modified-sort="1662396369493" data-listing-reading-time-sort="11.035">
+<div class="quarto-post image-right" data-index="2" data-categories="machine learning,artificial intelligence" data-listing-date-sort="1529280000000" data-listing-file-modified-sort="1704350147602" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12">
 <div class="thumbnail">
-<p><a href="./posts/machine-learning-and-ai/index.html"> <img src="./posts/machine-learning-and-ai/images/510px-Von_Neumann_Architecture.svg.png" class="thumnail-image"> </a></p>
+<p><a href="./posts/machine-learning-and-ai/index.html"> <p class="card-img-top"><img src="posts/machine-learning-and-ai/images/510px-Von_Neumann_Architecture.svg.png"  class="thumbnail-image card-img"/></p> </a></p>
 </div>
 <div class="body">
 <a href="./posts/machine-learning-and-ai/index.html">
@@ -282,7 +290,7 @@ artificial intelligence
 </div>
 <a href="./posts/machine-learning-and-ai/index.html">
 <div class="listing-description">
-There is a seemingly common thread right now in the tech industry around the confluence of terminology that can be used when addressing the broader practice of studying and applying machine learning to interesting problems. For some value of interesting.
+There is a seemingly common thread right now in the tech industry around the…
 </div>
 </a>
 </div>
@@ -297,13 +305,9 @@ Ed Henry
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-categories="machine learning" data-listing-date-sort="1496300400000" data-listing-file-modified-sort="1662357300395" data-listing-reading-time-sort="4.195">
+<div class="quarto-post image-right" data-index="3" data-categories="machine learning" data-listing-date-sort="1496275200000" data-listing-file-modified-sort="1704350147602" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5">
 <div class="thumbnail">
-<a href="./posts/summer-of-machine-learning-2017/index.html">
-<div class="thumbnail-image">
-
-</div>
-</a><p><a href="./posts/summer-of-machine-learning-2017/index.html"></a></p>
+<p><a href="./posts/summer-of-machine-learning-2017/index.html"> <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div> </a></p>
 </div>
 <div class="body">
 <a href="./posts/summer-of-machine-learning-2017/index.html">
@@ -321,7 +325,7 @@ machine learning
 </div>
 <a href="./posts/summer-of-machine-learning-2017/index.html">
 <div class="listing-description">
-Something has been bothering me over the last couple of years. As I’ve progressed in my career I subsequently feel as though I’ve almost entirely disconnected with what helped me launch this part of the career to begin with. Posting what I learn about online, in an effort to help bolster the amount of useful information that is available in the vast sea of garbage that is the internet.
+Something has been bothering me over the last couple of years. As I’ve progressed in my career I subsequently feel as though I’ve almost entirely disconnected with what…
 </div>
 </a>
 </div>
@@ -336,9 +340,9 @@ Ed Henry
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-categories="python,programming,algorithms" data-listing-date-sort="1484553600000" data-listing-file-modified-sort="1662357136691" data-listing-reading-time-sort="5.875">
+<div class="quarto-post image-right" data-index="4" data-categories="python,programming,algorithms" data-listing-date-sort="1484524800000" data-listing-file-modified-sort="1704350147598" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
 <div class="thumbnail">
-<p><a href="./posts/algorithmic-toolbox-week-2/index.html"> <img src="./posts/algorithmic-toolbox-week-2/images/output_4_0.png" class="thumnail-image"> </a></p>
+<p><a href="./posts/algorithmic-toolbox-week-2/index.html"> <p class="card-img-top"><img src="posts/algorithmic-toolbox-week-2/images/output_4_0.png"  class="thumbnail-image card-img"/></p> </a></p>
 </div>
 <div class="body">
 <a href="./posts/algorithmic-toolbox-week-2/index.html">
@@ -362,7 +366,7 @@ algorithms
 </div>
 <a href="./posts/algorithmic-toolbox-week-2/index.html">
 <div class="listing-description">
-As a refresher, I’ve started working through the Algorithmic Toolbox course offered on Coursera. It’s been a while since I’ve reviewed a lot of the basic algorithms and data structures fundamentals, so I figured I would work through the course to grease the bearings again, so to speak.
+As a refresher, I’ve started working through the Algorithmic Toolbox course offered on Coursera. It’s been a while since I’ve reviewed a lot of the basic algorithms and data structures fundamentals, so I…
 </div>
 </a>
 </div>
@@ -377,9 +381,9 @@ Ed Henry
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="5" data-categories="python,programming search,algorithms" data-listing-date-sort="1483689600000" data-listing-file-modified-sort="1662357151327" data-listing-reading-time-sort="9.78">
+<div class="quarto-post image-right" data-index="5" data-categories="python,programming search,algorithms" data-listing-date-sort="1483660800000" data-listing-file-modified-sort="1704350147602" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10">
 <div class="thumbnail">
-<p><a href="./posts/bfs-in-python/index.html"> <img src="./posts/bfs-in-python/images/output_10_1.png" class="thumnail-image"> </a></p>
+<p><a href="./posts/bfs-in-python/index.html"> <p class="card-img-top"><img src="posts/bfs-in-python/images/output_10_1.png"  class="thumbnail-image card-img"/></p> </a></p>
 </div>
 <div class="body">
 <a href="./posts/bfs-in-python/index.html">
@@ -418,13 +422,9 @@ Ed Henry
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="6" data-categories="python,programming,object oriented" data-listing-date-sort="1482393600000" data-listing-file-modified-sort="1662356405362" data-listing-reading-time-sort="15.615">
+<div class="quarto-post image-right" data-index="6" data-categories="python,programming,object oriented" data-listing-date-sort="1482364800000" data-listing-file-modified-sort="1704350147602" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16">
 <div class="thumbnail">
-<a href="./posts/hashing-in-python/index.html">
-<div class="thumbnail-image">
-
-</div>
-</a><p><a href="./posts/hashing-in-python/index.html"></a></p>
+<p><a href="./posts/hashing-in-python/index.html"> <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div> </a></p>
 </div>
 <div class="body">
 <a href="./posts/hashing-in-python/index.html">
@@ -448,7 +448,7 @@ object oriented
 </div>
 <a href="./posts/hashing-in-python/index.html">
 <div class="listing-description">
-Hashing can be useful in speeding up the search process for a specific item that is part of a larger collection of items. Depending on the implementation of the hashing algorithm, this can turn the computational complexity of our search algorithm from <span class="math inline">\(O(n)\)</span> to <span class="math inline">\(O(1)\)</span>. We do this by building a specific data structure, which we’ll dive into next.
+Hashing can be useful in speeding up the search process for a specific item…<span class="math inline"></span><span class="math inline"></span>
 </div>
 </a>
 </div>
@@ -463,9 +463,50 @@ Ed Henry
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="7" data-categories="machine learning,artificial intelligence,networking,netflow,embeddings" data-listing-date-sort="1482307200000" data-listing-file-modified-sort="1662404768138" data-listing-reading-time-sort="26.395">
+<div class="quarto-post image-right" data-index="7" data-categories="python,programming,object oriented" data-listing-date-sort="1482278400000" data-listing-file-modified-sort="1704350147602" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
 <div class="thumbnail">
-<p><a href="./posts/flow2vec/index.html"> <img src="./posts/flow2vec/images/flow_window_5.jpg" class="thumnail-image"> </a></p>
+<p><a href="./posts/first-class-functions-in-python/index.html"> <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div> </a></p>
+</div>
+<div class="body">
+<a href="./posts/first-class-functions-in-python/index.html">
+<h3 class="no-anchor listing-title">
+First Class Functions in Python
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('python'); return false;">
+python
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('programming'); return false;">
+programming
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('object oriented'); return false;">
+object oriented
+</div>
+</div>
+<a href="./posts/first-class-functions-in-python/index.html">
+<div class="listing-description">
+Typically first class functions are defined as a programming entity that can be :
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/first-class-functions-in-python/index.html">
+<div class="listing-date">
+Dec 21, 2016
+</div>
+<div class="listing-author">
+Ed Henry
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="8" data-categories="machine learning,artificial intelligence,networking,netflow,embeddings" data-listing-date-sort="1482278400000" data-listing-file-modified-sort="1704350147602" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="27">
+<div class="thumbnail">
+<p><a href="./posts/flow2vec/index.html"> <p class="card-img-top"><img src="posts/flow2vec/images/flow_window_5.jpg"  class="thumbnail-image card-img"/></p> </a></p>
 </div>
 <div class="body">
 <a href="./posts/flow2vec/index.html">
@@ -510,58 +551,9 @@ Ed Henry
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="8" data-categories="python,programming,object oriented" data-listing-date-sort="1482307200000" data-listing-file-modified-sort="1662356211284" data-listing-reading-time-sort="3.8">
+<div class="quarto-post image-right" data-index="9" data-categories="data structures,algorithms,python" data-listing-date-sort="1481500800000" data-listing-file-modified-sort="1704350147602" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9">
 <div class="thumbnail">
-<a href="./posts/first-class-functions-in-python/index.html">
-<div class="thumbnail-image">
-
-</div>
-</a><p><a href="./posts/first-class-functions-in-python/index.html"></a></p>
-</div>
-<div class="body">
-<a href="./posts/first-class-functions-in-python/index.html">
-<h3 class="no-anchor listing-title">
-First Class Functions in Python
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('python'); return false;">
-python
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('programming'); return false;">
-programming
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('object oriented'); return false;">
-object oriented
-</div>
-</div>
-<a href="./posts/first-class-functions-in-python/index.html">
-<div class="listing-description">
-Typically first class functions are defined as a programming entity that can be :
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/first-class-functions-in-python/index.html">
-<div class="listing-date">
-Dec 21, 2016
-</div>
-<div class="listing-author">
-Ed Henry
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="9" data-categories="data structures,algorithms,python" data-listing-date-sort="1481529600000" data-listing-file-modified-sort="1662356007141" data-listing-reading-time-sort="8.21">
-<div class="thumbnail">
-<a href="./posts/sequential-and-binary-search-in-python/index.html">
-<div class="thumbnail-image">
-
-</div>
-</a><p><a href="./posts/sequential-and-binary-search-in-python/index.html"></a></p>
+<p><a href="./posts/sequential-and-binary-search-in-python/index.html"> <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div> </a></p>
 </div>
 <div class="body">
 <a href="./posts/sequential-and-binary-search-in-python/index.html">
@@ -585,7 +577,7 @@ python
 </div>
 <a href="./posts/sequential-and-binary-search-in-python/index.html">
 <div class="listing-description">
-This notebook will include examples of searching and sorting algorithms implemented in python. It is both for my own learning, and for anyone else who would like to use this notebook for anything they’d like.
+This notebook will include…
 </div>
 </a>
 </div>
@@ -600,13 +592,9 @@ Ed Henry
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="10" data-categories="conferences,neurips,machine learning,ai" data-listing-date-sort="1481529600000" data-listing-file-modified-sort="1662355286606" data-listing-reading-time-sort="3.605">
+<div class="quarto-post image-right" data-index="10" data-categories="conferences,neurips,machine learning,ai" data-listing-date-sort="1481500800000" data-listing-file-modified-sort="1704350147602" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
 <div class="thumbnail">
-<a href="./posts/neurips-2016/index.html">
-<div class="thumbnail-image">
-
-</div>
-</a><p><a href="./posts/neurips-2016/index.html"></a></p>
+<p><a href="./posts/neurips-2016/index.html"> <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div> </a></p>
 </div>
 <div class="body">
 <a href="./posts/neurips-2016/index.html">
@@ -633,7 +621,7 @@ ai
 </div>
 <a href="./posts/neurips-2016/index.html">
 <div class="listing-description">
-This year’s NIPS conference had record attendance at over 6000 people! As opposed to when I attended last year in Montreal, this was an, almost, two fold increase. That said, hats off to the organizers and all of the staff for being able to double the size of a conference and still have it be a relatively smooth attendance experience.
+This year’s NIPS conference had record attendance at over 6000 people! As opposed to when I attended last year in Montreal, this was an, almost, two fold…
 </div>
 </a>
 </div>
@@ -724,6 +712,16 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         }
       }
     }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
   }
   const isFileUrl = () => { 
     return window.location.protocol === 'file:';
@@ -775,7 +773,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   // Switch to dark mode if need be
   if (hasAlternateSentinel()) {
     toggleColorMode(true);
-  } 
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -783,9 +783,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -797,7 +811,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
     button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
     setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
@@ -825,44 +856,152 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
-    tippyHover(ref, function() {
-      var popup = window.document.createElement('div');
-      cites.forEach(function(cite) {
-        var citeDiv = window.document.createElement('div');
-        citeDiv.classList.add('hanging-indent');
-        citeDiv.classList.add('csl-entry');
-        var biblioDiv = window.document.getElementById('ref-' + cite);
-        if (biblioDiv) {
-          citeDiv.innerHTML = biblioDiv.innerHTML;
-        }
-        popup.appendChild(citeDiv);
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
       });
-      return popup.innerHTML;
-    });
+    }
   }
 });
 </script>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
-      <div class="nav-footer-center">
-        <ul class="footer-items list-unstyled">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
     <li class="nav-item">
     <a class="nav-link" href="./about.html">About</a>
   </li>  
 </ul>
-      </div>
+    </div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">

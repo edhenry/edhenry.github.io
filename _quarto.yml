@@ -13,12 +13,15 @@ website:
     title: false
     collapse-below: lg
     left:
-      - text: "About"
-        href: about.qmd
-      - text: "Software"
-        href: software.qmd
-      - text: "Blog"
+      - text: "Me"
         href: index.qmd
+      - text: "Projects"
+        href: projects/projects.qmd
+      - text: "Talks"
+        href: talks/talks.qmd
+      - text: "Notes"
+        href: notes/notes.qmd
+
     right:
       - about.qmd
       - icon: github
