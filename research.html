@@ -410,11 +410,10 @@ window.Quarto = {
 <section id="what-this-is-about" class="level2">
 <h2 class="anchored" data-anchor-id="what-this-is-about">What this is about</h2>
 <p>Most things that work in the world are made of parts. Your phone is a stack of well-defined modules, each with a clean interface to the next. A cell is a collection of organelles. A proof is a chain of lemmas. A company is a set of teams with (mostly) known hand-offs. When we want to reason about a complicated system, the first thing we usually do is break it into pieces and think about the pieces.</p>
-<p>AI, right now, is in a strange place with respect to this. On the one hand, modern systems are <em>obviously</em> built out of parts: transformer blocks, attention heads, mixture of experts, retrieval indices, tool calls, agent scaffolds. On the other hand, the pieces don’t always behave like pieces. Fine-tune one part of a model and something unrelated breaks. Add a new tool to an agent and the router picks it up in some situations but not others. Compose two prompts that each work fine on their own and get nonsense. The parts are there. They just aren’t as <em>part-like</em> as we’d want.</p>
-<p>I find that gap interesting, and most of the research I care about these days is trying to pry it open. The work collected here orbits three questions.</p>
+<p>AI, right now, is in a strange place with respect to this. On the one hand, modern systems are <em>obviously</em> built out of parts: transformer blocks, attention heads, mixture of experts, retrieval indices, tool calls, agent scaffolds. On the other hand, the pieces don’t always behave like pieces. Fine-tune one part of a model and something unrelated breaks. Add a new tool to an agent and the router picks it up in some situations but not others. Compose two prompts that each work fine on their own and get nonsense. The pieces exist in a trivial sense, but they are less part-like than the word “part” suggests, and I find that gap interesting.</p>
 <section id="when-does-modularity-actually-emerge" class="level3">
 <h3 class="anchored" data-anchor-id="when-does-modularity-actually-emerge">1. When does modularity actually emerge?</h3>
-<p>If you train a big network on a rich enough mixture of tasks, do clean, reusable modules show up on their own? A growing body of interpretability work says “sometimes, maybe, it depends how you look.” That’s not a put-down. It’s the interesting part. What counts as a module? How do we tell the difference between a network that is <em>structurally</em> modular and one that just happens to look modular under one particular probe? What would the null hypothesis even be?</p>
+<p>If you train a big network on a rich enough mixture of tasks, do clean, reusable modules show up on their own? A growing body of interpretability work says “sometimes, maybe, it depends how you look,” and I think the hedging in that answer is where the actual science lives. What counts as a module? How do we tell the difference between a network that is <em>structurally</em> modular and one that just happens to look modular under one particular probe? What would the null hypothesis even be?</p>
 </section>
 <section id="when-does-composition-generalize" class="level3">
 <h3 class="anchored" data-anchor-id="when-does-composition-generalize">2. When does composition generalize?</h3>
@@ -422,7 +421,7 @@ window.Quarto = {
 </section>
 <section id="what-is-the-right-interface-between-parts" class="level3">
 <h3 class="anchored" data-anchor-id="what-is-the-right-interface-between-parts">3. What is the right interface between parts?</h3>
-<p>This one is, I think, the most underrated of the three. Whenever we connect two modules we have to pick a medium. It can be a dense vector, a discrete token, a gradient, a natural-language message, or an executable program. Each choice makes different things easy and different things hard. Dense vectors are information-rich but opaque. Tokens are legible but lossy. Natural language is maximally flexible but adds a whole second inference problem at the boundary. Programs are precise but narrow. I suspect that a lot of the differences we attribute to architecture or scale are really differences in interface, and I want to take that suspicion seriously.</p>
+<p>This one is, I think, the most underrated of the three. Whenever we connect two modules we have to pick a medium. It can be a dense vector, a discrete token, a gradient, a natural-language message, or an executable program. Each choice makes different things easy and different things hard. Dense vectors are information-rich but opaque. Tokens are legible but lossy. Natural language is maximally flexible but adds a whole second inference problem at the boundary. Programs are precise but narrow. A lot of what gets attributed to architecture or scale may come down to choice of interface, and working out which parts do is near the top of what I want to spend time on.</p>
 </section>
 </section>
 <section id="how-to-read-the-posts" class="level2">
@@ -438,7 +437,7 @@ window.Quarto = {
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="bW9kdWxhcml0eSUyQ2NvbXBvc2l0aW9uYWxpdHklMkNyZXNlYXJjaCUyQ21ldGE=" data-listing-date-sort="1775865600000" data-listing-file-modified-sort="1775886320067" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1864">
+<div class="quarto-post image-right" data-index="0" data-categories="bW9kdWxhcml0eSUyQ2NvbXBvc2l0aW9uYWxpdHklMkNyZXNlYXJjaCUyQ21ldGE=" data-listing-date-sort="1775865600000" data-listing-file-modified-sort="1775887168334" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1877">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./research/modularity-compositionality/index.html" class="no-external">Modularity and Compositionality: A Research Program</a>
