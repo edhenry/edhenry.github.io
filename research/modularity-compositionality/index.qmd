@@ -9,8 +9,6 @@ author:
     url: https://edhenry.github.io
 date: "2026-04-11"
 categories: [modularity, compositionality, research, meta]
-reference-location: margin
-citation-location: margin
 format:
   html:
     toc: true
@@ -70,14 +68,13 @@ modularly, then why is the resulting behavior so often *not* modular in
 any useful sense? That question unpacks into three sub-questions, which
 are the backbone of this program.
 
-::: {.column-margin}
-I've spent the last few years building retrieval systems, agent scaffolds,
-and domain-specific fine-tunes in production, these days in a
-cybersecurity setting. A lot of the questions in this program come
-directly from watching composition fail in ways the academic literature
-doesn't quite capture yet, and often the failure is visible first to
-whoever is trying to make the system misbehave on purpose.
-:::
+Some context on where the questions come from: I've spent the last few
+years building retrieval systems, agent scaffolds, and domain-specific
+fine-tunes in production, these days in a cybersecurity setting. A lot
+of this program comes directly from watching composition fail in ways
+the academic literature doesn't quite capture yet, and often the failure
+is visible first to whoever is trying to make the system misbehave on
+purpose.
 
 ## 2. Three threads
 
@@ -135,12 +132,10 @@ The question I actually care about is the opposite one: in the
 things it has never seen together, what property of the model predicts
 whether it will succeed?
 
-::: {.column-margin}
 A reframing I've found surprisingly useful: stop asking "is this model
 compositional?" and start asking "what is the smallest intervention that
-makes this particular composition work?" The interventions themselves are
-informative in a way the yes/no verdict isn't.
-:::
+makes this particular composition work?" The interventions themselves
+carry more information than any yes-or-no verdict would.
 
 Some concrete sub-questions:
 
