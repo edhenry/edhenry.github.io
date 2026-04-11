@@ -1,10 +1,5 @@
 /* Distill-inspired light touches for Ed Henry's research blog. */
 
-/* Comfortable reading width for long-form research posts. */
-main.content {
-  max-width: 68ch;
-}
-
 /* Slightly larger, more readable body type for essays. */
 body {
   font-size: 1.02rem;
