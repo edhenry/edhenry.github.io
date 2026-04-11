@@ -1,57 +1,39 @@
+name: Render and Publish
+
 on:
   push:
     branches: [master]
   workflow_dispatch:
-  
-name: Render and Publish
-  
-  # you need these permissions to publish to GitHub pages
-  # permissions: 
-  #     contents: write
-  #     pages: write
 
-env:
-    POETRY_VERSION: 1.6.1
+permissions:
+  contents: write
 
 jobs:
-    build-deploy:
-        runs-on: ubuntu-latest
-        steps:
-        - name: Check out repository
-          uses: actions/checkout@v4
-            
-        - name: Set up Quarto
-          uses: quarto-dev/quarto-actions/setup@v2
-          with:
-            # To install LaTeX to build PDF book 
-            tinytex: true 
-            # uncomment below and fill to pin a version
-            # version: SPECIFIC-QUARTO-VERSION-HERE
-        
-        # add software dependencies here and any libraries
-        
-        # From https://github.com/actions/setup-python
-        # Pinned to 3.11 because the locked torch 2.1.2 pulls in triton 2.1.0,
-        # which only ships wheels for cp37..cp311. Newer runners default to
-        # 3.12+ and break the install.
-        - name: Setup Python
-          uses: actions/setup-python@v5
-          with:
-            python-version: "3.11"
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
 
-        - name: Install Poetry
-          uses: snok/install-poetry@v1
-          with:
-            version: ${{ env.POETRY_VERSION }}
-        - name: Install deps
-          shell: bash
-          run: poetry install --with dev
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          tinytex: true
 
-        # See more at https://github.com/quarto-dev/quarto-actions/blob/main/examples/example-03-dependencies.md
-        - name: Publish to GitHub Pages (and render) 
-          uses: quarto-dev/quarto-actions/publish@v2
-          with:
-            target: gh-pages
-            env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
-    
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install 3.11
+
+      - name: Install deps
+        run: uv sync --frozen
+
+      - name: Publish to GitHub Pages (and render)
+        uses: quarto-dev/quarto-actions/publish@v2
+        with:
+          target: gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
