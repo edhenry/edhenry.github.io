@@ -432,7 +432,7 @@ window.Quarto = {
 </nav>
     </div>
 <!-- main -->
-<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
@@ -558,15 +558,15 @@ Important
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>subsample_cats_1 <span class="op">=</span> flowdata.loc[:,[<span class="st">'Proto'</span>, <span class="st">'SrcAddr'</span>, <span class="st">'DstAddr'</span>, <span class="st">'Dport'</span>, <span class="st">'Label'</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<section id="flow2vec---exploiting-co-occurence-within-netflow-data" class="level2 page-columns page-full">
+<section id="flow2vec---exploiting-co-occurence-within-netflow-data" class="level2">
 <h2 class="anchored" data-anchor-id="flow2vec---exploiting-co-occurence-within-netflow-data">Flow2vec - exploiting co-occurence within NetFlow data</h2>
 <p>Attempting to find some co-occurence patterns in the flow data according to how an algorithm like word2vec, in its skip-gram implementation specifically for this work, works. The idea is that flows, <span class="math inline">\(V_{f}\)</span> for vector representation, that occur within a window <span class="math inline">\(W_{f}\)</span>, which can be modeled as “time” using timestamps from the capture. A visual representation of a single flow and window of flows can be seen below :</p>
-<div id="fig-flow-window" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
-<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div id="fig-flow-window" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-flow-window-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="./images/flow_window_5.jpg" class="img-fluid figure-img">
 </div>
-<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-flow-window-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flow-window-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Windows of netflows
 </figcaption>
 </figure>
