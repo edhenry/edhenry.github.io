@@ -1,0 +1,22 @@
+# Defaults applied to every research post.
+# Distill-inspired layout: margin references, citations, and figures.
+
+freeze: true
+
+title-block-banner: true
+title-block-style: default
+
+toc: true
+toc-depth: 3
+toc-location: right
+
+reference-location: margin
+citation-location: margin
+fig-cap-location: margin
+cap-location: margin
+
+citations-hover: true
+crossrefs-hover: true
+footnotes-hover: true
+
+link-external-newwindow: true

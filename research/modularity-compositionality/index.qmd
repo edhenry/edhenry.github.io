@@ -1,0 +1,241 @@
+---
+title: "Modularity and Compositionality: A Research Program"
+description: |
+  A first pass at the questions I find most interesting about how modularity
+  and compositionality show up (or fail to show up) in modern AI systems,
+  and the threads I plan to pull on from here.
+author:
+  - name: Ed Henry
+    url: https://edhenry.github.io
+    affiliation: Dell Technologies
+    affiliation-url: https://www.dell.com
+date: "2026-04-11"
+categories: [modularity, compositionality, research, meta]
+reference-location: margin
+citation-location: margin
+format:
+  html:
+    toc: true
+    toc-depth: 3
+---
+
+## Abstract {.unnumbered}
+
+Modern AI systems are, quite literally, built out of parts. Transformer
+blocks, attention heads, mixture of experts, retrieval indices, tool
+layers, agentic controllers. And yet when you ask whether these systems
+are *actually* modular, in the sense that the parts have stable meanings,
+compose predictably, and can be recombined to handle new situations, the
+honest answer is "sort of, sometimes, and nobody is entirely sure why."
+This post is a first pass at the research program I want to pursue in that
+gap. I'll lay out the questions I think are interesting, the things I
+think are already known, and what I actually plan to work on. It is
+deliberately incomplete and will be revised in public.
+
+## 1. Why modularity, and why now?
+
+There are two reasons I keep coming back to modularity as an organizing
+idea in AI, and they pull in opposite directions.
+
+The first is *scientific*, and it's an old point. Basically every complex
+system we understand, we understand because we chopped it into pieces and
+studied the pieces. Biology has organs, cells, and proteins. Software has
+functions, objects, and processes. Hardware has gates, registers, and
+cores. Math has lemmas that get reused across proofs. In every mature
+field, someone at some point worked out a notion of *part* and *interface*
+that was stable enough to reason about. That notion is what lets a
+practitioner in the field think about systems whose full state they could
+never hold in their head at once.[^modularity-simon]
+
+[^modularity-simon]: Herbert Simon's *The Architecture of Complexity* (1962)
+    is still, to my eye, the best short argument that modularity is a
+    necessary feature of anything we're going to understand or build at
+    scale. His notion of a "nearly decomposable system", where interactions
+    within a part dominate interactions between parts, is one I keep
+    coming back to.
+
+The second reason is *engineering*, and it's much more recent. The AI
+systems being built today are already assembled out of parts, whether or
+not anyone planned it that way. You take a base model, bolt on a retrieval
+index, add a tool layer, wrap the whole thing in an agent, and ship it.
+The composition is happening. What isn't happening, at least not yet, is a
+clean theory of why it works when it works, or a good set of diagnostics
+for when it doesn't. In practice, the parts are strangely inert. Fine-tune
+one and unrelated things break. Add a new tool and the router picks it up
+sometimes but not always. The system as a whole behaves less like a
+machine you can reason about and more like a slightly moody coworker.
+
+The tension between the scientific story and the engineering reality is
+what I want to sit with. If modularity is a necessary feature of systems
+we can understand, and if our systems are clearly being assembled
+modularly, then why is the resulting behavior so often *not* modular in
+any useful sense? That question unpacks into three sub-questions, which
+are the backbone of this program.
+
+::: {.column-margin}
+I've spent the last few years building retrieval systems, agent scaffolds,
+and domain-specific fine-tunes in production. A lot of the questions in
+this program come directly from watching composition fail in ways the
+academic literature doesn't quite capture yet.
+:::
+
+## 2. Three threads
+
+### 2.1 When does modularity *emerge*?
+
+The first thread is about emergence. If you take a big, undifferentiated
+network and train it on a rich enough mixture of tasks, do modules show up
+on their own? And if they do, how would we know?[^emerge-measure]
+
+[^emerge-measure]: "Would we know" is the harder half of this question. A
+    lot of the mechanistic interpretability literature finds structures
+    that look modular under one probe and dissolve under another. The
+    measurement problem is not a footnote; it's most of the problem.
+
+There is a real and growing body of work showing that, in the right
+conditions, features and circuits with stable and interpretable meanings
+do emerge inside trained networks. There is also a real and growing body
+of work showing that apparently modular structure can be an artifact of
+the particular basis you happened to look in, and that small changes in
+training can scramble or dissolve the modules you thought you had. Both
+things seem to be true at the same time, which is exactly the kind of
+uncomfortable situation that usually means there's a real scientific
+question underneath.
+
+The questions I want to push on here:
+
+1. **What is the right null hypothesis for "this network is modular"?** If
+   we can't describe what a *non*-modular network of the same size and
+   performance would look like, then any claim of emergent modularity is
+   unfalsifiable. That's not a knock on the claim. It's an invitation to
+   sharpen it.
+2. **Is modularity a property of the parameters, the activations, or the
+   behavior?** These are three different claims and they don't always
+   agree. A network can have cleanly separated behavior with entangled
+   parameters, or the reverse. Picking which one you mean actually matters.
+3. **Does scale help, hurt, or do nothing?** The literature is genuinely
+   split on whether bigger models are more or less modular than smaller
+   ones, and I suspect a lot of the disagreement is downstream of the
+   measurement problem in (1).
+
+### 2.2 When does composition *generalize*?
+
+The second thread is about compositional generalization. Once you have
+parts, whether they emerged on their own or you hand-designed them, when
+does combining them in new ways produce correct new behavior instead of
+nonsense?
+
+The classical benchmarks for this (SCAN, COGS, CFQ, and friends) have
+been chased hard by large models and mostly defeated by the simple
+expedient of training on enough data. I don't think that settles the
+question, though. It mostly tells us that with enough coverage,
+memorization does a very good impression of composition from the outside.
+The question I actually care about is the opposite one: in the
+*under*-covered regime, when you genuinely need a model to combine two
+things it has never seen together, what property of the model predicts
+whether it will succeed?
+
+::: {.column-margin}
+A reframing I've found surprisingly useful: stop asking "is this model
+compositional?" and start asking "what is the smallest intervention that
+makes this particular composition work?" The interventions themselves are
+informative in a way the yes/no verdict isn't.
+:::
+
+Some concrete sub-questions:
+
+- **What is the role of the interface?** Models that compose via natural
+  language (tool calls, chain of thought, agent messages) seem to
+  generalize differently from models that compose via dense latents. I
+  suspect that's a big deal. I don't yet have a clean theory of why.
+- **What does training *for* composition look like?** There is a real
+  difference between training on compositional data and training with a
+  compositional objective. Most of what we call "compositional training"
+  in practice is the first thing, not the second.
+- **When is composition *learned* versus *scaffolded*?** Agentic systems
+  compose at inference time via external control flow. Mixture of experts
+  composes at training time via a learned router. These are not the same
+  thing, and evaluating them with the same yardstick is going to mislead us.
+
+### 2.3 What is the right *interface*?
+
+The third thread is the one I think is most underrated. Any time we
+connect two modules, we have to pick a medium for the connection. It can
+be a dense vector, a discrete token, a gradient, a natural-language
+message, or an executable program. Each of these makes different things
+easy and different things hard.
+
+Dense vectors are differentiable and information-rich, which is great for
+optimization, but they're also opaque and brittle under distribution
+shift. Tokens are discrete, legible, and composable, but they introduce
+lossy bottlenecks. Natural language is maximally general and happens to
+be human-readable, which is wonderful, but it adds an entire second
+inference problem at the boundary. Executable programs are precise and
+verifiable, but they're narrow and rigid.
+
+The research question I want to take seriously is: **what determines the
+right interface for a given composition?** I suspect the answer has a lot
+to do with three things: how much information actually needs to cross the
+boundary, how often the boundary will be re-crossed during learning or
+inference, and whether the interface needs to be legible to something else
+(a human, a verifier, another model). This is the thread I'm most
+uncertain about, and for that reason it's probably the one I want to
+work on first.
+
+## 3. What I actually plan to do
+
+A research program is only useful to the extent that it suggests next
+actions. Here's the rough shape of what I want to work on, in priority
+order. I'll update this list as things change, because they will.
+
+1. **A survey post on measuring modularity.** Not a literature review for
+   its own sake. An attempt to lay out the existing space of metrics
+   (functional, structural, causal, information-theoretic), say what each
+   one is actually measuring, and identify the cases where they disagree.
+   The disagreements are where the science is.
+2. **A small empirical study of interface choice.** Take one fixed
+   compositional task, hold the model and training data roughly constant,
+   and vary only the interface between modules (dense, token, language,
+   program). Measure how well each setup generalizes to held-out
+   compositions. I don't expect a clean result. I do expect an informative
+   one, which is a different thing.
+3. **A theory post on "near-decomposability" for neural networks.** Simon's
+   original argument is about systems whose within-module interactions
+   dominate their between-module interactions. That's a testable claim
+   about any trained network. I want to figure out what the test is in
+   practice.
+4. **Working notes on agentic composition.** Production experience is
+   telling me things about where agent composition breaks that aren't in
+   the literature yet. I want to write those up carefully, because the
+   failure modes are the data.
+
+## 4. What this program is *not*
+
+A quick list of things I'm deliberately *not* claiming, to save future me
+from being misread:
+
+- I'm not claiming modularity and compositionality are the only things
+  that matter in AI. Scale, data quality, and objective design are at
+  least as important as anything here. I'm claiming that modularity and
+  compositionality are the things I find most interesting and most
+  underserved by current work.
+- I'm not claiming existing large models are "not compositional." That
+  claim is unfalsifiable as usually stated, and empirically wrong in the
+  regimes where it has been carefully tested. The interesting question is
+  *where* composition breaks, not whether it exists at all.
+- I'm not proposing a new architecture. At least, not yet. I want to
+  understand what we already have before adding anything to the pile.
+
+## 5. How to read this site
+
+The [Research](../../research.qmd) page collects posts that try to pull on
+the threads above. [Notes](../../notes.qmd) is where shorter, rougher
+thoughts live, including things I want to remember but haven't thought
+through carefully yet. The older [Projects](../../projects/projects.qmd)
+and [Talks](../../talks/talks.qmd) pages are still here for historical
+reasons, and may get folded into the research program over time.
+
+If you want to reach me about any of this, the links in the sidebar work.
+I'm especially interested in disagreement. Pointers to work that
+contradicts something here, or arguments for why a thread on this list is
+the wrong one to pull on, are genuinely welcome.
