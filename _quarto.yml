@@ -58,8 +58,6 @@ format:
     toc-location: right
     highlight-style: a11y-dark
     code-overflow: wrap
-    fig-cap-location: margin
-    reference-location: margin
     citations-hover: true
     crossrefs-hover: true
     link-external-newwindow: true
