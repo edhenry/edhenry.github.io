@@ -29,22 +29,18 @@ scaffolds. On the other hand, the pieces don't always behave like pieces.
 Fine-tune one part of a model and something unrelated breaks. Add a new
 tool to an agent and the router picks it up in some situations but not
 others. Compose two prompts that each work fine on their own and get
-nonsense. The parts are there. They just aren't as *part-like* as we'd
-want.
-
-I find that gap interesting, and most of the research I care about these
-days is trying to pry it open. The work collected here orbits three
-questions.
+nonsense. The pieces exist in a trivial sense, but they are less part-like
+than the word "part" suggests, and I find that gap interesting.
 
 ### 1. When does modularity actually emerge?
 
 If you train a big network on a rich enough mixture of tasks, do clean,
 reusable modules show up on their own? A growing body of interpretability
-work says "sometimes, maybe, it depends how you look." That's not a put-down.
-It's the interesting part. What counts as a module? How do we tell the
-difference between a network that is *structurally* modular and one that
-just happens to look modular under one particular probe? What would the
-null hypothesis even be?
+work says "sometimes, maybe, it depends how you look," and I think the
+hedging in that answer is where the actual science lives. What counts as a
+module? How do we tell the difference between a network that is
+*structurally* modular and one that just happens to look modular under one
+particular probe? What would the null hypothesis even be?
 
 ### 2. When does composition generalize?
 
@@ -65,9 +61,10 @@ token, a gradient, a natural-language message, or an executable program.
 Each choice makes different things easy and different things hard. Dense
 vectors are information-rich but opaque. Tokens are legible but lossy.
 Natural language is maximally flexible but adds a whole second inference
-problem at the boundary. Programs are precise but narrow. I suspect that a
-lot of the differences we attribute to architecture or scale are really
-differences in interface, and I want to take that suspicion seriously.
+problem at the boundary. Programs are precise but narrow. A lot of what
+gets attributed to architecture or scale may come down to choice of
+interface, and working out which parts do is near the top of what I want
+to spend time on.
 
 ## How to read the posts
 

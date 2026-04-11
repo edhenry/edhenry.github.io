@@ -92,7 +92,7 @@ on their own? And if they do, how would we know?[^emerge-measure]
 [^emerge-measure]: "Would we know" is the harder half of this question. A
     lot of the mechanistic interpretability literature finds structures
     that look modular under one probe and dissolve under another. The
-    measurement problem is not a footnote; it's most of the problem.
+    measurement problem is doing most of the work in this question.
 
 There is a real and growing body of work showing that, in the right
 conditions, features and circuits with stable and interpretable meanings
@@ -109,8 +109,8 @@ The questions I want to push on here:
 1. **What is the right null hypothesis for "this network is modular"?** If
    we can't describe what a *non*-modular network of the same size and
    performance would look like, then any claim of emergent modularity is
-   unfalsifiable. That's not a knock on the claim. It's an invitation to
-   sharpen it.
+   unfalsifiable. I mean that as a call to sharpen the claim, which feels
+   like a tractable thing to do.
 2. **Is modularity a property of the parameters, the activations, or the
    behavior?** These are three different claims and they don't always
    agree. A network can have cleanly separated behavior with entangled
@@ -152,8 +152,8 @@ Some concrete sub-questions:
   suspect that's a big deal. I don't yet have a clean theory of why.
 - **What does training *for* composition look like?** There is a real
   difference between training on compositional data and training with a
-  compositional objective. Most of what we call "compositional training"
-  in practice is the first thing, not the second.
+  compositional objective. Most of what gets called "compositional
+  training" in practice is just the first of those.
 - **When is composition *learned* versus *scaffolded*?** Agentic systems
   compose at inference time via external control flow. Mixture of experts
   composes at training time via a learned router. These are not the same
@@ -190,17 +190,17 @@ A research program is only useful to the extent that it suggests next
 actions. Here's the rough shape of what I want to work on, in priority
 order. I'll update this list as things change, because they will.
 
-1. **A survey post on measuring modularity.** Not a literature review for
-   its own sake. An attempt to lay out the existing space of metrics
-   (functional, structural, causal, information-theoretic), say what each
-   one is actually measuring, and identify the cases where they disagree.
-   The disagreements are where the science is.
+1. **A survey post on measuring modularity.** My aim is to lay out the
+   existing space of metrics (functional, structural, causal,
+   information-theoretic), say what each one is actually measuring, and
+   work out which cases make them disagree. I suspect those disagreement
+   cases are the most informative places in the literature.
 2. **A small empirical study of interface choice.** Take one fixed
    compositional task, hold the model and training data roughly constant,
    and vary only the interface between modules (dense, token, language,
    program). Measure how well each setup generalizes to held-out
-   compositions. I don't expect a clean result. I do expect an informative
-   one, which is a different thing.
+   compositions. The goal is less a clean winner and more a clearer sense
+   of which design axes do real work here.
 3. **A theory post on "near-decomposability" for neural networks.** Simon's
    original argument is about systems whose within-module interactions
    dominate their between-module interactions. That's a testable claim
@@ -211,21 +211,21 @@ order. I'll update this list as things change, because they will.
    the literature yet. I want to write those up carefully, because the
    failure modes are the data.
 
-## 4. What this program is *not*
+## 4. Some caveats
 
-A quick list of things I'm deliberately *not* claiming, to save future me
-from being misread:
+A few things to head off before they become misreadings:
 
-- I'm not claiming modularity and compositionality are the only things
-  that matter in AI. Scale, data quality, and objective design are at
-  least as important as anything here. I'm claiming that modularity and
-  compositionality are the things I find most interesting and most
-  underserved by current work.
-- I'm not claiming existing large models are "not compositional." That
-  claim is unfalsifiable as usually stated, and empirically wrong in the
-  regimes where it has been carefully tested. The interesting question is
-  *where* composition breaks, not whether it exists at all.
-- I'm not proposing a new architecture. At least, not yet. I want to
+- Modularity and compositionality are a small piece of what determines
+  how well an AI system works. Scale, data quality, and objective design
+  are at least as important as anything in this program. I write about
+  these topics because they are the ones I find most interesting and
+  most underserved by current work.
+- Large models already exhibit plenty of composition in the regimes
+  where it has been carefully tested. The stronger claim that current
+  models are "not compositional" is unfalsifiable as usually stated and
+  empirically wrong where people have actually checked. My interest is
+  in the specific places where composition breaks down.
+- There is no new architecture proposal in this program yet. I want to
   understand what we already have before adding anything to the pile.
 
 ## 5. How to read this site
