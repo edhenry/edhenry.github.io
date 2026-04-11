@@ -18,22 +18,31 @@ about:
 toc: false
 ---
 
-I'm a Distinguished Scientist at [Dell Technologies](https://www.dell.com),
-where I work on building AI products. Before that I spent about a decade
-sitting at the overlap of networking, distributed systems, and machine
-learning, which is where my taste for composable, nearly-decomposable
-systems comes from. If you want the short version of what I do, it's this:
-I try to take research ideas about how AI should work and figure out which
-ones actually survive contact with a production system.
+I'm a Senior Scientist at [Zscaler](https://www.zscaler.com), working at
+the intersection of cybersecurity and AI. Before that I spent about a
+decade sitting at the overlap of networking, distributed systems, and
+machine learning, which is where my taste for composable,
+nearly-decomposable systems comes from. If you want the short version of
+what I do, it's this: I try to take research ideas about how AI should
+work and figure out which ones actually survive contact with a production
+system, which in my current role tends to mean a system that is also
+being actively probed by someone who would rather it didn't work.
 
 These days my time splits between two modes. In one, I'm shipping. I take
 large language models, retrieval systems, and agentic scaffolds into
-production and find out exactly where the abstractions leak. In the other,
-I'm reading, writing, and thinking about **modularity** and
+production, and find out exactly where the abstractions leak (and, in a
+security setting, where an attacker might pry them open on purpose). In
+the other, I'm reading, writing, and thinking about **modularity** and
 **compositionality** as organizing principles for the next generation of
 AI systems. This site is where the second mode lives, though the two keep
-bleeding into each other, which is usually where the interesting questions
-come from.
+bleeding into each other, which is usually where the interesting
+questions come from.
+
+Cybersecurity has turned out to be a surprisingly productive lens on the
+modularity questions I already cared about. Adversarial settings are
+unforgiving about sloppy abstractions, and the places where a learned
+system's modules *aren't* really modular tend to be exactly the places an
+attacker can reach through.
 
 ## Interests
 
@@ -41,6 +50,9 @@ come from.
 - Mechanistic interpretability, and what "structure" in a network even means
 - Retrieval-augmented generation and its failure modes
 - Agentic systems, and the design of interfaces between modules
+- AI for cybersecurity: detection, triage, and autonomous response
+- Cybersecurity for AI: prompt injection, adversarial robustness, and the
+  failure modes of composed AI systems under active attack
 - Causality, novelty detection, and out-of-distribution generalization
 - Distributed systems, which I've come to think resemble neural networks
   more than is usually admitted

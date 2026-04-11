@@ -18,10 +18,10 @@ about:
 toc: false
 ---
 
-Hi, I'm Ed. By day I'm a Distinguished Scientist at [Dell Technologies](https://www.dell.com),
-where I help build AI products that have to work for real people on real
-deadlines. By night (and sometimes by day, if I can get away with it) I
-think about a single question:
+Hi, I'm Ed. By day I'm a Senior Scientist at [Zscaler](https://www.zscaler.com),
+working at the intersection of cybersecurity and AI. By night (and
+sometimes by day, if I can get away with it) I think about a single
+question:
 
 > **What does it take to build intelligent systems out of smaller, reusable
 > parts, and why does the field keep tripping over itself when it tries?**

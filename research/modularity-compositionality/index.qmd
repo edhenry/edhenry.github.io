@@ -7,8 +7,8 @@ description: |
 author:
   - name: Ed Henry
     url: https://edhenry.github.io
-    affiliation: Dell Technologies
-    affiliation-url: https://www.dell.com
+    affiliation: Zscaler
+    affiliation-url: https://www.zscaler.com
 date: "2026-04-11"
 categories: [modularity, compositionality, research, meta]
 reference-location: margin
@@ -74,9 +74,11 @@ are the backbone of this program.
 
 ::: {.column-margin}
 I've spent the last few years building retrieval systems, agent scaffolds,
-and domain-specific fine-tunes in production. A lot of the questions in
-this program come directly from watching composition fail in ways the
-academic literature doesn't quite capture yet.
+and domain-specific fine-tunes in production, these days in a
+cybersecurity setting. A lot of the questions in this program come
+directly from watching composition fail in ways the academic literature
+doesn't quite capture yet, and often the failure is visible first to
+whoever is trying to make the system misbehave on purpose.
 :::
 
 ## 2. Three threads
