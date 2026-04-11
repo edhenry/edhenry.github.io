@@ -7,8 +7,6 @@ description: |
 author:
   - name: Ed Henry
     url: https://edhenry.github.io
-    affiliation: Zscaler
-    affiliation-url: https://www.zscaler.com
 date: "2026-04-11"
 categories: [modularity, compositionality, research, meta]
 reference-location: margin
