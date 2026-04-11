@@ -1,0 +1,52 @@
+---
+title: "Quotes"
+subtitle: "Things other people said better."
+toc: false
+title-block-banner: true
+---
+
+A running collection of lines I keep coming back to. Most are about
+science, engineering, or the difficulty of thinking clearly about
+complicated systems. A few are just funny. I'll add to this whenever
+something new earns its way in.
+
+## On magic and technology
+
+> Any sufficiently advanced technology is indistinguishable from magic.
+>
+> *Arthur C. Clarke*
+
+## On assumptions
+
+> Very few things are true without any assumptions.
+>
+> *Yoshua Bengio*
+
+## On complexity
+
+> Everything should be made as simple as possible, but not simpler.
+>
+> *attributed to Albert Einstein*
+
+> The purpose of computing is insight, not numbers.
+>
+> *Richard Hamming*
+
+## On models
+
+> All models are wrong, but some are useful.
+>
+> *George E. P. Box*
+
+## On learning
+
+> What I cannot create, I do not understand.
+>
+> *Richard Feynman*
+
+## On fooling yourself
+
+> The first principle is that you must not fool yourself, and you are the
+> easiest person to fool.
+>
+> *Richard Feynman*

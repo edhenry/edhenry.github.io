@@ -2,35 +2,38 @@
 title: "Ed Henry"
 image: profile.jpg
 about:
-  template: solana
+  template: trestles
+  image-shape: round
+  image-width: 14em
   links:
+    - icon: github
+      text: GitHub
+      href: https://github.com/edhenry
     - icon: twitter
       text: Twitter
       href: https://twitter.com/edhenry_
     - icon: linkedin
       text: LinkedIn
-      href: https://linkedin.com/ed-henry
-    - icon: github
-      text: Github
-      href: https://github.com/edhenry
-
+      href: https://linkedin.com/in/ed-henry
+toc: false
 ---
 
-Ed Henry currently a Distinguished Scientist at [Dell Technologies](https://www.dell.com) working on building AI products.
+Hi, I'm Ed. By day I'm a Distinguished Scientist at [Dell Technologies](https://www.dell.com),
+where I help build AI products that have to work for real people on real
+deadlines. By night (and sometimes by day, if I can get away with it) I
+think about a single question:
 
-## Research Interests
+> **What does it take to build intelligent systems out of smaller, reusable
+> parts, and why does the field keep tripping over itself when it tries?**
 
-- Natural Language Processing
-- Novelty Detection
-- Causality
-- Deep Learning
-- Distributed Systems
-- Networks
+The words I keep coming back to are *modularity* and *compositionality*. In
+plain terms: can we build AI the way we build pretty much everything else
+that works, which is by snapping together well-understood pieces? In less
+plain terms: when do modules emerge inside trained networks, when do learned
+primitives compose into genuinely new behavior, and what are the right
+interfaces between parts at each level of the stack?
 
-## Quotes
-
-> Any sufficiently advanced technology is indistinguishable from magic.
->                                                    - Arthur C. Clarke
-
-> Very few things are true without any assumptions.
->                                   - Yoshua Bengio
+This site is my working notebook. The [Research](research.qmd) page lays
+out the program in more detail and collects longer posts. [Notes](notes.qmd)
+is where shorter, rougher thoughts live. [Quotes](quotes.qmd) is a personal
+page of lines other people said better than I ever will.

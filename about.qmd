@@ -1,0 +1,58 @@
+---
+title: "About"
+image: profile.jpg
+about:
+  template: jolla
+  image-shape: round
+  image-width: 12em
+  links:
+    - icon: github
+      text: GitHub
+      href: https://github.com/edhenry
+    - icon: twitter
+      text: Twitter
+      href: https://twitter.com/edhenry_
+    - icon: linkedin
+      text: LinkedIn
+      href: https://linkedin.com/in/ed-henry
+toc: false
+---
+
+I'm a Distinguished Scientist at [Dell Technologies](https://www.dell.com),
+where I work on building AI products. Before that I spent about a decade
+sitting at the overlap of networking, distributed systems, and machine
+learning, which is where my taste for composable, nearly-decomposable
+systems comes from. If you want the short version of what I do, it's this:
+I try to take research ideas about how AI should work and figure out which
+ones actually survive contact with a production system.
+
+These days my time splits between two modes. In one, I'm shipping. I take
+large language models, retrieval systems, and agentic scaffolds into
+production and find out exactly where the abstractions leak. In the other,
+I'm reading, writing, and thinking about **modularity** and
+**compositionality** as organizing principles for the next generation of
+AI systems. This site is where the second mode lives, though the two keep
+bleeding into each other, which is usually where the interesting questions
+come from.
+
+## Interests
+
+- Modularity and compositionality in learned systems
+- Mechanistic interpretability, and what "structure" in a network even means
+- Retrieval-augmented generation and its failure modes
+- Agentic systems, and the design of interfaces between modules
+- Causality, novelty detection, and out-of-distribution generalization
+- Distributed systems, which I've come to think resemble neural networks
+  more than is usually admitted
+
+## Elsewhere
+
+- [GitHub](https://github.com/edhenry) for code and half-finished experiments
+- [Twitter](https://twitter.com/edhenry_) for shorter-form thinking
+- [LinkedIn](https://linkedin.com/in/ed-henry) for professional history
+
+If you want to reach me about anything on this site, the easiest way is a
+direct message on Twitter or an issue on the relevant GitHub repository. I
+am especially interested in disagreement. Pointers to work that
+contradicts something I've written, or a good argument for why a research
+thread I'm pursuing is the wrong one, are genuinely welcome.
