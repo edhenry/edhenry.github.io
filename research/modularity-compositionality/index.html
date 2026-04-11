@@ -368,7 +368,7 @@ ul.task-list li input[type="checkbox"] {
 </nav>
     </div>
 <!-- main -->
-<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
@@ -379,22 +379,20 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="unnumbered anchored" data-anchor-id="abstract">Abstract</h2>
 <p>Modern AI systems are, quite literally, built out of parts. Transformer blocks, attention heads, mixture of experts, retrieval indices, tool layers, agentic controllers. And yet when you ask whether these systems are <em>actually</em> modular, in the sense that the parts have stable meanings, compose predictably, and can be recombined to handle new situations, the honest answer is “sort of, sometimes, and nobody is entirely sure why.” This post is a first pass at the research program I want to pursue in that gap. I’ll lay out the questions I think are interesting, the things I think are already known, and what I actually plan to work on. It is deliberately incomplete and will be revised in public.</p>
 </section>
-<section id="why-modularity-and-why-now" class="level2 page-columns page-full">
+<section id="why-modularity-and-why-now" class="level2">
 <h2 class="anchored" data-anchor-id="why-modularity-and-why-now">1. Why modularity, and why now?</h2>
 <p>There are two reasons I keep coming back to modularity as an organizing idea in AI, and they pull in opposite directions.</p>
 <p>The first is <em>scientific</em>, and it’s an old point. Basically every complex system we understand, we understand because we chopped it into pieces and studied the pieces. Biology has organs, cells, and proteins. Software has functions, objects, and processes. Hardware has gates, registers, and cores. Math has lemmas that get reused across proofs. In every mature field, someone at some point worked out a notion of <em>part</em> and <em>interface</em> that was stable enough to reason about. That notion is what lets a practitioner in the field think about systems whose full state they could never hold in their head at once.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;Herbert Simon’s <em>The Architecture of Complexity</em> (1962) is still, to my eye, the best short argument that modularity is a necessary feature of anything we’re going to understand or build at scale. His notion of a “nearly decomposable system”, where interactions within a part dominate interactions between parts, is one I keep coming back to.</p></div></div><p>The second reason is <em>engineering</em>, and it’s much more recent. The AI systems being built today are already assembled out of parts, whether or not anyone planned it that way. You take a base model, bolt on a retrieval index, add a tool layer, wrap the whole thing in an agent, and ship it. The composition is happening. What isn’t happening, at least not yet, is a clean theory of why it works when it works, or a good set of diagnostics for when it doesn’t. In practice, the parts are strangely inert. Fine-tune one and unrelated things break. Add a new tool and the router picks it up sometimes but not always. The system as a whole behaves less like a machine you can reason about and more like a slightly moody coworker.</p>
+<p>The second reason is <em>engineering</em>, and it’s much more recent. The AI systems being built today are already assembled out of parts, whether or not anyone planned it that way. You take a base model, bolt on a retrieval index, add a tool layer, wrap the whole thing in an agent, and ship it. The composition is happening. What isn’t happening, at least not yet, is a clean theory of why it works when it works, or a good set of diagnostics for when it doesn’t. In practice, the parts are strangely inert. Fine-tune one and unrelated things break. Add a new tool and the router picks it up sometimes but not always. The system as a whole behaves less like a machine you can reason about and more like a slightly moody coworker.</p>
 <p>The tension between the scientific story and the engineering reality is what I want to sit with. If modularity is a necessary feature of systems we can understand, and if our systems are clearly being assembled modularly, then why is the resulting behavior so often <em>not</em> modular in any useful sense? That question unpacks into three sub-questions, which are the backbone of this program.</p>
-
-<div class="no-row-height column-margin column-container"><div class="">
-<p>I’ve spent the last few years building retrieval systems, agent scaffolds, and domain-specific fine-tunes in production, these days in a cybersecurity setting. A lot of the questions in this program come directly from watching composition fail in ways the academic literature doesn’t quite capture yet, and often the failure is visible first to whoever is trying to make the system misbehave on purpose.</p>
-</div></div></section>
-<section id="three-threads" class="level2 page-columns page-full">
+<p>Some context on where the questions come from: I’ve spent the last few years building retrieval systems, agent scaffolds, and domain-specific fine-tunes in production, these days in a cybersecurity setting. A lot of this program comes directly from watching composition fail in ways the academic literature doesn’t quite capture yet, and often the failure is visible first to whoever is trying to make the system misbehave on purpose.</p>
+</section>
+<section id="three-threads" class="level2">
 <h2 class="anchored" data-anchor-id="three-threads">2. Three threads</h2>
-<section id="when-does-modularity-emerge" class="level3 page-columns page-full">
+<section id="when-does-modularity-emerge" class="level3">
 <h3 class="anchored" data-anchor-id="when-does-modularity-emerge">2.1 When does modularity <em>emerge</em>?</h3>
 <p>The first thread is about emergence. If you take a big, undifferentiated network and train it on a rich enough mixture of tasks, do modules show up on their own? And if they do, how would we know?<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;“Would we know” is the harder half of this question. A lot of the mechanistic interpretability literature finds structures that look modular under one probe and dissolve under another. The measurement problem is doing most of the work in this question.</p></div></div><p>There is a real and growing body of work showing that, in the right conditions, features and circuits with stable and interpretable meanings do emerge inside trained networks. There is also a real and growing body of work showing that apparently modular structure can be an artifact of the particular basis you happened to look in, and that small changes in training can scramble or dissolve the modules you thought you had. Both things seem to be true at the same time, which is exactly the kind of uncomfortable situation that usually means there’s a real scientific question underneath.</p>
+<p>There is a real and growing body of work showing that, in the right conditions, features and circuits with stable and interpretable meanings do emerge inside trained networks. There is also a real and growing body of work showing that apparently modular structure can be an artifact of the particular basis you happened to look in, and that small changes in training can scramble or dissolve the modules you thought you had. Both things seem to be true at the same time, which is exactly the kind of uncomfortable situation that usually means there’s a real scientific question underneath.</p>
 <p>The questions I want to push on here:</p>
 <ol type="1">
 <li><strong>What is the right null hypothesis for “this network is modular”?</strong> If we can’t describe what a <em>non</em>-modular network of the same size and performance would look like, then any claim of emergent modularity is unfalsifiable. I mean that as a call to sharpen the claim, which feels like a tractable thing to do.</li>
@@ -402,14 +400,12 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Does scale help, hurt, or do nothing?</strong> The literature is genuinely split on whether bigger models are more or less modular than smaller ones, and I suspect a lot of the disagreement is downstream of the measurement problem in (1).</li>
 </ol>
 </section>
-<section id="when-does-composition-generalize" class="level3 page-columns page-full">
+<section id="when-does-composition-generalize" class="level3">
 <h3 class="anchored" data-anchor-id="when-does-composition-generalize">2.2 When does composition <em>generalize</em>?</h3>
 <p>The second thread is about compositional generalization. Once you have parts, whether they emerged on their own or you hand-designed them, when does combining them in new ways produce correct new behavior instead of nonsense?</p>
 <p>The classical benchmarks for this (SCAN, COGS, CFQ, and friends) have been chased hard by large models and mostly defeated by the simple expedient of training on enough data. I don’t think that settles the question, though. It mostly tells us that with enough coverage, memorization does a very good impression of composition from the outside. The question I actually care about is the opposite one: in the <em>under</em>-covered regime, when you genuinely need a model to combine two things it has never seen together, what property of the model predicts whether it will succeed?</p>
-
-<div class="no-row-height column-margin column-container"><div class="">
-<p>A reframing I’ve found surprisingly useful: stop asking “is this model compositional?” and start asking “what is the smallest intervention that makes this particular composition work?” The interventions themselves are informative in a way the yes/no verdict isn’t.</p>
-</div></div><p>Some concrete sub-questions:</p>
+<p>A reframing I’ve found surprisingly useful: stop asking “is this model compositional?” and start asking “what is the smallest intervention that makes this particular composition work?” The interventions themselves carry more information than any yes-or-no verdict would.</p>
+<p>Some concrete sub-questions:</p>
 <ul>
 <li><strong>What is the role of the interface?</strong> Models that compose via natural language (tool calls, chain of thought, agent messages) seem to generalize differently from models that compose via dense latents. I suspect that’s a big deal. I don’t yet have a clean theory of why.</li>
 <li><strong>What does training <em>for</em> composition look like?</strong> There is a real difference between training on compositional data and training with a compositional objective. Most of what gets called “compositional training” in practice is just the first of those.</li>
@@ -451,7 +447,13 @@ ul.task-list li input[type="checkbox"] {
 </section>
 
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Herbert Simon’s <em>The Architecture of Complexity</em> (1962) is still, to my eye, the best short argument that modularity is a necessary feature of anything we’re going to understand or build at scale. His notion of a “nearly decomposable system”, where interactions within a part dominate interactions between parts, is one I keep coming back to.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>“Would we know” is the harder half of this question. A lot of the mechanistic interpretability literature finds structures that look modular under one probe and dissolve under another. The measurement problem is doing most of the work in this question.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
