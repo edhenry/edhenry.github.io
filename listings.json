@@ -1,0 +1,22 @@
+[
+  {
+    "listing": "/notes.html",
+    "items": [
+      "/notes/retrieval-augmented-generation/index.html"
+    ]
+  },
+  {
+    "listing": "/projects/projects.html",
+    "items": []
+  },
+  {
+    "listing": "/talks/talks.html",
+    "items": []
+  },
+  {
+    "listing": "/research.html",
+    "items": [
+      "/research/modularity-compositionality/index.html"
+    ]
+  }
+]

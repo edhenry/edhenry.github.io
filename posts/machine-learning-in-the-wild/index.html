@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Ed Henry">
+<meta name="dcterms.date" content="2019-04-18">
 
-<title>Ed Henry</title>
+<title>Machine Learning in the Wild – Ed Henry</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,26 +28,27 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-70be5ccd51f03de5ce195d75fadf0882.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-70be5ccd51f03de5ce195d75fadf0882.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-70be5ccd51f03de5ce195d75fadf0882.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-f37b6d465d5af193c87a24b878a81180.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-4a8f657dbf7745611afe5bf0493ade0e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-f37b6d465d5af193c87a24b878a81180.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-70be5ccd51f03de5ce195d75fadf0882.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-70be5ccd51f03de5ce195d75fadf0882.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-70be5ccd51f03de5ce195d75fadf0882.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-f37b6d465d5af193c87a24b878a81180.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-4a8f657dbf7745611afe5bf0493ade0e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-f37b6d465d5af193c87a24b878a81180.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -75,10 +78,10 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -243,11 +246,11 @@ ul.task-list li input[type="checkbox"] {
   </script>
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Ed Henry</span>
     </a>
   </div>
@@ -258,27 +261,27 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./research.html"> 
+    <a class="nav-link" href="../../research.html"> 
 <span class="menu-text">Research</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./notes.html"> 
+    <a class="nav-link" href="../../notes.html"> 
 <span class="menu-text">Notes</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./projects/projects.html"> 
+    <a class="nav-link" href="../../projects/projects.html"> 
 <span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./talks/talks.html"> 
+    <a class="nav-link" href="../../talks/talks.html"> 
 <span class="menu-text">Talks</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./quotes.html"> 
+    <a class="nav-link" href="../../quotes.html"> 
 <span class="menu-text">Quotes</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
 </ul>
@@ -302,50 +305,119 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Machine Learning in the Wild</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">machine learning</div>
+                <div class="quarto-category">artificial intelligence</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Ed Henry </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">April 18, 2019</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#dont-start-with-machine-learning" id="toc-dont-start-with-machine-learning" class="nav-link active" data-scroll-target="#dont-start-with-machine-learning">Don’t start with Machine Learning</a></li>
+  <li><a href="#data-and-the-system-generating-it" id="toc-data-and-the-system-generating-it" class="nav-link" data-scroll-target="#data-and-the-system-generating-it">Data and the system generating it</a></li>
+  <li><a href="#deliverying-production-grade-software" id="toc-deliverying-production-grade-software" class="nav-link" data-scroll-target="#deliverying-production-grade-software">Deliverying Production Grade Software</a></li>
+  <li><a href="#now-for-machine-learning" id="toc-now-for-machine-learning" class="nav-link" data-scroll-target="#now-for-machine-learning">Now for Machine Learning</a></li>
+  <li><a href="#end-to-end-throughput" id="toc-end-to-end-throughput" class="nav-link" data-scroll-target="#end-to-end-throughput">End-to-end Throughput</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<div class="quarto-about-trestles">
-  <div class="about-entity">
-    <img src="profile.jpg" class="about-image
-  round " style="height: 14em; width: 14em;">
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Ed Henry</h1>
-</div>
-<div class="quarto-title-meta">
-  </div>
-</header>
-    <div class="about-links">
-  <a href="https://github.com/edhenry" class="about-link" rel="" target="">
-    <i class="bi bi-github"></i>
-     <span class="about-link-text">GitHub</span>
-  </a>
-  <a href="https://twitter.com/edhenry_" class="about-link" rel="" target="">
-    <i class="bi bi-twitter"></i>
-     <span class="about-link-text">Twitter</span>
-  </a>
-  <a href="https://linkedin.com/in/ed-henry" class="about-link" rel="" target="">
-    <i class="bi bi-linkedin"></i>
-     <span class="about-link-text">LinkedIn</span>
-  </a>
-</div>
-  </div>
-  <div class="about-contents"><main class="content" id="quarto-document-content">
-
-<p>Hi, I’m Ed. By day I’m a Senior Scientist at <a href="https://www.zscaler.com">Zscaler</a>, working at the intersection of cybersecurity and AI. By night (and sometimes by day, if I can get away with it) I think about a single question:</p>
-<blockquote class="blockquote">
-<p><strong>What does it take to build intelligent systems out of smaller, reusable parts, and why does the field keep tripping over itself when it tries?</strong></p>
-</blockquote>
-<p>The words I keep coming back to are <em>modularity</em> and <em>compositionality</em>. In plain terms: can we build AI the way we build pretty much everything else that works, which is by snapping together well-understood pieces? In less plain terms: when do modules emerge inside trained networks, when do learned primitives compose into genuinely new behavior, and what are the right interfaces between parts at each level of the stack?</p>
-<p>This site is my working notebook. The <a href="./research.html">Research</a> page lays out the program in more detail and collects longer posts. <a href="./notes.html">Notes</a> is where shorter, rougher thoughts live. <a href="./quotes.html">Quotes</a> is a personal page of lines other people said better than I ever will.</p>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
-</main></div>
-</div>
- <!-- /main -->
+
+
+
+
+<p>I won’t be covering anything purely technical in this post, but I wanted to get some thoughts out there on what it takes to bring Machine Learning into production,</p>
+<p>“Any sufficiently advanced technology is indistinguishable from magic.” - Arthur C. Clarke</p>
+<p>This quote rings true today as much as the day that it was written. Especially when it comes to Machine Learning. I work with customers every day who are curious what this new magic called Machine Learning(ML) is and how they can apply it to a problem they’re facing. There’s no denying that ML is something that we should all be paying attention to but as we start to wade into the waters of ML, and discussing the process of framing the problem, testing our hypotheses, and bringing a system through to production we need to understand that this requires a bit of a shift in our traditional engineering process. In this post we will outline the general process that I’ve followed while helping customers move from idea/MVP to production.</p>
+<section id="dont-start-with-machine-learning" class="level2">
+<h2 class="anchored" data-anchor-id="dont-start-with-machine-learning">Don’t start with Machine Learning</h2>
+<p>ML in undoubtedly changing the way we approach solving problems in the world today. More importantly, however, is knowing what problem it is that you’re trying to solve. Like many sciences and engineering discplines practitioners are looking to understand a problem domain in an effort to guide decision making processes. It’s this decision making process that is what we think about when approaching a problem. I want to highlight a few key questions one should ask about the problem at hand before rummaging through their toolboxes for an overpowered approach. Some of these key questions are as follows.</p>
+<ul>
+<li>What decision are we trying to make?</li>
+<li>Is there an existing decision making mechanism in place?</li>
+<li>Are we trying to replace this decision making mechanism?</li>
+<li>Who is this decision impacting?</li>
+<li>What will the potential outcomes of this decision be?</li>
+<li>What properties of the system am I trying to capture?</li>
+<li>Do we have domain experts involved?</li>
+<li>Do we have the <em>right</em> domain experts invoved?</li>
+</ul>
+<p>None of the questions I’ve provided have anything to do with Machine Learning directly. Rather, they’re asked to help guide the process of applying ML and measuring it’s utility in a given problem domain. These types of questions will help you scope the problem you’re working on and provide a certain acceptance criteria.</p>
+</section>
+<section id="data-and-the-system-generating-it" class="level2">
+<h2 class="anchored" data-anchor-id="data-and-the-system-generating-it">Data and the system generating it</h2>
+<p>Once we have a thorough understanding of the problem that we’re trying to apply ML to, and we understand what decision it is that we’re trying to make / replace, we can start to investigate what data that system generates. Many of the customers I’ve worked with think about this process as <em>just</em> the ML oriented questions around the types of features, what types of random variables they are, what classes we may want to define for a supervised learning problem, etc. We also need to understand questions not directly related to the data generating system, itself. Questions around data collection, storage, access, governance, provenance, etc. Questions like :</p>
+<ul>
+<li>How is the data being collected?</li>
+<li>What steps are being taken to validate the data collection mechanisms?</li>
+<li>How reliable are the measurements being collected?</li>
+<li>Where is the data being persisted?</li>
+<li>What controls are in place to manage access to this data?</li>
+<li>How is this data being versioned?</li>
+</ul>
+<p>These questions will influence the success of your ML project, overall. Without data, we’re left without the ability to use this powerful new technology.</p>
+</section>
+<section id="deliverying-production-grade-software" class="level2">
+<h2 class="anchored" data-anchor-id="deliverying-production-grade-software">Deliverying Production Grade Software</h2>
+<p>The next step in the adoption of ML is understanding not just what software is, how to write it, and how to use an SCM system to manage releases, but one also needs to understand what running software in production entails. Anyone who has been part of the industry for any length of time in the last 5 to 7 years has heard the term DevOps before. This term is just a blend of the terms Development and Operations and the concept of blending the two words captures the idea of minimizing the distance between the two general concepts. What it means to be a developer on a production level system requires a thorough understanding of not only the code base, but the properties and characteristics of our production grade systems and what the upper and lower bounds are on the performance of our systems.</p>
+<p>You may have also heard the term <strong>machine learning engineer</strong> used within industry, as well. This new title and role is a result of the differences, yet seemingly similar, approaches needed to move from experimentation to production in ML systems. Some of the things to think about involve both the data acquisition, and machine learning (training and serving) pipelines.</p>
+<ul>
+<li>What does testing look like for our pipelines, end to end?</li>
+<li>How do we perform validation of performance of our system (not just the model)?</li>
+<li>How can we provide tooling to measure for concept drift?</li>
+<li>How can we qualify acceptable throughput of our system, end to end?</li>
+</ul>
+</section>
+<section id="now-for-machine-learning" class="level2">
+<h2 class="anchored" data-anchor-id="now-for-machine-learning">Now for Machine Learning</h2>
+<p>Now that we have a thorough understanding of the problem domain, use case, data generating system, and all of the software required to stand a system up in production we can start to loop back to the opening thoughts of this post. We need to understand what methods we might be able to use to describe the phenomenon that we’re trying to capture. Typically in Machine Learning by describe, we mean capturing the variance of the overall system in a way that we can use to ultimately make decisions.</p>
+<p>In order to understand how we can apply ML, in production, we need to understand everything outlined above because it will impact the choices we make from a modeling perspective. Anecdotally we don’t want to make the decision of using a non-parametric model in a given problem domain where the datasets might be growing rapidly. A concrete example of a use case that I’ve run into in this effect has been modeling data networking traffic characteristics. The rate at which data is generated and collected depends on the number of devices sending information over a network. With the types of connectivity we see today this can quickly become a show stopper from moving a model into production, especially if we have to layer feature engineering into the pipeline, on the fly, as well. A non-parametric model will quickly run out of resources in terms of computational and/or time, depending on the problem domain.</p>
+<p>Understanding the use case, the decisions we’re trying to make, what mechanisms are in place to collect and persist the data that our system is generating, and the software tooling and ecosystems required to put pipelines into production are imperative to providing a seamless experience of applying Machine Learning in the real world.</p>
+</section>
+<section id="end-to-end-throughput" class="level2">
+<h2 class="anchored" data-anchor-id="end-to-end-throughput">End-to-end Throughput</h2>
+<p>Last but not least after all of the steps outlined above are thoroughly understood we can start to provide the engineering guarantees we’re used to in the technology world. Anyone who has heard the term speeds and feeds understand that we’re talking about the end-to-end throughput of an entire tech stack, from start to finish. Once we are able to effectively measure all of the components of our ML system we can then identify bottle necks and work to alleviate them in a measureable and defensible way.</p>
+<p>Overall, deploying Machine Learning in production may start out as feeling orthogonal to the traditional software engineering methodologies, but once an organization works through a few proof of concept or minimum viable product efforts, they will then understand what it takes to provide a meaningful end-to-end experience for using this new magic called Machine Learning.</p>
+
+
+</section>
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
@@ -361,6 +433,13 @@ ul.task-list li input[type="checkbox"] {
       window.document.body.appendChild(a);
     }
     setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
     const isCodeAnnotation = (el) => {
       for (const clz of el.classList) {
         if (clz.startsWith('code-annotation-')) {                     
@@ -766,17 +845,17 @@ ul.task-list li input[type="checkbox"] {
     <div class="nav-footer-center">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
-    <a class="nav-link" href="./about.html">
+    <a class="nav-link" href="../../about.html">
 <p>About</p>
 </a>
   </li>  
     <li class="nav-item">
-    <a class="nav-link" href="./research.html">
+    <a class="nav-link" href="../../research.html">
 <p>Research</p>
 </a>
   </li>  
     <li class="nav-item">
-    <a class="nav-link" href="./quotes.html">
+    <a class="nav-link" href="../../quotes.html">
 <p>Quotes</p>
 </a>
   </li>  

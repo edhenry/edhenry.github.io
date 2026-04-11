@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Ed Henry</title>
+<title>About – Ed Henry</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -278,7 +278,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Quotes</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link active" href="./about.html" aria-current="page"> 
 <span class="menu-text">About</span></a>
   </li>  
 </ul>
@@ -307,18 +307,47 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<div class="quarto-about-trestles">
-  <div class="about-entity">
-    <img src="profile.jpg" class="about-image
-  round " style="height: 14em; width: 14em;">
-<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-about-jolla">
+  <img src="profile.jpg" class="about-image
+  round " style="height: 12em; width: 12em;">
+ <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Ed Henry</h1>
+<h1 class="title">About</h1>
 </div>
 <div class="quarto-title-meta">
   </div>
-</header>
-    <div class="about-links">
+</header><main class="content" id="quarto-document-content">
+
+<p>I’m a Senior Scientist at <a href="https://www.zscaler.com">Zscaler</a>, working at the intersection of cybersecurity and AI. Before that I spent about a decade sitting at the overlap of networking, distributed systems, and machine learning, which is where my taste for composable, nearly-decomposable systems comes from. If you want the short version of what I do, it’s this: I try to take research ideas about how AI should work and figure out which ones actually survive contact with a production system, which in my current role tends to mean a system that is also being actively probed by someone who would rather it didn’t work.</p>
+<p>These days my time splits between two modes. In one, I’m shipping. I take large language models, retrieval systems, and agentic scaffolds into production, and find out exactly where the abstractions leak (and, in a security setting, where an attacker might pry them open on purpose). In the other, I’m reading, writing, and thinking about <strong>modularity</strong> and <strong>compositionality</strong> as organizing principles for the next generation of AI systems. This site is where the second mode lives, though the two keep bleeding into each other, which is usually where the interesting questions come from.</p>
+<p>Cybersecurity has turned out to be a surprisingly productive lens on the modularity questions I already cared about. Adversarial settings are unforgiving about sloppy abstractions, and the places where a learned system’s modules <em>aren’t</em> really modular tend to be exactly the places an attacker can reach through.</p>
+<section id="interests" class="level2">
+<h2 data-anchor-id="interests">Interests</h2>
+<ul>
+<li>Modularity and compositionality in learned systems</li>
+<li>Mechanistic interpretability, and what “structure” in a network even means</li>
+<li>Retrieval-augmented generation and its failure modes</li>
+<li>Agentic systems, and the design of interfaces between modules</li>
+<li>AI for cybersecurity: detection, triage, and autonomous response</li>
+<li>Cybersecurity for AI: prompt injection, adversarial robustness, and the failure modes of composed AI systems under active attack</li>
+<li>Causality, novelty detection, and out-of-distribution generalization</li>
+<li>Distributed systems, which I’ve come to think resemble neural networks more than is usually admitted</li>
+</ul>
+</section>
+<section id="elsewhere" class="level2">
+<h2 data-anchor-id="elsewhere">Elsewhere</h2>
+<ul>
+<li><a href="https://github.com/edhenry">GitHub</a> for code and half-finished experiments</li>
+<li><a href="https://twitter.com/edhenry_">Twitter</a> for shorter-form thinking</li>
+<li><a href="https://linkedin.com/in/ed-henry">LinkedIn</a> for professional history</li>
+</ul>
+<p>If you want to reach me about anything on this site, the easiest way is a direct message on Twitter or an issue on the relevant GitHub repository. I am especially interested in disagreement. Pointers to work that contradicts something I’ve written, or a good argument for why a research thread I’m pursuing is the wrong one, are genuinely welcome.</p>
+
+
+</section>
+</main> 
+  <hr class="about-sep">
+   <div class="about-links">
   <a href="https://github.com/edhenry" class="about-link" rel="" target="">
     <i class="bi bi-github"></i>
      <span class="about-link-text">GitHub</span>
@@ -332,18 +361,6 @@ ul.task-list li input[type="checkbox"] {
      <span class="about-link-text">LinkedIn</span>
   </a>
 </div>
-  </div>
-  <div class="about-contents"><main class="content" id="quarto-document-content">
-
-<p>Hi, I’m Ed. By day I’m a Senior Scientist at <a href="https://www.zscaler.com">Zscaler</a>, working at the intersection of cybersecurity and AI. By night (and sometimes by day, if I can get away with it) I think about a single question:</p>
-<blockquote class="blockquote">
-<p><strong>What does it take to build intelligent systems out of smaller, reusable parts, and why does the field keep tripping over itself when it tries?</strong></p>
-</blockquote>
-<p>The words I keep coming back to are <em>modularity</em> and <em>compositionality</em>. In plain terms: can we build AI the way we build pretty much everything else that works, which is by snapping together well-understood pieces? In less plain terms: when do modules emerge inside trained networks, when do learned primitives compose into genuinely new behavior, and what are the right interfaces between parts at each level of the stack?</p>
-<p>This site is my working notebook. The <a href="./research.html">Research</a> page lays out the program in more detail and collects longer posts. <a href="./notes.html">Notes</a> is where shorter, rougher thoughts live. <a href="./quotes.html">Quotes</a> is a personal page of lines other people said better than I ever will.</p>
-
-
-</main></div>
 </div>
  <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

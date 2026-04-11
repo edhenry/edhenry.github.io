@@ -1,0 +1,75 @@
+/* Distill-inspired light touches for Ed Henry's research blog. */
+
+/* Comfortable reading width for long-form research posts. */
+main.content {
+  max-width: 68ch;
+}
+
+/* Slightly larger, more readable body type for essays. */
+body {
+  font-size: 1.02rem;
+  line-height: 1.7;
+}
+
+/* Blockquotes: quieter, italic, with a subtle left rule. */
+blockquote {
+  font-style: italic;
+  color: #555;
+  border-left: 3px solid #bbb;
+  padding-left: 1rem;
+  margin-left: 0;
+}
+
+/* Margin content (distill-style asides) should feel secondary. */
+.column-margin,
+.aside,
+.margin-caption,
+aside {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #666;
+}
+
+/* Footnote back-refs should be unobtrusive. */
+.footnote-back {
+  text-decoration: none;
+  opacity: 0.6;
+}
+
+/* Title block: a little more editorial. */
+.quarto-title-block .quarto-title .title {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.quarto-title-block .subtitle {
+  color: #666;
+  font-weight: 400;
+}
+
+/* Research listing cards: quieter separators. */
+.quarto-listing-default .listing-item {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Dark mode tweaks (paired with theme-dark.css). */
+@media (prefers-color-scheme: dark) {
+  blockquote {
+    color: #bbb;
+    border-left-color: #555;
+  }
+  .column-margin,
+  .aside,
+  .margin-caption,
+  aside {
+    color: #aaa;
+  }
+  .quarto-title-block .subtitle {
+    color: #aaa;
+  }
+  .quarto-listing-default .listing-item {
+    border-bottom-color: #333;
+  }
+}
