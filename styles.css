@@ -49,6 +49,13 @@ aside {
   margin-bottom: 1rem;
 }
 
+/* Inline code: soft neutral against white, no purple. */
+code:not(.sourceCode) {
+  background-color: rgba(0, 0, 0, 0.06) !important;
+  color: inherit !important;
+  border-radius: 3px;
+}
+
 /* Dark mode tweaks (paired with theme-dark.css). */
 @media (prefers-color-scheme: dark) {
   blockquote {

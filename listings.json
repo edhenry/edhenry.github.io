@@ -1,8 +1,9 @@
 [
   {
-    "listing": "/notes.html",
+    "listing": "/research.html",
     "items": [
-      "/notes/retrieval-augmented-generation/index.html"
+      "/research/diversity-drives-coverage-follows/index.html",
+      "/research/modularity-compositionality/index.html"
     ]
   },
   {
@@ -14,9 +15,9 @@
     "items": []
   },
   {
-    "listing": "/research.html",
+    "listing": "/notes.html",
     "items": [
-      "/research/modularity-compositionality/index.html"
+      "/notes/retrieval-augmented-generation/index.html"
     ]
   }
 ]
