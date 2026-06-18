@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Ed Henry">
+<meta name="dcterms.date" content="2026-04-11">
+<meta name="description" content="A first pass at the questions I find most interesting about how modularity and compositionality show up (or fail to show up) in modern AI systems, and the threads I plan to pull on from here.">
 
-<title>Projects – Ed Henry</title>
+<title>Modularity and Compositionality: A Research Program – Ed Henry</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,30 +26,28 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-listing/list.min.js"></script>
-<script src="../site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-d6a2ae2cb249da1580f0a11f71b8f854.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-d6a2ae2cb249da1580f0a11f71b8f854.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-d6a2ae2cb249da1580f0a11f71b8f854.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a068b34d9fa3df2d0ce6fedb255d1012.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-8c43d6df4263cdfa434ccaf478586b15.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a068b34d9fa3df2d0ce6fedb255d1012.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-d6a2ae2cb249da1580f0a11f71b8f854.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-d6a2ae2cb249da1580f0a11f71b8f854.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-d6a2ae2cb249da1580f0a11f71b8f854.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-a068b34d9fa3df2d0ce6fedb255d1012.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-8c43d6df4263cdfa434ccaf478586b15.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-a068b34d9fa3df2d0ce6fedb255d1012.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -74,67 +75,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
 
-    const options = {
-      valueNames: ['listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -306,7 +249,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Ed Henry</span>
     </a>
   </div>
@@ -317,27 +260,27 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../research.html"> 
+    <a class="nav-link" href="../../research.html"> 
 <span class="menu-text">Research</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../notes.html"> 
+    <a class="nav-link" href="../../notes.html"> 
 <span class="menu-text">Notes</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../projects/projects.html" aria-current="page"> 
+    <a class="nav-link" href="../../projects/projects.html"> 
 <span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../talks/talks.html"> 
+    <a class="nav-link" href="../../talks/talks.html"> 
 <span class="menu-text">Talks</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../quotes.html"> 
+    <a class="nav-link" href="../../quotes.html"> 
 <span class="menu-text">Quotes</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
 </ul>
@@ -363,44 +306,152 @@ window.Quarto = {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page-left">
-      <h1 class="title">Projects</h1>
-                      </div>
+    <div class="quarto-title column-body">
+      <h1 class="title">Modularity and Compositionality: A Research Program</h1>
+                  <div>
+        <div class="description">
+          <p>A first pass at the questions I find most interesting about how modularity and compositionality show up (or fail to show up) in modern AI systems, and the threads I plan to pull on from here.</p>
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">modularity</div>
+                <div class="quarto-category">compositionality</div>
+                <div class="quarto-category">research</div>
+                <div class="quarto-category">meta</div>
+              </div>
+                  </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page-left">
+  <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p><a href="https://edhenry.github.io">Ed Henry</a> </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">April 11, 2026</p>
+      </div>
+    </div>
     
       
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(0)</span></div></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#abstract" id="toc-abstract" class="nav-link active" data-scroll-target="#abstract">Abstract</a></li>
+  <li><a href="#why-modularity-and-why-now" id="toc-why-modularity-and-why-now" class="nav-link" data-scroll-target="#why-modularity-and-why-now">1. Why modularity, and why now?</a></li>
+  <li><a href="#three-threads" id="toc-three-threads" class="nav-link" data-scroll-target="#three-threads">2. Three threads</a>
+  <ul class="collapse">
+  <li><a href="#when-does-modularity-emerge" id="toc-when-does-modularity-emerge" class="nav-link" data-scroll-target="#when-does-modularity-emerge">2.1 When does modularity <em>emerge</em>?</a></li>
+  <li><a href="#when-does-composition-generalize" id="toc-when-does-composition-generalize" class="nav-link" data-scroll-target="#when-does-composition-generalize">2.2 When does composition <em>generalize</em>?</a></li>
+  <li><a href="#what-is-the-right-interface" id="toc-what-is-the-right-interface" class="nav-link" data-scroll-target="#what-is-the-right-interface">2.3 What is the right <em>interface</em>?</a></li>
+  </ul></li>
+  <li><a href="#what-i-actually-plan-to-do" id="toc-what-i-actually-plan-to-do" class="nav-link" data-scroll-target="#what-i-actually-plan-to-do">3. What I actually plan to do</a></li>
+  <li><a href="#some-caveats" id="toc-some-caveats" class="nav-link" data-scroll-target="#some-caveats">4. Some caveats</a></li>
+  <li><a href="#how-to-read-this-site" id="toc-how-to-read-this-site" class="nav-link" data-scroll-target="#how-to-read-this-site">5. How to read this site</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
 
+<section id="abstract" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="abstract">Abstract</h2>
+<p>Modern AI systems are, quite literally, built out of parts. Transformer blocks, attention heads, mixture of experts, retrieval indices, tool layers, agentic controllers. And yet when you ask whether these systems are <em>actually</em> modular, in the sense that the parts have stable meanings, compose predictably, and can be recombined to handle new situations, the honest answer is “sort of, sometimes, and nobody is entirely sure why.” This post is a first pass at the research program I want to pursue in that gap. I’ll lay out the questions I think are interesting, the things I think are already known, and what I actually plan to work on. It is deliberately incomplete and will be revised in public.</p>
+</section>
+<section id="why-modularity-and-why-now" class="level2">
+<h2 class="anchored" data-anchor-id="why-modularity-and-why-now">1. Why modularity, and why now?</h2>
+<p>There are two reasons I keep coming back to modularity as an organizing idea in AI, and they pull in opposite directions.</p>
+<p>The first is <em>scientific</em>, and it’s an old point. Basically every complex system we understand, we understand because we chopped it into pieces and studied the pieces. Biology has organs, cells, and proteins. Software has functions, objects, and processes. Hardware has gates, registers, and cores. Math has lemmas that get reused across proofs. In every mature field, someone at some point worked out a notion of <em>part</em> and <em>interface</em> that was stable enough to reason about. That notion is what lets a practitioner in the field think about systems whose full state they could never hold in their head at once.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>The second reason is <em>engineering</em>, and it’s much more recent. The AI systems being built today are already assembled out of parts, whether or not anyone planned it that way. You take a base model, bolt on a retrieval index, add a tool layer, wrap the whole thing in an agent, and ship it. The composition is happening. What isn’t happening, at least not yet, is a clean theory of why it works when it works, or a good set of diagnostics for when it doesn’t. In practice, the parts are strangely inert. Fine-tune one and unrelated things break. Add a new tool and the router picks it up sometimes but not always. The system as a whole behaves less like a machine you can reason about and more like a slightly moody coworker.</p>
+<p>The tension between the scientific story and the engineering reality is what I want to sit with. If modularity is a necessary feature of systems we can understand, and if our systems are clearly being assembled modularly, then why is the resulting behavior so often <em>not</em> modular in any useful sense? That question unpacks into three sub-questions, which are the backbone of this program.</p>
+<p>Some context on where the questions come from: I’ve spent the last few years building retrieval systems, agent scaffolds, and domain-specific fine-tunes in production, these days in a cybersecurity setting. A lot of this program comes directly from watching composition fail in ways the academic literature doesn’t quite capture yet, and often the failure is visible first to whoever is trying to make the system misbehave on purpose.</p>
+</section>
+<section id="three-threads" class="level2">
+<h2 class="anchored" data-anchor-id="three-threads">2. Three threads</h2>
+<section id="when-does-modularity-emerge" class="level3">
+<h3 class="anchored" data-anchor-id="when-does-modularity-emerge">2.1 When does modularity <em>emerge</em>?</h3>
+<p>The first thread is about emergence. If you take a big, undifferentiated network and train it on a rich enough mixture of tasks, do modules show up on their own? And if they do, how would we know?<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p>There is a real and growing body of work showing that, in the right conditions, features and circuits with stable and interpretable meanings do emerge inside trained networks. There is also a real and growing body of work showing that apparently modular structure can be an artifact of the particular basis you happened to look in, and that small changes in training can scramble or dissolve the modules you thought you had. Both things seem to be true at the same time, which is exactly the kind of uncomfortable situation that usually means there’s a real scientific question underneath.</p>
+<p>The questions I want to push on here:</p>
+<ol type="1">
+<li><strong>What is the right null hypothesis for “this network is modular”?</strong> If we can’t describe what a <em>non</em>-modular network of the same size and performance would look like, then any claim of emergent modularity is unfalsifiable. I mean that as a call to sharpen the claim, which feels like a tractable thing to do.</li>
+<li><strong>Is modularity a property of the parameters, the activations, or the behavior?</strong> These are three different claims and they don’t always agree. A network can have cleanly separated behavior with entangled parameters, or the reverse. Picking which one you mean actually matters.</li>
+<li><strong>Does scale help, hurt, or do nothing?</strong> The literature is genuinely split on whether bigger models are more or less modular than smaller ones, and I suspect a lot of the disagreement is downstream of the measurement problem in (1).</li>
+</ol>
+</section>
+<section id="when-does-composition-generalize" class="level3">
+<h3 class="anchored" data-anchor-id="when-does-composition-generalize">2.2 When does composition <em>generalize</em>?</h3>
+<p>The second thread is about compositional generalization. Once you have parts, whether they emerged on their own or you hand-designed them, when does combining them in new ways produce correct new behavior instead of nonsense?</p>
+<p>The classical benchmarks for this (SCAN, COGS, CFQ, and friends) have been chased hard by large models and mostly defeated by the simple expedient of training on enough data. I don’t think that settles the question, though. It mostly tells us that with enough coverage, memorization does a very good impression of composition from the outside. The question I actually care about is the opposite one: in the <em>under</em>-covered regime, when you genuinely need a model to combine two things it has never seen together, what property of the model predicts whether it will succeed?</p>
+<p>A reframing I’ve found surprisingly useful: stop asking “is this model compositional?” and start asking “what is the smallest intervention that makes this particular composition work?” The interventions themselves carry more information than any yes-or-no verdict would.</p>
+<p>Some concrete sub-questions:</p>
+<ul>
+<li><strong>What is the role of the interface?</strong> Models that compose via natural language (tool calls, chain of thought, agent messages) seem to generalize differently from models that compose via dense latents. I suspect that’s a big deal. I don’t yet have a clean theory of why.</li>
+<li><strong>What does training <em>for</em> composition look like?</strong> There is a real difference between training on compositional data and training with a compositional objective. Most of what gets called “compositional training” in practice is just the first of those.</li>
+<li><strong>When is composition <em>learned</em> versus <em>scaffolded</em>?</strong> Agentic systems compose at inference time via external control flow. Mixture of experts composes at training time via a learned router. These are not the same thing, and evaluating them with the same yardstick is going to mislead us.</li>
+</ul>
+</section>
+<section id="what-is-the-right-interface" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-the-right-interface">2.3 What is the right <em>interface</em>?</h3>
+<p>The third thread is the one I think is most underrated. Any time we connect two modules, we have to pick a medium for the connection. It can be a dense vector, a discrete token, a gradient, a natural-language message, or an executable program. Each of these makes different things easy and different things hard.</p>
+<p>Dense vectors are differentiable and information-rich, which is great for optimization, but they’re also opaque and brittle under distribution shift. Tokens are discrete, legible, and composable, but they introduce lossy bottlenecks. Natural language is maximally general and happens to be human-readable, which is wonderful, but it adds an entire second inference problem at the boundary. Executable programs are precise and verifiable, but they’re narrow and rigid.</p>
+<p>The research question I want to take seriously is: <strong>what determines the right interface for a given composition?</strong> I suspect the answer has a lot to do with three things: how much information actually needs to cross the boundary, how often the boundary will be re-crossed during learning or inference, and whether the interface needs to be legible to something else (a human, a verifier, another model). This is the thread I’m most uncertain about, and for that reason it’s probably the one I want to work on first.</p>
+</section>
+</section>
+<section id="what-i-actually-plan-to-do" class="level2">
+<h2 class="anchored" data-anchor-id="what-i-actually-plan-to-do">3. What I actually plan to do</h2>
+<p>A research program is only useful to the extent that it suggests next actions. Here’s the rough shape of what I want to work on, in priority order. I’ll update this list as things change, because they will.</p>
+<ol type="1">
+<li><strong>A survey post on measuring modularity.</strong> My aim is to lay out the existing space of metrics (functional, structural, causal, information-theoretic), say what each one is actually measuring, and work out which cases make them disagree. I suspect those disagreement cases are the most informative places in the literature.</li>
+<li><strong>A small empirical study of interface choice.</strong> Take one fixed compositional task, hold the model and training data roughly constant, and vary only the interface between modules (dense, token, language, program). Measure how well each setup generalizes to held-out compositions. The goal is less a clean winner and more a clearer sense of which design axes do real work here.</li>
+<li><strong>A theory post on “near-decomposability” for neural networks.</strong> Simon’s original argument is about systems whose within-module interactions dominate their between-module interactions. That’s a testable claim about any trained network. I want to figure out what the test is in practice.</li>
+<li><strong>Working notes on agentic composition.</strong> Production experience is telling me things about where agent composition breaks that aren’t in the literature yet. I want to write those up carefully, because the failure modes are the data.</li>
+</ol>
+</section>
+<section id="some-caveats" class="level2">
+<h2 class="anchored" data-anchor-id="some-caveats">4. Some caveats</h2>
+<p>A few things to head off before they become misreadings:</p>
+<ul>
+<li>Modularity and compositionality are a small piece of what determines how well an AI system works. Scale, data quality, and objective design are at least as important as anything in this program. I write about these topics because they are the ones I find most interesting and most underserved by current work.</li>
+<li>Large models already exhibit plenty of composition in the regimes where it has been carefully tested. The stronger claim that current models are “not compositional” is unfalsifiable as usually stated and empirically wrong where people have actually checked. My interest is in the specific places where composition breaks down.</li>
+<li>There is no new architecture proposal in this program yet. I want to understand what we already have before adding anything to the pile.</li>
+</ul>
+</section>
+<section id="how-to-read-this-site" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-read-this-site">5. How to read this site</h2>
+<p>The <a href="../../research.html">Research</a> page collects posts that try to pull on the threads above. <a href="../../notes.html">Notes</a> is where shorter, rougher thoughts live, including things I want to remember but haven’t thought through carefully yet. The older <a href="../../projects/projects.html">Projects</a> and <a href="../../talks/talks.html">Talks</a> pages are still here for historical reasons, and may get folded into the research program over time.</p>
+<p>If you want to reach me about any of this, the links in the sidebar work. I’m especially interested in disagreement. Pointers to work that contradicts something here, or arguments for why a thread on this list is the wrong one to pull on, are genuinely welcome.</p>
 
 
+</section>
 
 
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div></main> <!-- /main -->
+<ol>
+<li id="fn1"><p>Herbert Simon’s <em>The Architecture of Complexity</em> (1962) is still, to my eye, the best short argument that modularity is a necessary feature of anything we’re going to understand or build at scale. His notion of a “nearly decomposable system”, where interactions within a part dominate interactions between parts, is one I keep coming back to.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>“Would we know” is the harder half of this question. A lot of the mechanistic interpretability literature finds structures that look modular under one probe and dissolve under another. The measurement problem is doing most of the work in this question.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
@@ -828,17 +879,17 @@ window.Quarto = {
     <div class="nav-footer-center">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
-    <a class="nav-link" href="../about.html">
+    <a class="nav-link" href="../../about.html">
 <p>About</p>
 </a>
   </li>  
     <li class="nav-item">
-    <a class="nav-link" href="../research.html">
+    <a class="nav-link" href="../../research.html">
 <p>Research</p>
 </a>
   </li>  
     <li class="nav-item">
-    <a class="nav-link" href="../quotes.html">
+    <a class="nav-link" href="../../quotes.html">
 <p>Quotes</p>
 </a>
   </li>  

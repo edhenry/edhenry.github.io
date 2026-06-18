@@ -36,5 +36,12 @@
     "items": [
       "/notes/retrieval-augmented-generation/index.html"
     ]
+  },
+  {
+    "listing": "/research.html",
+    "items": [
+      "/research/diversity-drives-coverage-follows/index.html",
+      "/research/modularity-compositionality/index.html"
+    ]
   }
 ]

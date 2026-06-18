@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Ed Henry">
+<meta name="dcterms.date" content="2026-05-28">
+<meta name="description" content="Pair coverage looked like the obvious knob to turn for compositional generalization. After six experiments on COGS and a four-dataset replication, it turned out to be a side effect of something else. This post is the story of how that result happened, what travels across datasets, what doesn’t, and what to do if you’re actually building a training set.">
+
+<title>Diversity Drives, Coverage Follows: What ‘More Data’ Actually Buys – Ed Henry</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-d6a2ae2cb249da1580f0a11f71b8f854.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-d6a2ae2cb249da1580f0a11f71b8f854.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-d6a2ae2cb249da1580f0a11f71b8f854.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-a068b34d9fa3df2d0ce6fedb255d1012.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-8c43d6df4263cdfa434ccaf478586b15.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-a068b34d9fa3df2d0ce6fedb255d1012.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Ed Henry</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../research.html"> 
+<span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../notes.html"> 
+<span class="menu-text">Notes</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects/projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../talks/talks.html"> 
+<span class="menu-text">Talks</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../quotes.html"> 
+<span class="menu-text">Quotes</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/edhenry"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/edhenry_"> <i class="bi bi-twitter" role="img" aria-label="Twitter">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Diversity Drives, Coverage Follows: What ‘More Data’ Actually Buys</h1>
+                  <div>
+        <div class="description">
+          <p>Pair coverage looked like the obvious knob to turn for compositional generalization. After six experiments on COGS and a four-dataset replication, it turned out to be a side effect of something else. This post is the story of how that result happened, what travels across datasets, what doesn’t, and what to do if you’re actually building a training set.</p>
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">compositionality</div>
+                <div class="quarto-category">generalization</div>
+                <div class="quarto-category">data</div>
+                <div class="quarto-category">methodology</div>
+                <div class="quarto-category">research</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p><a href="https://edhenry.github.io">Ed Henry</a> </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">May 28, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a></li>
+  <li><a href="#the-practitioners-question" id="toc-the-practitioners-question" class="nav-link" data-scroll-target="#the-practitioners-question">1. The practitioner’s question</a></li>
+  <li><a href="#the-cogs-arc-in-six-experiments" id="toc-the-cogs-arc-in-six-experiments" class="nav-link" data-scroll-target="#the-cogs-arc-in-six-experiments">2. The COGS arc, in six experiments</a>
+  <ul class="collapse">
+  <li><a href="#experiment-1-pair-coverage-looks-like-the-answer" id="toc-experiment-1-pair-coverage-looks-like-the-answer" class="nav-link" data-scroll-target="#experiment-1-pair-coverage-looks-like-the-answer">2.1 Experiment 1: pair coverage looks like the answer</a></li>
+  <li><a href="#experiment-2-equalize-diversity-watch-coverage-flip-sign" id="toc-experiment-2-equalize-diversity-watch-coverage-flip-sign" class="nav-link" data-scroll-target="#experiment-2-equalize-diversity-watch-coverage-flip-sign">2.2 Experiment 2: equalize diversity, watch coverage flip sign</a></li>
+  <li><a href="#experiment-3-random-selection-no-typicality-penalty" id="toc-experiment-3-random-selection-no-typicality-penalty" class="nav-link" data-scroll-target="#experiment-3-random-selection-no-typicality-penalty">2.3 Experiment 3: random selection, no typicality penalty</a></li>
+  <li><a href="#experiment-4-the-dose-response" id="toc-experiment-4-the-dose-response" class="nav-link" data-scroll-target="#experiment-4-the-dose-response">2.4 Experiment 4: the dose-response</a></li>
+  <li><a href="#experiment-5-diversity-vs.-exposure-head-to-head" id="toc-experiment-5-diversity-vs.-exposure-head-to-head" class="nav-link" data-scroll-target="#experiment-5-diversity-vs.-exposure-head-to-head">2.5 Experiment 5: diversity vs.&nbsp;exposure, head-to-head</a></li>
+  <li><a href="#experiment-6-closing-the-coverage-book-at-high-diversity" id="toc-experiment-6-closing-the-coverage-book-at-high-diversity" class="nav-link" data-scroll-target="#experiment-6-closing-the-coverage-book-at-high-diversity">2.6 Experiment 6: closing the coverage book at high diversity</a></li>
+  </ul></li>
+  <li><a href="#does-this-travel" id="toc-does-this-travel" class="nav-link" data-scroll-target="#does-this-travel">3. Does this travel?</a></li>
+  <li><a href="#the-methodological-detour-i-didnt-expect" id="toc-the-methodological-detour-i-didnt-expect" class="nav-link" data-scroll-target="#the-methodological-detour-i-didnt-expect">4. The methodological detour I didn’t expect</a>
+  <ul class="collapse">
+  <li><a href="#the-per-adapter-measures-arent-measuring-the-same-thing" id="toc-the-per-adapter-measures-arent-measuring-the-same-thing" class="nav-link" data-scroll-target="#the-per-adapter-measures-arent-measuring-the-same-thing">4.1 The per-adapter measures aren’t measuring the same thing</a></li>
+  <li><a href="#a-unified-signature-but-only-as-a-partial-fix" id="toc-a-unified-signature-but-only-as-a-partial-fix" class="nav-link" data-scroll-target="#a-unified-signature-but-only-as-a-partial-fix">4.2 A unified signature, but only as a partial fix</a></li>
+  <li><a href="#most-of-the-cross-dataset-spread-is-baseline-arithmetic" id="toc-most-of-the-cross-dataset-spread-is-baseline-arithmetic" class="nav-link" data-scroll-target="#most-of-the-cross-dataset-spread-is-baseline-arithmetic">4.3 Most of the cross-dataset spread is baseline arithmetic</a></li>
+  <li><a href="#five-seeds-per-cell-is-below-threshold" id="toc-five-seeds-per-cell-is-below-threshold" class="nav-link" data-scroll-target="#five-seeds-per-cell-is-below-threshold">4.4 Five seeds per cell is below threshold</a></li>
+  </ul></li>
+  <li><a href="#what-survives-and-what-doesnt" id="toc-what-survives-and-what-doesnt" class="nav-link" data-scroll-target="#what-survives-and-what-doesnt">5. What survives, and what doesn’t</a></li>
+  <li><a href="#what-id-actually-do-if-i-were-building-a-training-set" id="toc-what-id-actually-do-if-i-were-building-a-training-set" class="nav-link" data-scroll-target="#what-id-actually-do-if-i-were-building-a-training-set">6. What I’d actually do if I were building a training set</a></li>
+  <li><a href="#where-this-fits-in-the-bigger-program" id="toc-where-this-fits-in-the-bigger-program" class="nav-link" data-scroll-target="#where-this-fits-in-the-bigger-program">7. Where this fits in the bigger program</a></li>
+  <li><a href="#a-few-caveats" id="toc-a-few-caveats" class="nav-link" data-scroll-target="#a-few-caveats">8. A few caveats</a></li>
+  <li><a href="#how-to-read-this" id="toc-how-to-read-this" class="nav-link" data-scroll-target="#how-to-read-this">9. How to read this</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+
+<section id="preface" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="preface">Preface</h2>
+<p>This is the companion post to a paper I just put up, <a href="cbs_diversity_drives.pdf"><em>Diversity Drives, Coverage Follows: Decomposing What “More Data” Buys in Compositional Generalization</em></a>. The paper is where the numbers, the equivalence tests, and the audit framework live. This is where I try to say what actually happened and what I now believe, in the way I’d say it to someone over coffee. It belongs to the <a href="../../research/modularity-compositionality/index.html">modularity and compositionality research program</a> I started laying out earlier in the year, specifically the second thread there: when does composition <em>generalize</em>?</p>
+</section>
+<section id="the-practitioners-question" class="level2">
+<h2 class="anchored" data-anchor-id="the-practitioners-question">1. The practitioner’s question</h2>
+<p>Imagine you are building a training set for a model you want to generalize compositionally. You have a budget, by which I mean a fixed number of forward passes the model will see during training. The question is: what should that budget actually be spent on?</p>
+<p>There are three plausible answers, and the compositional-generalization literature gives different prescriptions depending on whose paper you are reading:</p>
+<ol type="1">
+<li><strong>Pair coverage.</strong> Make sure your training set contains, ahead of time, as many of the compositional combinations the test set will ask about as possible. The intuition is that the model can’t recombine pieces it has never seen at all, so the fraction of testable pairs you’ve at least exposed once should predict performance.</li>
+<li><strong>Diversity.</strong> Use as many distinct examples as possible. Don’t repeat. The intuition is that the model needs variety to actually abstract; repetition just memorizes.</li>
+<li><strong>Exposure.</strong> Pick a smaller set of examples and let the model see each of them many times. The intuition is that the model needs enough passes over each example to actually fit the structure.</li>
+</ol>
+<p>These prescriptions are not just different. They are in some sense <em>incompatible</em> under a fixed budget: each forward pass spent on a new unique example is a pass not spent revisiting an old one, and each example whose inclusion was driven by coverage criteria is one not driven by raw distinct-example count. So when a practitioner reaches the question of “what should I do at the margin,” the answer matters.</p>
+<p>The paper this post summarizes set out to answer this question for one specific task family (compositional semantic parsing and related benchmarks). The honest version of the answer is: diversity drives, exposure refines, and pair coverage turns out to be a side effect masquerading as a mechanism. The harder version of the story is what happens when you try to make that claim across multiple datasets, and that’s where the methodology contribution shows up.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+</section>
+<section id="the-cogs-arc-in-six-experiments" class="level2">
+<h2 class="anchored" data-anchor-id="the-cogs-arc-in-six-experiments">2. The COGS arc, in six experiments</h2>
+<p>The core of the paper is six experiments on COGS, run with T5-small (roughly 60 million parameters). Each experiment was designed to isolate one of the variables the previous experiment had failed to control. The chronology is the story; rearranging it would lose the point.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/fig_hero.png" class="img-fluid figure-img"></p>
+<figcaption>Within-dataset decomposition of an apparent pair-coverage effect on COGS with T5-small. The +26.24pp coverage advantage in the original 2×2 factorial decomposes additively into a +30.20pp diversity confound, a -4.33pp typicality penalty, and a +0.37pp coverage residual. The right panel shows the diversity dose-response: a logistic in <span class="math inline">\(log(N_unique)\)</span> explains 99.6% of the variance.</figcaption>
+</figure>
+</div>
+<section id="experiment-1-pair-coverage-looks-like-the-answer" class="level3">
+<h3 class="anchored" data-anchor-id="experiment-1-pair-coverage-looks-like-the-answer">2.1 Experiment 1: pair coverage looks like the answer</h3>
+<p>I started with a clean 2×2 factorial. One axis was coverage, high vs. low; the other was difficulty, easy vs.&nbsp;hard. Three seeds per cell, all training budgets fixed at 4000 examples. The high-coverage cells used a greedy selection that maximizes pair coverage over a pool of roughly 4000 unique examples; the low-coverage cells used 200 unique examples, each repeated 20 times.</p>
+<p>On the easy split, the high-coverage cells outperformed the low-coverage cells by <strong>+26.2 percentage points</strong> (34.1% vs.&nbsp;7.9%). Effect size was enormous; the result was consistent across all three seeds.</p>
+<p>If I had stopped here, this would have been a paper called something like “Coverage Beats Scale” and it would have been wrong in an interesting way. Two confounds were visible at pre-execution review: the high-coverage cells had roughly 20× more unique examples than the low-coverage cells, and the greedy selection routine was visibly preferring structurally unusual examples.</p>
+</section>
+<section id="experiment-2-equalize-diversity-watch-coverage-flip-sign" class="level3">
+<h3 class="anchored" data-anchor-id="experiment-2-equalize-diversity-watch-coverage-flip-sign">2.2 Experiment 2: equalize diversity, watch coverage flip sign</h3>
+<p>The fix for the first confound was easy in principle: hold the number of unique examples constant and only let coverage vary. So I ran the same 2×2 with all cells at 200 unique examples each. The high-coverage cells still used greedy selection (now picking the 200-example subset that maximized coverage); the low-coverage cells used random selection.</p>
+<p>The high cells collapsed from 34.1% on Experiment 1 to <strong>3.9%</strong> on Experiment 2. The low cells replicated their Experiment 1 number seed-for-seed, which was the cleanest evidence I could ask for that nothing else in the pipeline had changed. The coverage contrast was now slightly <em>negative</em>. So at fixed diversity, the greedy “let’s maximize coverage” strategy actively hurts: it spends the repetition budget consolidating examples that don’t look like the ones the model will see at test.</p>
+<p>This is where I should have realized the picture would be more interesting than I’d planned for.</p>
+</section>
+<section id="experiment-3-random-selection-no-typicality-penalty" class="level3">
+<h3 class="anchored" data-anchor-id="experiment-3-random-selection-no-typicality-penalty">2.3 Experiment 3: random selection, no typicality penalty</h3>
+<p>To kill the typicality confound from Experiment 2, I ran the same factorial again, but with both cells using random selection. I varied coverage by pre-screening a thousand random seeds and keeping the top-5% and bottom-5% by coverage, <em>conditional</em> on having mean example depth and mean output length close to the pool medians. That gave me a clean ~15pp coverage gap with no typicality difference.</p>
+<p>The coverage contrast at easy was <strong>+0.37 percentage points</strong> with a p-value of 0.97. Coverage, controlled for typicality and diversity, did nothing. At this point the three experiments together gave the additive decomposition that ended up being the headline result:</p>
+<ul>
+<li>+30.20pp from the diversity confound (E1 → E2 swing)</li>
+<li>-4.33pp from the typicality penalty (E2 → E3 restoration)</li>
+<li>+0.37pp from coverage as an independent variable (E3 direct)</li>
+</ul>
+<p>The original +26.24pp gap was exactly the sum of these. Pair coverage was a side effect of diversity and selection strategy. There was no mechanism there.</p>
+</section>
+<section id="experiment-4-the-dose-response" class="level3">
+<h3 class="anchored" data-anchor-id="experiment-4-the-dose-response">2.4 Experiment 4: the dose-response</h3>
+<p>Once it was clear that diversity was doing the work, I wanted to see the shape. So a seven-level sweep of <span class="math inline">\(N_{unique}\)</span> on the easy split, budget fixed at 4000 examples each, scanning from <span class="math inline">\(N=50\)</span> up to <span class="math inline">\(N=4000\)</span>.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p>Easy EM rose monotonically from 0.71% to 33.18%, Spearman <span class="math inline">\(\rho = 1.0\)</span>. A logistic in <span class="math inline">\(log(N_{unique})\)</span> fit with <span class="math inline">\(R^2 = 0.996\)</span>…the curve the textbook would have predicted. The <span class="math inline">\(N=4000\)</span> result matched the high-coverage cell from Experiment 1 to within 1 percentage point, which closes the loop: the original Experiment 1 advantage was diversity, full stop.</p>
+</section>
+<section id="experiment-5-diversity-vs.-exposure-head-to-head" class="level3">
+<h3 class="anchored" data-anchor-id="experiment-5-diversity-vs.-exposure-head-to-head">2.5 Experiment 5: diversity vs.&nbsp;exposure, head-to-head</h3>
+<p>The dose-response in Experiment 4 was getting at one variable at a time. To actually separate diversity from exposure, I needed a factorial that crossed them.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/fig_exp5_grid.png" class="img-fluid figure-img"></p>
+<figcaption>Experiment 5 diversity-by-exposure factorial on COGS easy. Rows are <span class="math inline">\(N_{unique}\)</span>; columns are exposure (forward passes per unique example). The left panel shows mean EM; the right panel shows the escape probability from a Gaussian-mixture audit of the bimodal cells.</figcaption>
+</figure>
+</div>
+<p>A 6×4 grid: six levels of <span class="math inline">\(N_{unique}\)</span> from 100 to 4000, and four levels of exposure from 100 to 6400 forward passes per unique example. Five seeds per cell, 120 runs.</p>
+<p>The ANOVA was unsubtle. Diversity’s partial <span class="math inline">\(\eta^2\)</span> was 0.882. Exposure’s was 0.196. No level of exposure rescued the low-diversity cells, and at the top of the diversity axis a 64× increase in exposure moved mean EM by less than 1 percentage point.</p>
+<p>The interesting thing was what exposure was <em>actually</em> doing in the middle of the grid. Several cells in the transition zone (<span class="math inline">\(N \in [500, 1000]\)</span>, moderate E) had within-cell standard deviation above 5pp. A Gaussian-mixture audit (with the right BIC test) classified these cells as mixtures of a floor mode and an escaped mode: some seeds were converging to a useful solution and some were getting stuck near zero. Logistic regression on <span class="math inline">\(P(escape)\)</span> against <span class="math inline">\(log N\)</span> and <span class="math inline">\(log E\)</span> gave coefficients of <span class="math inline">\(+3.73\)</span> and <span class="math inline">\(+1.06\)</span>. So exposure was raising the probability that a given initialization escaped the floor, not the ceiling the escaped runs eventually reached. That distinction generalized cleanly: the escaped seeds converged <em>later</em> than the stuck ones, not faster.</p>
+<p>The way I now describe this is: diversity sets where you can get to; exposure changes the probability that any given run actually gets there.</p>
+</section>
+<section id="experiment-6-closing-the-coverage-book-at-high-diversity" class="level3">
+<h3 class="anchored" data-anchor-id="experiment-6-closing-the-coverage-book-at-high-diversity">2.6 Experiment 6: closing the coverage book at high diversity</h3>
+<p>Experiment 3 had ruled out a coverage effect at low diversity (<span class="math inline">\(N=200\)</span>). It was still logically possible that pair coverage mattered at higher <span class="math inline">\(N\)</span>. So a final 2×4 factorial: two diversity levels (<span class="math inline">\(N=1000\)</span> and <span class="math inline">\(N=2000\)</span>), four coverage quantiles (q1, q25, q75, q99), all under random selection with typicality controls. For each cell, ten thousand seeds were pre-screened and the five seeds closest to the target quantile were retained.</p>
+<p>The primary contrasts (q99 vs.&nbsp;q1) were within 0.4 percentage points in absolute value at both diversity levels. TOST equivalence to zero at ±3pp was supported at both. The main effect of N was huge (<span class="math inline">\(\eta^2 = 0.431\)</span>); the main effect of coverage was statistically indistinguishable from zero (<span class="math inline">\(\eta^2 = 0.013\)</span>).</p>
+<p>That’s the COGS story: diversity drives, exposure refines, and pair coverage as a standalone variable has no detectable effect within the band tested.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/fig_schematic_v2.png" class="img-fluid figure-img"></p>
+<figcaption>Causal structure consistent with the six COGS experiments. Solid blue: the causal effect we measure (diversity → OOD generalization). Dashed red: candidate pathways for which no detectable effect or where the effect operates as a confound when present. Dotted grey: observational correlation between diversity and coverage under random sampling.</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="does-this-travel" class="level2">
+<h2 class="anchored" data-anchor-id="does-this-travel">3. Does this travel?</h2>
+<p>A within-dataset result with strong effect sizes is a thing. A result that replicates across multiple datasets is something else. So the next question was the natural one: does the “diversity drives, exposure refines” pattern hold beyond COGS?</p>
+<p>The replication sweep used a smaller transformer (12 million parameters, trained from scratch) on four further benchmarks: SCAN length-split, ReCOGS gen, gSCAN-compositional adverb_1, and CFQ-mcd1. Five seeds per cell.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/fig_dose_response_unified.png" class="img-fluid figure-img"></p>
+<figcaption>Per-dataset out-of-distribution dose-response on the unified-signature axis. SCAN, ReCOGS, and gSCAN-comp show positive slopes; CFQ-mcd1 is flat across a 10x scaling. The unified-signature axis is defined in section 5 of this post and section 5.2 of the paper.</figcaption>
+</figure>
+</div>
+<p>Three of the four datasets showed the same qualitative pattern. On SCAN, ReCOGS, and gSCAN-comp, diversity’s effect size on the primary metric was an order of magnitude or more larger than exposure’s. The specific numbers differed, but the qualitative classification (“Pattern P”: diversity-dominant, exposure as a refinement) held in every case.</p>
+<p>The fourth dataset, CFQ-mcd1, did something different. Across a 10× scaling in unique examples (from <span class="math inline">\(N=2000\)</span> to <span class="math inline">\(N=20000\)</span>), target accuracy sat at <span class="math inline">\(0.106 \pm \varepsilon\)</span> (essentially zero variance), in every cell. The bootstrap slope confidence interval was on the order of <span class="math inline">\(10^{-5}\)</span>, which is numerically negligible at this metric. The diversity dose was being administered (unified-signature counts grew from 96 to 151 across the sweep, which is the largest dose of any dataset in the study) and the model wasn’t moving.</p>
+<p>I want to be careful about what this means. The flat line is robust to a number of bucketization choices (more on this in a moment), so the empirical signature itself isn’t an artifact. But there are at least two explanations for it: the 12M-parameter model is too small to find any of CFQ’s compositional structure, or CFQ’s pair-extraction adapter happens to be measuring surface co-occurrence rather than the actual compositional structure of the task. Both are plausible. Telling them apart requires either scaling the model up or substituting a canonical rule-trace measure for the surface adapter. We haven’t done either of those yet.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<p>So the qualitative finding “diversity drives, exposure refines” is 3-of-4 on the replication sweep, with the fourth case being either a capacity bound or a measure problem we can’t disambiguate from the present experiment alone. That’s the modest version of the claim, and the one I now believe.</p>
+</section>
+<section id="the-methodological-detour-i-didnt-expect" class="level2">
+<h2 class="anchored" data-anchor-id="the-methodological-detour-i-didnt-expect">4. The methodological detour I didn’t expect</h2>
+<p>When you have four datasets with positive (or near-zero) diversity slopes, the obvious next move is to <em>rank</em> them. Which one converts unit-of-diversity into unit-of-generalization most efficiently? At what slope, exactly? This would be very useful, because cross-dataset learnability rankings would tell us something about the structure of compositional generalization independent of any one benchmark.</p>
+<p>This is the move I tried to make, and it’s the move that produced the methodological half of the paper, because it didn’t work.</p>
+<section id="the-per-adapter-measures-arent-measuring-the-same-thing" class="level3">
+<h3 class="anchored" data-anchor-id="the-per-adapter-measures-arent-measuring-the-same-thing">4.1 The per-adapter measures aren’t measuring the same thing</h3>
+<p>Every benchmark in the sweep ships with a per-adapter <code>extract_pairs</code> function that the analysis pipeline calls without modification. When I actually read each one carefully:</p>
+<ul>
+<li><strong>COGS / ReCOGS:</strong> <code>extract_pairs</code> returns logical-form variable co-occurrence pairs — things like <code>(cat, see.agent)</code> and <code>(boy, see.theme)</code>. The construct is <em>bindings</em>: which entities participate in which thematic role of which event.</li>
+<li><strong>SCAN:</strong> <code>extract_pairs</code> returns token-pair compositions over the input command and the action sequence. The construct is <em>parse-tree composition</em>.</li>
+<li><strong>gSCAN:</strong> <code>extract_pairs</code> returns Cartesian-product co-occurrences over coordinate, adjective, and verb. The construct is <em>grounded Cartesian product</em>.</li>
+<li><strong>CFQ:</strong> <code>extract_pairs</code> returns surface co-occurrences of SPARQL tokens. The construct is <em>surface co-occurrence of output tokens</em>, not any kind of semantic binding.</li>
+</ul>
+<p>These are four operationally different constructs sharing one function name. Naive cross-dataset effect-size comparisons on “diversity” are silently merging them. This is a textbook construct validity problem, and it had been quietly load-bearing in my analysis until I sat down with the code.</p>
+</section>
+<section id="a-unified-signature-but-only-as-a-partial-fix" class="level3">
+<h3 class="anchored" data-anchor-id="a-unified-signature-but-only-as-a-partial-fix">4.2 A unified signature, but only as a partial fix</h3>
+<p>The partial fix is a <em>unified surface signature</em>: I bucketize each training example along four dimensions (atom count, pair count, compositional depth, output length) and count how many unique signatures the training manifest covers. This puts the four datasets on a common scale, in the sense that “unique signatures” now means the same thing across all of them.</p>
+<p>Doing this compresses the per-adapter cardinality spread from roughly 40× to roughly 6×. The qualitative finding (“diversity drives”) is unchanged, and the CFQ flat-floor result is preserved (the unified signature shows the largest dose for CFQ, and the model still doesn’t respond). So far so good.</p>
+<p>But the unified signature still depends on the choice of bucket boundaries. I tested 44 alternative bucketizations.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/fig_bucket_robustness.png" class="img-fluid figure-img"></p>
+<figcaption>Per-dataset slope distribution across 44 alternative bucketization schemes. CFQ-mcd1 is concentrated at zero in every scheme (the flat-floor classification is 100% bucket-robust). SCAN, ReCOGS, and gSCAN-comp all have positive median slopes, but the variability across schemes is wide enough that magnitude rankings between them are preserved in only 34% of schemes.</figcaption>
+</figure>
+</div>
+<p>The qualitative finding “CFQ is flat, the other three are positive” was preserved in 100% of schemes. The <em>magnitude ranking</em> among the three positive datasets was preserved in 34% of schemes. The specific claim “ReCOGS has a higher slope than SCAN” was preserved in 36% of schemes. If I’d picked one bucketization scheme and reported it as the answer, I’d have been making a claim that flipped under most reasonable alternatives.</p>
+</section>
+<section id="most-of-the-cross-dataset-spread-is-baseline-arithmetic" class="level3">
+<h3 class="anchored" data-anchor-id="most-of-the-cross-dataset-spread-is-baseline-arithmetic">4.3 Most of the cross-dataset spread is baseline arithmetic</h3>
+<p>The closed-headroom metric I’d been using to compare datasets, <span class="math inline">\((TA_{\text{high}} - TA_{\text{low}}) / (1 - TA_{\text{low}})\)</span>, is sensitive to the baseline TA. For a fixed absolute gain, a <em>higher</em> baseline produces a larger headroom-closed value, because the denominator is smaller. So if two datasets have identical absolute gains but different baselines, they’ll land at different headroom values, and the resulting cross-dataset spread is denominator arithmetic, not signal.</p>
+<p>I ran a synthetic null calibration: fix the absolute gain at a constant (<span class="math inline">\(+0.03\)</span>) for all datasets, and recompute the closed-headroom spread that this synthetic identical-gain scenario produces. The synthetic spread was <span class="math inline">\(1.66\times\)</span>. The observed spread was <span class="math inline">\(2.41\times\)</span>. So roughly 69% of the spread I’d been reading as cross-dataset signal was baseline arithmetic, and only about 31% was differential gain.</p>
+</section>
+<section id="five-seeds-per-cell-is-below-threshold" class="level3">
+<h3 class="anchored" data-anchor-id="five-seeds-per-cell-is-below-threshold">4.4 Five seeds per cell is below threshold</h3>
+<p>The clincher: at five seeds per cell, no pair of datasets in my sweep is pairwise distinguishable by permutation test. The closest pair (ReCOGS vs.&nbsp;CFQ-mcd1) is at <span class="math inline">\(p = 0.104\)</span>. The bootstrap confidence intervals on the slopes look like they should be distinguishable visually, but the permutation null is wider than the individual bootstrap CIs because it correctly accounts for between-dataset variance under exchanged labels.</p>
+<p>Five seeds per cell is the field-standard configuration. So at the field-standard configuration, the cross-dataset magnitude claims I was trying to make weren’t statistically defensible. I think this is worth saying out loud, because it’s not a property of my study — it’s a property of the experimental design that has been load-bearing for a lot of papers in this space.</p>
+</section>
+</section>
+<section id="what-survives-and-what-doesnt" class="level2">
+<h2 class="anchored" data-anchor-id="what-survives-and-what-doesnt">5. What survives, and what doesn’t</h2>
+<p>The four steps above (per-adapter measure audit; unified surface signature; bucket-boundary robustness sweep; baseline-arithmetic null calibration) are what I’m now calling the <em>audit framework</em>. Applied to my own data, the framework sorts the claims into two lists.</p>
+<p><strong>Robust qualitative claims, that I’d defend:</strong></p>
+<ul>
+<li>Within each learnable dataset, diversity drives generalization and exposure is a refinement. Three of four cross-dataset replications preserve this.</li>
+<li>CFQ-mcd1 at the 12M-parameter from-scratch configuration is a flat floor under the current surface-pair measure. Slope is zero in 100% of bucketization schemes.</li>
+<li>The partition “learnable vs.&nbsp;flat-floor” is 100% bucket-robust.</li>
+</ul>
+<p><strong>Fragile quantitative claims, that I would not defend:</strong></p>
+<ul>
+<li>Specific magnitude rankings among the three learnable datasets. Only 34% bucket-robust.</li>
+<li>Specific slope values as primary findings. These are point estimates from one bucketization out of many.</li>
+<li>Direct Cohen’s d comparisons across datasets. Different metric regimes, different noise floors, no portability.</li>
+<li>Cross-dataset diversity-slope hierarchies at five seeds per cell.</li>
+</ul>
+<p>The thing I want practitioners and researchers to take from the methodology section is not “audit your numbers more carefully,” which is a banal injunction. It’s more specific. The four steps are cheap to run: the per-adapter audit is a code review, the unified signature is one bucketization plus a recomputation, the robustness sweep is a shell loop, and the null calibration is a few lines of arithmetic. The return on running them is that you get to make magnitude claims with an explicit robustness percentage and an explicit null share. The alternative, which I had been doing, is making magnitude claims with implicit confidence, in a regime where that confidence isn’t earned.</p>
+</section>
+<section id="what-id-actually-do-if-i-were-building-a-training-set" class="level2">
+<h2 class="anchored" data-anchor-id="what-id-actually-do-if-i-were-building-a-training-set">6. What I’d actually do if I were building a training set</h2>
+<p>For practitioners building compositional-generalization training sets in the regime I tested (small to medium models, sequence-to-sequence tasks), the priorities I’d suggest, in order:</p>
+<ol type="1">
+<li><strong>Raise the count of distinct examples.</strong> This is the lever that does the work. Within the tested range on COGS at T5-small, the dose-response is a clean logistic, and the high-diversity result is reproducible.</li>
+<li><strong>Make sure exposure clears the floor.</strong> At intermediate diversity levels, exposure raises the probability that any given training run actually finds a productive trajectory. The empirical floor in my COGS data was roughly 1600 forward passes per unique example in the <span class="math inline">\(N = 500\)</span>–<span class="math inline">\(1000\)</span> band; the exposure floor drops as <span class="math inline">\(N\)</span> rises, and at <span class="math inline">\(N = 4000\)</span> even very low exposure suffices.</li>
+<li><strong>Don’t optimize for pair coverage above the natural level.</strong> Within the COGS band I tested, the marginal gain above natural coverage at high diversity is under 0.5pp per 10pp of additional coverage. The selection strategy you’d use to push coverage further also tends to pull you toward atypical structures, which hurt.</li>
+<li><strong>Be very careful with cross-dataset claims.</strong> The audit framework is cheap to run; the alternative is making magnitude claims that flip under reasonable bucketization choices.</li>
+</ol>
+<p>There’s a follow-up worth being explicit about. The COGS coverage null targets the <em>global</em> pair coverage ratio. It does <em>not</em> falsify a more restricted hypothesis: that targeted inclusion of examples covering low-frequency compositional pairs might improve generalization beyond what diversity alone predicts. The engineered-tails experiment is the next thing on the list.</p>
+</section>
+<section id="where-this-fits-in-the-bigger-program" class="level2">
+<h2 class="anchored" data-anchor-id="where-this-fits-in-the-bigger-program">7. Where this fits in the bigger program</h2>
+<p>Stepping back, this is one slice of the second thread in the <a href="../../research/modularity-compositionality/index.html">modularity and compositionality program</a>: when does composition generalize? The slice it occupies is the <em>data-side</em> version of that question. Given a fixed model and a mostly-fixed training procedure, what property of the training set predicts whether composition will generalize?</p>
+<p>The answer here is “diversity, with a floor on exposure, and not coverage.” That’s a useful answer in its specific regime, and a modest one. The bigger thread still has questions I haven’t touched in this work, most prominently:</p>
+<ul>
+<li>Does this generalize at scale? My biggest experiments are at 60 million parameters. Whether the diversity dose-response and the exposure floor structure transfer to 7-billion or 70-billion parameter models is open. The CFQ-mcd1 flat-floor finding is explicitly conditional on model capacity <em>and</em> on the surface-pair measure, and a larger model might lift it.</li>
+<li>What about the interface question? This work doesn’t touch the interface thread at all. The data axis turns out to dominate in the regime I tested, which is interesting because it suggests the interface variable has less room to matter when diversity is high. But I haven’t actually run that experiment.</li>
+<li>What is a compositional pair, really? This work used the per-adapter <code>extract_pairs</code> and (when needed) the unified surface signature. Neither of these is a <em>canonical</em> construct of compositional structure; both are surrogates. A representation-level measure of compositionality — something derived from the model’s internal activations rather than the surface form of the data — would be the right next step on the measurement side.</li>
+</ul>
+<p>I find the third one most uncomfortable. The entire premise of the audit framework is that we should be honest about what our measures are measuring; the punch line of running the audit is that the measures we have are surface measures and that the deeper construct is not yet operationalized.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
+</section>
+<section id="a-few-caveats" class="level2">
+<h2 class="anchored" data-anchor-id="a-few-caveats">8. A few caveats</h2>
+<p>In the interest of heading off misreadings:</p>
+<ul>
+<li>This is not an argument that pair coverage doesn’t matter <em>anywhere</em>. It is an argument that the global pair coverage ratio does not have a detectable independent effect on OOD generalization in the regime I tested, once diversity and typicality are controlled. The targeted-tail version of the hypothesis is still testable.</li>
+<li>This is not an argument that diversity is the only thing that matters. Diversity is the dominant lever in the regime I tested. At larger scales, with different objectives, or under different interfaces, the picture could be quite different.</li>
+<li>This is not an argument that CFQ-mcd1 is “unlearnable.” It is an argument that at the 12M-parameter from-scratch configuration and under the current surface-pair adapter, no dose-response is detectable. The next-step disambiguation is two follow-ups: scale-up and canonical measure substitution.</li>
+<li>This is not a critique of any individual paper in the compositional-generalization literature. The five-seed convention in the field is a sensible default given the compute cost per cell. My point is narrower: at five seeds per cell, the cross-dataset magnitude claims that get made are not defensible by permutation test, and the audit framework gives a way to be explicit about which claims fall in which bucket.</li>
+</ul>
+</section>
+<section id="how-to-read-this" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-read-this">9. How to read this</h2>
+<p>If you want the formal version with all of the equivalence tests, the exact ANOVA tables, and the appendices on the pipeline bug audit and the bimodal-cell analysis, the paper is the place. If you want the rough mental model and a sense of what I now believe and where I think the next experiments should go, this post is meant to be that.</p>
+<p>I’d particularly welcome disagreement on the CFQ interpretation. The flat-floor signature is robust under the present model and measure; the <em>cause</em> (capacity vs.&nbsp;measure) is not yet pinned down. If you have an opinion about which of those two follow-ups (scale-up vs. canonical measure) is the better bet to run first, I’d like to hear it.</p>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>One of the genuinely uncomfortable findings of this work is that I think the field has been making cross-dataset magnitude claims it isn’t entitled to. I don’t make that claim lightly, because I include my own earlier instinct in the indictment. It is what it is.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>A code review between Experiments 4 and 5 caught two pipeline bugs (an epoch-shuffle bug and a selection-strategy default), and the Experiment 4 sweep was re-validated post-fix at its anchor points. The shape held; the absolute numbers shifted by less than a percentage point at <span class="math inline">\(N &gt;= 1000\)</span>. Appendix C of the paper documents this in full. The relevant lesson is that running anchor cells post-fix and confirming the shape is what gives me confidence in the dose-response now.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>I’m pretty sure the right next move on CFQ is the canonical rule-trace measure, not the scale-up. The cost ratio is very favourable: a measure substitution is at most a couple of weeks of adapter work, while the next interesting scale-up is seriously expensive. If the rule-trace measure recovers a slope, we’ll know the floor was joint between capacity and measure. If it doesn’t, then we can spend the compute.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Four quantile schemes, three linear, three logarithmic, four information-theoretic, and thirty random Latin-hypercube schemes. The point of the random schemes is to check whether the “reasonable” schemes are a special slice of the full design space. They aren’t.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>This is the natural place for a follow-up post on what a representation-level measure of compositionality would look like, and how it would interact with the per-adapter measures that the literature currently uses. That’s the next thing I want to write, but I want to think about it more first.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+<p>About</p>
+</a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="../../research.html">
+<p>Research</p>
+</a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="../../quotes.html">
+<p>Quotes</p>
+</a>
+  </li>  
+</ul>
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/edhenry">
+      <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/edhenry_">
+      <i class="bi bi-twitter" role="img" aria-label="Twitter">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
